@@ -1,0 +1,53 @@
+[
+    {   "pk": 1,
+        "model": "auth.user",
+        "fields": {"username": "admin",
+            "first_name": "My.Orders",
+            "last_name": "creative_solution",
+            "is_active": true,
+            "is_superuser": false,
+            "is_staff": false,
+            "last_login": "2014-01-7T23:54:35.458Z",
+            "groups": [],
+            "user_permissions": [],
+            "password": "pbkdf2_sha256$10000$N2IOdR3PLEaR$CMradGpsm7hoykF6Cp8G8HM1BqoJvd9SPL5lOXjeeDY=",
+            "email": "noreply.my.orders@gmail.com",
+            "date_joined": "2014-01-07T20:32:35.458Z"}
+    },
+    {   "pk": 2,
+        "model": "auth.user",
+        "fields": {"username": "user",
+            "first_name": "My.Orders",
+            "last_name": "creative_solution",
+            "is_active": true,
+            "is_superuser": false,
+            "is_staff": false,
+            "last_login": "2014-01-7T23:54:35.458Z",
+            "groups": [],
+            "user_permissions": [],
+            "password": "pbkdf2_sha256$10000$N2IOdR3PLEaR$CMradGpsm7hoykF6Cp8G8HM1BqoJvd9SPL5lOXjeeDY=",
+            "email": "noreply.my.orders@gmail.com",
+            "date_joined": "2014-01-07T20:32:35.458Z"}
+    },
+    {   "pk": 1,
+        "model": "main.Subdivision",
+        "fields": {
+            "name": "ДГТУ",
+            "tel": "+79031234567"
+        }
+    },
+    {   "pk": 2,
+        "model": "main.Subdivision",
+        "fields": {
+            "name": "ДГУ",
+            "tel": "+79031234567"
+        }
+    },
+    {   "pk": 3,
+        "model": "main.Subdivision",
+        "fields": {
+            "name": "ДГТУ",
+            "tel": "+79031234567"
+        }
+    }
+]

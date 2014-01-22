@@ -1,0 +1,47 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}База Данных Интеллектуальной Собственности{% endblock %}</title>
+{#    <link rel='shortcut icon' href="{% static "img/favicon.ico" %}" type='image/x-icon' />#}
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="{% static "css/reset.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/base.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/kendo/kendo.common.min.css" %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static "css/kendo/kendo.bootstrap.min.css" %}"/>
+    {% block style %}{% endblock %}
+    <script src="{% static "js/kendo/jquery.min.js" %}"></script>
+    <script src="{% static "js/noty/jquery.noty.js" %}"></script>
+    <script src="{% static "js/noty/layouts/topCenter.js" %}"></script>
+    <script src="{% static "js/noty/themes/default.js" %}"></script>
+    <script src="{% static "js/base.js" %}"></script>
+    {% block script %}{% endblock %}
+
+</head>
+<body>
+    {% block header%}
+    <header id="main_header">
+        <div id="logo"></div>
+        <div id="line_top" class="hr_line"></div>
+    </header>
+    {% endblock %}
+
+    <div id="content">
+    {% block content %}
+
+    {% endblock %}
+    </div>
+
+    {% block footer %}
+    <footer id="main_footer">
+        <div id="line_bottom" class="hr_line"></div>
+        <span id="copyright">&#169;2014 СКБ СТУ</span>
+    </footer>
+    {% endblock %}
+
+    <script type="text/javascript">
+
+    </script>
+</body>
+</html>
