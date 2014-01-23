@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from django.shortcuts import render_to_response, HttpResponse
+from django.shortcuts import render_to_response, HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseForbidden
+from main.additionally.public import *
+import main.models as models
 from django.contrib.auth.models import User
 from django.core.validators import email_re
 from django.core.mail import send_mail
@@ -12,11 +14,15 @@ import json
 import re
 
 
-def home_page(r):
+def home_page(request):
     """
     возвращает главную страницу
     """
-    return render_to_response('login.html')
+
+    if request.user.is_superuser:
+        return render_to_response('admin.html')
+    else:
+        return render_to_response('main.html')
 
 
 def log_in(request):
@@ -48,10 +54,12 @@ def log_in(request):
     if user:
         login(request, user)
         request.session.set_expiry(timedelta(days=1).seconds)
-
-        return HttpResponse(json.dumps({'error': errors_list}), content_type='application/json')
-
-    return HttpResponseForbidden()
+        if user.is_active:
+            return HttpResponse(json.dumps({'error': errors_list}), content_type='application/json')
+        else:
+            return HttpResponse(json.dumps({'error': ["Пользователь заблокирован"]}), content_type='application/json')
+    else:
+        return HttpResponse(json.dumps({'error': ["Неверный логин и пароль"]}), content_type='application/json')
 
 
 def log_out(request):
@@ -60,4 +68,56 @@ def log_out(request):
     """
 
     logout(request)
-    return HttpResponse(json.dumps({'error': []}), content_type='application/json')
+    return HttpResponseRedirect('/')
+
+
+class Subdivision():
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def read(request):
+        """
+        вывод списка подразделений
+        """
+        subdivisions = list(models.Subdivision.objects.all().values('id', 'name', 'tel'))
+
+        return HttpResponse(json.dumps(subdivisions), content_type='application/json')
+
+    @staticmethod
+    def destroy(request):
+        """
+        удаление подразделений
+        """
+        lst_data = json.loads(request.POST.get('item'))
+        for item in lst_data:
+            models.Subdivision.objects.get(id=int(item['id'])).delete()
+        return HttpResponse(json.dumps({}), content_type='application/json')
+
+
+class Department():
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def read(request):
+        """
+        вывод списка факудьтетов
+        """
+        subdivision_id = json.loads(request.POST.get('subdivision_id'))
+        department = list(models.Department.objects.all().filter(subdivision_id=subdivision_id))
+        if department:
+            return HttpResponse(json.dumps(department), content_type='application/json')
+        else:
+            return HttpResponse(json.dumps({}), content_type='application/json')
+
+    @staticmethod
+    def destroy(request):
+        """
+        удаление факультетов
+        """
+        # lst_data = json.loads(request.POST.get('item'))
+        # for item in lst_data:
+        #     models.Subdivision.objects.get(id=int(item['id'])).delete()
+        # return HttpResponse(json.dumps({}), content_type='application/json')
+        pass

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+{% block title %}Администратор{% endblock %}
+{% block style %}
+    <link rel="stylesheet" href="{% static "css/admin.css" %}" xmlns="http://www.w3.org/1999/html">
+{% endblock %}
+{% block script %}
+    <script src="{% static "js/kendo/kendo.web.min.js" %}"></script>
+    <script src="{% static "js/kendo/cultures/kendo.culture.ru-RU.min.js" %}"></script>
+    <script src="{% static "js/admin.js" %}"></script>
+{% endblock %}
+{% block content %}
+    <div id="tab_strip">
+            <ul>
+                <li class="k-state-active">
+                    Подразделение
+                </li>
+                <li>
+                    Авторы
+                </li>
+            </ul>
+            <div>
+                <div id="subdivision"></div>
+            </div>
+            <div>
+
+            </div>
+    </div>
+    <script type="text/x-kendo-template" id="subdivision_template">
+        <div id="department"><div>
+    </script>
+{% endblock %}
