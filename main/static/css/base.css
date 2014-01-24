@@ -34,6 +34,7 @@ footer#main_footer {
 }
 
 #logo {
+    display: inline-block;
     height: 40px;
     width: 300px;
     background-image: url("../img/logo.png");

@@ -9,6 +9,9 @@
     <script src="{% static "js/kendo/cultures/kendo.culture.ru-RU.min.js" %}"></script>
     <script src="{% static "js/admin.js" %}"></script>
 {% endblock %}
+{% block header %}
+    <a href="/logout">Exit</a>
+{% endblock %}
 {% block content %}
     <div id="tab_strip">
             <ul>
@@ -26,7 +29,19 @@
 
             </div>
     </div>
-    <script type="text/x-kendo-template" id="subdivision_template">
+{#    шаблоны detail#}
+    <script type="text/x-kendo-template" id="subdivision_detail_template">
         <div id="department"><div>
     </script>
+{#    /шаблоны detail#}
+
+{#    шаблоны header#}
+    <script type="text/x-kendo-template" id="subdivision_header_template">
+        <span class='k-button add_subdivision'><span class='k-icon k-i-plus'></span> Добавить подразделение</span>
+    </script>
+
+    <script type="text/x-kendo-template" id="department_header_template">
+        <span class='k-button add_department'><span class='k-icon k-i-plus'></span> Добавить отдел</span>
+    </script>
+{#    /шаблоны header#}
 {% endblock %}

@@ -14,7 +14,11 @@ urlpatterns = patterns('main.views',
 
                        url(r'^'+ADMIN_BASE_URL+'subdivision/read/$', Subdivision.read),
                        url(r'^'+ADMIN_BASE_URL+'subdivision/destroy/$', Subdivision.destroy),
+                       url(r'^'+ADMIN_BASE_URL+'subdivision/create/$', Subdivision.create),
+                       url(r'^'+ADMIN_BASE_URL+'subdivision/update/$', Subdivision.update),
 
                        url(r'^'+ADMIN_BASE_URL+'department/read/$', Department.read),
                        url(r'^'+ADMIN_BASE_URL+'department/destroy/$', Department.destroy),
+                       url(r'^'+ADMIN_BASE_URL+'department/create/$', Department.create),
+                       url(r'^'+ADMIN_BASE_URL+'department/update/$', Department.update),
                        )

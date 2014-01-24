@@ -81,7 +81,6 @@ class Subdivision():
         вывод списка подразделений
         """
         subdivisions = list(models.Subdivision.objects.all().values('id', 'name', 'tel'))
-
         return HttpResponse(json.dumps(subdivisions), content_type='application/json')
 
     @staticmethod
@@ -89,9 +88,33 @@ class Subdivision():
         """
         удаление подразделений
         """
-        lst_data = json.loads(request.POST.get('item'))
-        for item in lst_data:
-            models.Subdivision.objects.get(id=int(item['id'])).delete()
+        item = json.loads(request.POST.get('models'))
+        models.Subdivision.objects.get(id=int(item['id'])).delete()
+        return HttpResponse(json.dumps({}), content_type='application/json')
+
+    @staticmethod
+    def create(request):
+        """
+        добавление подразделений
+        """
+        item = json.loads(request.POST.get('models'))
+        new_subdivision = models.Subdivision.objects.create(
+            name=item['name'],
+            tel=item['tel'])
+        return HttpResponse(json.dumps({'id': new_subdivision.id,
+                                        'name': new_subdivision.name,
+                                        'tel': new_subdivision.tel}), content_type='application/json')
+
+    @staticmethod
+    def update(request):
+        """
+        редактирование подразделений
+        """
+        item = json.loads(request.POST.get('models'))
+        models.Subdivision.objects.filter(id=item['id']).update(
+            name=item['name'],
+            tel=item['tel']
+        )
         return HttpResponse(json.dumps({}), content_type='application/json')
 
 
@@ -113,15 +136,42 @@ class Department():
         if department:
             return HttpResponse(json.dumps(department), content_type='application/json')
         else:
-            return HttpResponse(json.dumps({}), content_type='application/json')
+            return HttpResponse(json.dumps(""), content_type='application/json')
 
     @staticmethod
     def destroy(request):
         """
         удаление факультетов
         """
-        # lst_data = json.loads(request.POST.get('item'))
-        # for item in lst_data:
-        #     models.Subdivision.objects.get(id=int(item['id'])).delete()
-        # return HttpResponse(json.dumps({}), content_type='application/json')
-        pass
+        item = json.loads(request.POST.get('models'))
+        models.Department.objects.get(id=int(item['id'])).delete()
+        return HttpResponse(json.dumps({}), content_type='application/json')
+
+    @staticmethod
+    def create(request):
+        """
+        добавление факультетов
+        """
+        item = json.loads(request.POST.get('models'))
+        subdivision = models.Subdivision.objects.get(id=int(item['subdivision_id']))
+        new_department = models.Department.objects.create(
+            name=item['name'],
+            tel=item['tel'],
+            mail=item['mail'],
+            subdivision=subdivision)
+        return HttpResponse(json.dumps({'id': new_department.id,
+                                        'name': new_department.name,
+                                        'tel': new_department.tel,
+                                        'mail': new_department.mail}), content_type='application/json')
+
+    @staticmethod
+    def update(request):
+        """
+        редактирование факультетов
+        """
+        item = json.loads(request.POST.get('models'))
+        models.Department.objects.filter(id=item['id']).update(
+            name=item['name'],
+            tel=item['tel']
+        )
+        return HttpResponse(json.dumps({}), content_type='application/json')

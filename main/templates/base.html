@@ -20,12 +20,15 @@
 
 </head>
 <body>
-    {% block header%}
+    {% block main_header%}
     <header id="main_header">
         <div id="logo"></div>
+        {% block header%}
+        {% endblock %}
         <div id="line_top" class="hr_line"></div>
     </header>
     {% endblock %}
+
 
     <div id="content">
     {% block content %}
@@ -37,6 +40,8 @@
     <footer id="main_footer">
         <div id="line_bottom" class="hr_line"></div>
         <span id="copyright">&#169;2014 СКБ СТУ</span>
+        {% block main_footer %}
+        {% endblock %}
     </footer>
     {% endblock %}
 
