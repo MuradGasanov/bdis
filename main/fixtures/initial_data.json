@@ -81,5 +81,21 @@
             "tel": "+79031234567",
             "subdivision": "2"
         }
+    },
+    {   "pk": 1,
+        "model": "main.Authors",
+        "fields": {
+            "name": "Author1",
+            "tel": "+79031234567",
+            "departments": "1"
+        }
+    },
+    {   "pk": 2,
+        "model": "main.Authors",
+        "fields": {
+            "name": "Author1",
+            "tel": "+79031234567",
+            "departments": "2"
+        }
     }
 ]

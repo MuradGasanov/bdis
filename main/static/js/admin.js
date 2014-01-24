@@ -39,7 +39,6 @@ var ADMIN_BASE_URL = "admin/";
                         type: "POST"
                     },
                     parameterMap: function(options, operation) {
-                        console.log(options, operation);
                         if (operation !== "read" && options) {
                             return {models: kendo.stringify(options)};
                         }
@@ -84,7 +83,7 @@ var ADMIN_BASE_URL = "admin/";
 //            },
             columns: [
                 { field: "name", title: "Название" },
-                { field: "tel", title: "Телефон", width: "300px" },
+                { field: "tel", title: "Телефон", width: "300px", attributes: {title: "#=tel#"} },
                 { command: [
                     { name: "edit",
                         text: {
@@ -101,6 +100,86 @@ var ADMIN_BASE_URL = "admin/";
         $(".add_subdivision").click(function(e) {
             subdivision.addRow();
         });
+
+        var authors = $("#authors").kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: BASE_URL+ADMIN_BASE_URL+"authors/read/",
+                        dataType: "json",
+                        type: "POST"
+                    },
+                    destroy: {
+                        url: BASE_URL+ADMIN_BASE_URL+"authors/destroy/",
+                        dataType: "json",
+                        type: "POST"
+                    },
+                    create: {
+                        url: BASE_URL+ADMIN_BASE_URL+"authors/create/",
+                        dataType: "json",
+                        type: "POST"
+                    },
+                    update: {
+                        url: BASE_URL+ADMIN_BASE_URL+"authors/update/",
+                        dataType: "json",
+                        type: "POST"
+                    }
+                },
+                schema: {
+                    model: {
+                        id: "id",
+                        fields: { name: {
+                                    validation: { required: { message: "Поле не может быть пустым" } }
+                        }, tel: {} }
+                    }
+                }
+            },
+            toolbar:  [
+                { template: kendo.template($("#authors_header_template").html()) }
+            ],
+            height: 430,
+            sortable: true,
+            editable: {
+                mode: "inline",
+                confirmation: "Вы уверены, что хотите удалить запись?",
+                confirmDelete: "Да",
+                cancelDelete: "Нет"
+            },
+//            pageable: {
+//                pageSize: 20,
+//                //pageSizes: true,
+//                messages: {
+//                    display: "{0}-{1} из {2} записей",
+//                    empty: " ",
+//                    previous: "Предыдущая страница",
+//                    next: "Следующая страница",
+//                    last: "Последняя страница",
+//                    first: "Первая страница"
+//                }
+//            },
+//            detailTemplate: kendo.template($("#subdivision_detail_template").html()),
+//            detailInit: detailInit,
+//            dataBound: function() {
+//                this.expandRow(this.tbody.find("tr.k-master-row").first());
+//            },
+            columns: [
+                { field: "name", title: "ФИО" },
+                { field: "tel", title: "Телефон", width: "300px", attributes: {title: "#=tel#"} },
+                { field: "mail", title: "Электронный адрес", width: "300px", attributes: {title: "#=mail#"} },
+                { field: "department", title: "Подразделение", width: "300px", attributes: {title: ""} },
+                { command: [
+                    { name: "edit",
+                        text: {
+                            edit: "Редактировать",
+                            update: "Сохранить",
+                            cancel: "Отменить"
+                        }
+                    },
+                    { name: "destroy", text: "Удалить" }
+                ], width: "250px", attributes: { style: "text-align: center;"} }
+            ]
+        })
 
     });
 })(jQuery);
