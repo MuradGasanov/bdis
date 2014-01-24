@@ -105,7 +105,11 @@ class Department():
         вывод списка факудьтетов
         """
         subdivision_id = json.loads(request.POST.get('subdivision_id'))
-        department = list(models.Department.objects.all().filter(subdivision_id=subdivision_id))
+        department = list(
+            models.Department.objects.all().
+            filter(subdivision_id=subdivision_id).
+            values('id', 'name', 'mail', 'tel')
+        )
         if department:
             return HttpResponse(json.dumps(department), content_type='application/json')
         else:

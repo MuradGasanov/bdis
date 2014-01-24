@@ -49,5 +49,101 @@
             "name": "ДГТУ",
             "tel": "+79031234567"
         }
+    },
+    {   "pk": 1,
+        "model": "main.Department",
+        "fields": {
+            "name": "111",
+            "tel": "+79031234567",
+            "subdivision": "1"
+        }
+    },
+    {   "pk": 2,
+        "model": "main.Department",
+        "fields": {
+            "name": "2222",
+            "tel": "+79031234567",
+            "subdivision": "1"
+        }
+    },
+    {   "pk": 3,
+        "model": "main.Department",
+        "fields": {
+            "name": "333",
+            "tel": "+79031234567",
+            "subdivision": "1"
+        }
+    },
+    {   "pk": 4,
+        "model": "main.Department",
+        "fields": {
+            "name": "4444",
+            "tel": "+79031234567",
+            "subdivision": "1"
+        }
+    },
+    {   "pk": 5,
+        "model": "main.Department",
+        "fields": {
+            "name": "5555",
+            "tel": "+79031234567",
+            "subdivision": "1"
+        }
+    },
+    {   "pk": 6,
+        "model": "main.Department",
+        "fields": {
+            "name": "66666",
+            "tel": "+79031234567",
+            "subdivision": "1"
+        }
+    },
+    {   "pk": 7,
+        "model": "main.Department",
+        "fields": {
+            "name": "111",
+            "tel": "+79031234567",
+            "subdivision": "2"
+        }
+    },
+    {   "pk": 8,
+        "model": "main.Department",
+        "fields": {
+            "name": "2222",
+            "tel": "+79031234567",
+            "subdivision": "2"
+        }
+    },
+    {   "pk": 9,
+        "model": "main.Department",
+        "fields": {
+            "name": "333",
+            "tel": "+79031234567",
+            "subdivision": "2"
+        }
+    },
+    {   "pk": 10,
+        "model": "main.Department",
+        "fields": {
+            "name": "4444",
+            "tel": "+79031234567",
+            "subdivision": "2"
+        }
+    },
+    {   "pk": 11,
+        "model": "main.Department",
+        "fields": {
+            "name": "5555",
+            "tel": "+79031234567",
+            "subdivision": "2"
+        }
+    },
+    {   "pk": 12,
+        "model": "main.Department",
+        "fields": {
+            "name": "66666",
+            "tel": "+79031234567",
+            "subdivision": "2"
+        }
     }
 ]

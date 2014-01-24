@@ -51,18 +51,18 @@ var ADMIN_BASE_URL = "admin/";
                 confirmDelete: "Да",
                 cancelDelete: "Нет"
             },
-            pageable: {
-                pageSize: 20,
-                //pageSizes: true,
-                messages: {
-                    display: "{0}-{1} из {2} записей",
-                    empty: " ",
-                    previous: "Предыдущая страница",
-                    next: "Следующая страница",
-                    last: "Последняя страница",
-                    first: "Первая страница"
-                }
-            },
+//            pageable: {
+//                pageSize: 20,
+//                //pageSizes: true,
+//                messages: {
+//                    display: "{0}-{1} из {2} записей",
+//                    empty: " ",
+//                    previous: "Предыдущая страница",
+//                    next: "Следующая страница",
+//                    last: "Последняя страница",
+//                    first: "Первая страница"
+//                }
+//            },
             detailTemplate: kendo.template($("#subdivision_template").html()),
             detailInit: detailInit,
 //            dataBound: function() {
@@ -96,9 +96,6 @@ function detailInit(e) {
                 transport: {
                     read: {
                         url: BASE_URL+ADMIN_BASE_URL+"department/read/",
-                        data: {
-                            subdivision_id: subdivision_id
-                        },
                         type: "POST",
                         dataType: "json"
                     },
@@ -108,6 +105,9 @@ function detailInit(e) {
                         type: "POST"
                     },
                     parameterMap: function(options, operation) {
+                        if (operation == "read") {
+                            return {subdivision_id: subdivision_id};
+                        }
                         if (operation !== "read" && options.models) {
                             return {item: kendo.stringify(options)};
                         }
@@ -118,7 +118,7 @@ function detailInit(e) {
                 schema: {
                     model: {
                         id: "id",
-                        fields: { name: {}, tel: {} }
+                        fields: { name: {}, tel: {}, mail: {} }
                     }
                 }
             },
@@ -145,6 +145,7 @@ function detailInit(e) {
         columns: [
                 { field: "name", title: "Название" },
                 { field: "tel", title: "Телефон", width: "300px" },
+                { field: "mail", title: "Электронный адрес", width: "300px" },
                 { command: [
                     { name: "edit",
                         text: {
