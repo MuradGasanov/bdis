@@ -67,3 +67,7 @@ footer#main_footer {
 .required {
     color: #ff0000;
 }
+
+:root *>.k-icon, :root *>.k-sprite, :root *>.k-button-group .k-tool-icon {
+    vertical-align: sub;
+}

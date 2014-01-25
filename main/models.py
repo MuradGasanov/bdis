@@ -21,6 +21,7 @@ class Authors(models.Model):
     patronymic = models.CharField(max_length=50, null=True)
     tel = models.CharField(max_length=30, null=True)
     mail = models.CharField(max_length=45, null=True)
+    #TODO: добавить должность
     departments = models.ManyToManyField(Department)
 
 

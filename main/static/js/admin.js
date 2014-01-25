@@ -99,6 +99,7 @@ var ADMIN_BASE_URL = "admin/";
 
         $(".add_subdivision").click(function(e) {
             subdivision.addRow();
+            return false;
         });
 
         var authors = $("#authors").kendoGrid({
@@ -129,9 +130,14 @@ var ADMIN_BASE_URL = "admin/";
                 schema: {
                     model: {
                         id: "id",
-                        fields: { name: {
-                                    validation: { required: { message: "Поле не может быть пустым" } }
-                        }, tel: {} }
+                        fields: {
+                            name: { },
+                            surname: { },
+                            patronymic: { },
+                            tel: {},
+                            mail: {},
+                            department: { defaultValue: { id: 0, text: ""} }
+                        }
                     }
                 }
             },
@@ -164,7 +170,15 @@ var ADMIN_BASE_URL = "admin/";
 //                this.expandRow(this.tbody.find("tr.k-master-row").first());
 //            },
             columns: [
-                { field: "name", title: "ФИО" },
+                { field: "name", title: "ФИО", template: "#var fio=[surname,name,patronymic].join(' ');# #=fio#",
+                    editor: function(container, options) {
+                                $('<input required="Поле не может быть пустым" placeholder="Фамилия" data-bind="value: surname" class="k-textbox" style="margin: 3px 3px 1px"/>')
+                                    .appendTo(container);
+                                $('<input required="Поле не может быть пустым" placeholder="Имя" data-bind="value: name" class="k-textbox" style="margin: 3px 3px 1px"/>')
+                                    .appendTo(container);
+                                $('<input data-bind="value: patronymic" placeholder="Отчество" class="k-textbox" style="margin: 3px 3px 1px"/>')
+                                    .appendTo(container);
+                            }},
                 { field: "tel", title: "Телефон", width: "300px", attributes: {title: "#=tel#"} },
                 { field: "mail", title: "Электронный адрес", width: "300px", attributes: {title: "#=mail#"} },
                 { field: "department", title: "Подразделение", width: "300px", attributes: {title: ""} },
@@ -302,5 +316,6 @@ function detailInit(e) {
 
     detailRow.find(".add_department").click(function(e) {
         department.addRow();
+        return false;
     });
-};
+}
