@@ -109,7 +109,7 @@ ROOT_URLCONF = 'bdis.urls'
 WSGI_APPLICATION = 'bdis.wsgi.application'
 
 import os
-TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), '..', 'templates').replace('\\','/'),)
+TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), '..', '../main/templates').replace('\\','/'),)
 
 INSTALLED_APPS = (
     'django.contrib.auth',

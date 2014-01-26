@@ -40,13 +40,13 @@ var ADMIN_BASE_URL = "admin/";
                     },
                     parameterMap: function(options, operation) {
                         if (operation !== "read" && options) {
-                            return {models: kendo.stringify(options)};
+                            return {item: kendo.stringify(options)};
                         }
                     }
                 },
                 schema: {
                     model: {
-                        id: "id",
+                        id: "subdivision_id",
                         fields: { name: {
                                     validation: { required: { message: "Поле не может быть пустым" } }
                         }, tel: {} }
@@ -125,18 +125,28 @@ var ADMIN_BASE_URL = "admin/";
                         url: BASE_URL+ADMIN_BASE_URL+"authors/update/",
                         dataType: "json",
                         type: "POST"
+                    },
+                    parameterMap: function(options, operation) {
+                        if (operation !== "read" && options) {
+                            return {item: kendo.stringify(options)};
+                        }
                     }
                 },
                 schema: {
                     model: {
-                        id: "id",
+                        id: "author_id",
                         fields: {
-                            name: { },
-                            surname: { },
-                            patronymic: { },
+                            name: {
+                                validation: {
+                                    required: { message: "Поле не может быть пустым" }
+                                }
+                            },
+                            surname: {},
+                            patronymic: {},
                             tel: {},
+                            post: {},
                             mail: {},
-                            department: { defaultValue: { id: 0, text: ""} }
+                            department: {}
                         }
                     }
                 }
@@ -172,16 +182,55 @@ var ADMIN_BASE_URL = "admin/";
             columns: [
                 { field: "name", title: "ФИО", template: "#var fio=[surname,name,patronymic].join(' ');# #=fio#",
                     editor: function(container, options) {
-                                $('<input required="Поле не может быть пустым" placeholder="Фамилия" data-bind="value: surname" class="k-textbox" style="margin: 3px 3px 1px"/>')
+                                $('<input required placeholder="Фамилия" data-bind="value: surname" class="k-textbox"/>')
+                                    .css({margin: "3px 0px 1px"})
                                     .appendTo(container);
-                                $('<input required="Поле не может быть пустым" placeholder="Имя" data-bind="value: name" class="k-textbox" style="margin: 3px 3px 1px"/>')
+                                $('<input required placeholder="Имя" data-bind="value: name" class="k-textbox" />')
+                                    .css({margin: "3px 0px 1px"})
                                     .appendTo(container);
-                                $('<input data-bind="value: patronymic" placeholder="Отчество" class="k-textbox" style="margin: 3px 3px 1px"/>')
+                                $('<input data-bind="value: patronymic" placeholder="Отчество" class="k-textbox"/>')
+                                    .css({margin: "3px 0px 1px"})
                                     .appendTo(container);
                             }},
-                { field: "tel", title: "Телефон", width: "300px", attributes: {title: "#=tel#"} },
-                { field: "mail", title: "Электронный адрес", width: "300px", attributes: {title: "#=mail#"} },
-                { field: "department", title: "Подразделение", width: "300px", attributes: {title: ""} },
+                { field: "post", title: "Должность", width: "300px", attributes: {title: "#=post#"} },
+                { field: "tel", title: "Телефон", width: "150px", attributes: {title: "#=tel#"} },
+                { field: "mail", title: "Электронный адрес", width: "250px", attributes: {title: "#=mail#"} },
+                { field: "department__name", title: "Подразделение", width: "200px", attributes: {title: ""},
+                    editor: function(container, options) {
+                        $('<input id="author_subdivision" required data-text-field="name" data-value-field="subdivision_id" />')
+                            .css({margin: "3px 0px 1px"})
+                            .appendTo(container)
+                            .kendoDropDownList({
+                                dataSource: {
+                                    type: "json",
+                                    transport: {
+                                        read: {
+                                            url: BASE_URL + ADMIN_BASE_URL + "subdivision/read/",
+                                            dataType: "json",
+                                            type: "POST"
+                                        }
+                                    }
+                                }
+                            });
+                        $('<input data-text-field="name" data-value-field="department_id" data-bind="value: department"/>')
+                            .css({margin: "3px 0px 1px"})
+                            .appendTo(container)
+                            .kendoDropDownList({
+                                cascadeFrom: "author_subdivision",
+                                cascadeFromField: "subdivision_id",
+                                dataSource: {
+                                    type: "json",
+                                    transport: {
+                                        read: {
+                                            url: BASE_URL+ADMIN_BASE_URL+"department/read/",
+                                            type: "POST",
+                                            dataType: "json"
+                                        }
+                                    }
+                                }
+                            });
+                    }
+                },
                 { command: [
                     { name: "edit",
                         text: {
@@ -193,6 +242,11 @@ var ADMIN_BASE_URL = "admin/";
                     { name: "destroy", text: "Удалить" }
                 ], width: "250px", attributes: { style: "text-align: center;"} }
             ]
+        }).data("kendoGrid");
+
+        $(".add_author").click(function(e) {
+            authors.addRow();
+            return false;
         })
 
     });
@@ -200,7 +254,7 @@ var ADMIN_BASE_URL = "admin/";
 
 function detailInit(e) {
     var detailRow = e.detailRow;
-    var subdivision_id = e.data.id;
+    var subdivision_id = e.data.subdivision_id;
 
     var department_dataSource = new kendo.data.DataSource({
         type: "json",
@@ -232,13 +286,13 @@ function detailInit(e) {
                 }
                 if (options) {
                     options.subdivision_id = subdivision_id;
-                    return {models: kendo.stringify(options)};
+                    return {item: kendo.stringify(options)};
                 }
             }
         },
         schema: {
             model: {
-                id: "id",
+                id: "department_id",
                 fields: { name: {
                             validation: {
                                 required: { message: "Поле не может быть пустым" }
@@ -295,15 +349,31 @@ function detailInit(e) {
                 ], width: "250px", attributes: { style: "text-align: center;"} }
             ],
         save: function(e) {
-            if (e.model.id != "") { ///возможно это редактирование
-                return
+            var new_name = e.model.name;
+            var data = department_dataSource.data();
+            var result;
+            if (e.model.department_id != "") { ///возможно это редактирование
+                result = $.grep(data,
+                    function(o) {
+                        if (o.department_id != e.model.department_id) {
+                            return o.name.toUpperCase() == new_name.toUpperCase();
+                        } else { //проверка, есть ли такие подразделения
+                            return false;
+                        }
+                    }
+                );
+                if (result.length > 0) {
+                    noty_error("Такой отдел уже добавлен");
+                    e.preventDefault();
+                }
             } else { //возможно это добавление, (id == "")
-                var new_name = e.model.name;
-                var data = department_dataSource.data();
-                var result = $.grep(data,
-                    function(e) {
-                        if (e.id != "") { return e.name.toUpperCase() == new_name.toUpperCase(); } //проверка, есть ли такие подразделения
-                        else { return false; }
+                result = $.grep(data,
+                    function(o) {
+                        if (o.department_id != "") {
+                            return o.name.toUpperCase() == new_name.toUpperCase();
+                        } else { //проверка, есть ли такие подразделения
+                            return false;
+                        }
                     }
                 );
                 if (result.length > 0) {

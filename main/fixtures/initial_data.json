@@ -43,14 +43,14 @@
             "tel": "+79031234567"
         }
     },
-    {   "pk": 3,
+    {   "pk": 5,
         "model": "main.Subdivision",
         "fields": {
             "name": "ДГТУ",
             "tel": "+79031234567"
         }
     },
-    {   "pk": 5,
+    {   "pk": 1,
         "model": "main.Department",
         "fields": {
             "name": "5555",
@@ -58,7 +58,7 @@
             "subdivision": "1"
         }
     },
-    {   "pk": 6,
+    {   "pk": 2,
         "model": "main.Department",
         "fields": {
             "name": "66666",
@@ -66,7 +66,7 @@
             "subdivision": "1"
         }
     },
-    {   "pk": 7,
+    {   "pk": 3,
         "model": "main.Department",
         "fields": {
             "name": "111",
@@ -74,7 +74,7 @@
             "subdivision": "2"
         }
     },
-    {   "pk": 8,
+    {   "pk": 4,
         "model": "main.Department",
         "fields": {
             "name": "2222",
@@ -87,15 +87,15 @@
         "fields": {
             "name": "Author1",
             "tel": "+79031234567",
-            "departments": "1"
+            "department": "1"
         }
     },
     {   "pk": 2,
         "model": "main.Authors",
         "fields": {
-            "name": "Author1",
+            "name": "Author2",
             "tel": "+79031234567",
-            "departments": "2"
+            "department": "2"
         }
     }
 ]

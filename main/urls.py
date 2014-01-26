@@ -23,7 +23,7 @@ urlpatterns = patterns('main.views',
                        url(r'^'+ADMIN_BASE_URL+'department/update/$', Department.update),
 
                        url(r'^'+ADMIN_BASE_URL+'authors/read/$', Authors.read),
-                       # url(r'^'+ADMIN_BASE_URL+'authors/destroy/$', Authors.destroy),
-                       # url(r'^'+ADMIN_BASE_URL+'authors/create/$', Authors.create),
-                       # url(r'^'+ADMIN_BASE_URL+'authors/update/$', Authors.update)
+                       url(r'^'+ADMIN_BASE_URL+'authors/destroy/$', Authors.destroy),
+                       url(r'^'+ADMIN_BASE_URL+'authors/create/$', Authors.create),
+                       url(r'^'+ADMIN_BASE_URL+'authors/update/$', Authors.update)
                        )
