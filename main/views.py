@@ -382,12 +382,17 @@ class IntellectualProperty():
                    "doc_type", "doc_type__name",
                    "direction", "direction__name")
         )
+        estr = lambda s: '' if s is None else str(s)
         for item in intellectual_properties:
-            item["authors"] = list(
+            authors = list(
                 models.Authors.objects.all().
                 filter(intellectualproperty=int(item["intellectual_property_id"])).
                 values("author_id", "name", "surname", "patronymic")
             )
+            item["authors"] = [{"author_id": a["author_id"],
+                                "name": "%s %s %s" % (estr(a["surname"]), estr(a["name"]), estr(a["patronymic"]))}
+                               for a in authors]
+
         if intellectual_properties:
             return HttpResponse(json.dumps(intellectual_properties), content_type="application/json")
         else:
