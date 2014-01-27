@@ -553,7 +553,8 @@ var ADMIN_BASE_URL = "admin/";
                                     }
                                 }
                             });
-                    }},
+                    }
+                },
                 { field: "direction__name", title: "Направление",
                     editor: function(container, options) {
                         $('<input data-text-field="name" data-value-field="direction_id" data-bind="value: direction" />')
@@ -573,10 +574,40 @@ var ADMIN_BASE_URL = "admin/";
                             });
                     }},
                 { field: "authors", title: "Авторы",
-                    template: "# var fio;" +
-                        "for(var i=0; i<authors.length; i++) {" +
-                        "fio += authors[i].name+authors[i]+', '; }" +
-                        "# #=fio#"},
+                    template: "#var fio=[];for(var i=0;i<authors.length;i++){fio.push(authors[i].name);}fio.join(', ');# #=fio#",
+                    editor: function(container, options) {
+                        console.log(options);
+                        $("<select multiple='multiple' data-bind='value : authors'/>")
+                            .css({margin: "3px 0px 1px"})
+                            .appendTo(container)
+                            .kendoMultiSelect({
+                                placeholder: "Выберите авторов...",
+                                dataTextField: "name",
+                                dataValueField: "author_id",
+                                dataSource: {
+                                    type: "json",
+                                    transport: {
+                                        read: function(options) {
+                                            $.ajax({
+                                                url: BASE_URL + ADMIN_BASE_URL + "authors/read/",
+                                                dataType: "json",
+                                                success: function(result) {
+                                                    var data = [];
+                                                    for(var i=0; i<result.length; i++){
+                                                        data.push({
+                                                            author_id: result[i].author_id,
+                                                            name: [result[i].surname,result[i].name,result[i].patronymic].join(" ")
+                                                        })
+                                                    }
+                                                    options.success(data);
+                                                }
+                                              });
+                                        }
+                                    }
+                                }
+                            });
+                    }
+                },
                 { command: [
                     { name: "edit",
                         text: {
