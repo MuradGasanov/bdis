@@ -102,6 +102,8 @@ var ADMIN_BASE_URL = "admin/";
             return false;
         });
 
+        var is_department_select = false;
+
         var authors = $("#authors").kendoGrid({
             dataSource: {
                 type: "json",
@@ -197,10 +199,11 @@ var ADMIN_BASE_URL = "admin/";
                 { field: "mail", title: "Электронный адрес", width: "250px", attributes: {title: "#=mail#"} },
                 { field: "department__name", title: "Подразделение", width: "200px", attributes: {title: ""},
                     editor: function(container, options) {
-                        $('<input id="author_subdivision" required data-text-field="name" data-value-field="subdivision_id" />')
+                        $('<input id="author_subdivision" data-text-field="name" data-value-field="subdivision_id" />')
                             .css({margin: "3px 0px 1px"})
                             .appendTo(container)
                             .kendoDropDownList({
+                                optionLabel: "Выберите подразделение...",
                                 dataSource: {
                                     type: "json",
                                     transport: {
@@ -212,10 +215,11 @@ var ADMIN_BASE_URL = "admin/";
                                     }
                                 }
                             });
-                        $('<input data-text-field="name" data-value-field="department_id" data-bind="value: department"/>')
+                        $('<input data-text-field="name" disabled="disabled" data-value-field="department_id" data-bind="value: department"/>')
                             .css({margin: "3px 0px 1px"})
                             .appendTo(container)
                             .kendoDropDownList({
+                                optionLabel: "Выберите отдел...",
                                 cascadeFrom: "author_subdivision",
                                 cascadeFromField: "subdivision_id",
                                 dataSource: {
@@ -227,6 +231,12 @@ var ADMIN_BASE_URL = "admin/";
                                             dataType: "json"
                                         }
                                     }
+                                },
+                                select: function(e) {
+                                    console.log("before select ",is_department_select);
+                                    var dataItem = this.dataItem(e.item.index());
+                                    is_department_select = dataItem;
+                                    console.log("after select ",is_department_select);
                                 }
                             });
                     }
@@ -241,7 +251,17 @@ var ADMIN_BASE_URL = "admin/";
                     },
                     { name: "destroy", text: "Удалить" }
                 ], width: "250px", attributes: { style: "text-align: center;"} }
-            ]
+            ],
+            save: function(e) {
+                console.log("on save ",is_department_select, e.model);
+                if (is_department_select) { //если изменили подразделние, меняем и название
+                    if (is_department_select.department_id == e.model.department) {
+                        e.model.department__name = is_department_select.name;
+                        console.log("e model ",e.model);
+                    }
+                    is_department_select = false;
+                }
+            }
         }).data("kendoGrid");
 
         $(".add_author").click(function(e) {
