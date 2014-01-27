@@ -68,6 +68,13 @@ footer#main_footer {
     color: #ff0000;
 }
 
+.logout {
+    float: right;
+    line-height: 40px;
+    margin-right: 15px;
+    font-size: 18px;
+}
+
 :root *>.k-icon, :root *>.k-sprite, :root *>.k-button-group .k-tool-icon {
     vertical-align: sub;
 }

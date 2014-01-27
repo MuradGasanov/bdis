@@ -313,7 +313,7 @@ class Directions():
     @staticmethod
     def read(request):
         """
-        вывод списка
+        вывод списка направлений
         """
         directions = list(
             models.Directions.objects.all().
@@ -327,7 +327,7 @@ class Directions():
     @staticmethod
     def destroy(request):
         """
-        удаление типа
+        удаление направлений
         """
         item = json.loads(request.POST.get("item"))
         models.Directions.objects.get(direction_id=int(item["direction_id"])).delete()
@@ -336,7 +336,7 @@ class Directions():
     @staticmethod
     def create(request):
         """
-        добавление
+        добавление направлений
         """
         item = json.loads(request.POST.get("item"))
         new_direction = models.Directions.objects.create(direction=item["direction"])
@@ -347,8 +347,64 @@ class Directions():
     @staticmethod
     def update(request):
         """
-        редактирование
+        редактирование направлений
         """
         item = json.loads(request.POST.get("item"))
         models.Directions.objects.filter(direction_id=item["direction_id"]).update(direction=item["direction"])
         return HttpResponse(json.dumps({}), content_type="application/json")
+
+
+class IntellectualProperty():
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def read(request):
+        """
+        вывод спсика интеллектуальной собственнсоть
+        """
+        intellectual_properties = list(
+            models.IntellectualProperty.objects.all().
+            values("intellectual_property_id", "name",
+                   "doc_type", "doc_type__doc_type",
+                   "direction", "direction__direction")
+        )
+        for item in intellectual_properties:
+            item["authors"] = list(
+                models.Authors.objects.all().
+                filter(intellectualproperty=int(item["intellectual_property_id"])).
+                values("author_id", "name", "surname", "patronymic")
+            )
+        if intellectual_properties:
+            return HttpResponse(json.dumps(intellectual_properties), content_type="application/json")
+        else:
+            return HttpResponse(json.dumps(""), content_type="application/json")
+
+    # @staticmethod
+    # def destroy(request):
+    #     """
+    #     удаление типа
+    #     """
+    #     item = json.loads(request.POST.get("item"))
+    #     models.Directions.objects.get(direction_id=int(item["direction_id"])).delete()
+    #     return HttpResponse(json.dumps({}), content_type="application/json")
+    #
+    # @staticmethod
+    # def create(request):
+    #     """
+    #     добавление
+    #     """
+    #     item = json.loads(request.POST.get("item"))
+    #     new_direction = models.Directions.objects.create(direction=item["direction"])
+    #     return HttpResponse(json.dumps({"direction_id": new_direction.direction_id,
+    #                                     "direction": new_direction.direction}),
+    #                         content_type="application/json")
+    #
+    # @staticmethod
+    # def update(request):
+    #     """
+    #     редактирование
+    #     """
+    #     item = json.loads(request.POST.get("item"))
+    #     models.Directions.objects.filter(direction_id=item["direction_id"]).update(direction=item["direction"])
+    #     return HttpResponse(json.dumps({}), content_type="application/json")

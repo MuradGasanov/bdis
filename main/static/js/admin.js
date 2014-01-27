@@ -6,11 +6,18 @@ var ADMIN_BASE_URL = "admin/";
 
 (function($) {
     $(document).ready(function(e) {
+
+        var GRID_HEIGHT = $(window).height() - $("header#main_header").height() - $("footer#main_footer").height() - 65;
         $("#tab_strip").kendoTabStrip({
             animation:  {
                 open: {
                     effects: "fadeIn"
                 }
+            },
+            select: function(e) {
+                var height = GRID_HEIGHT;
+                height = height - 63;
+                $(e.contentElement).find("div.k-grid-content").css("height",height+"px");
             }
         });
 
@@ -56,7 +63,7 @@ var ADMIN_BASE_URL = "admin/";
             toolbar:  [
                 { template: kendo.template($("#subdivision_header_template").html()) }
             ],
-            height: 430,
+            height: GRID_HEIGHT,
             sortable: true,
             editable: {
                 mode: "inline",
@@ -156,7 +163,7 @@ var ADMIN_BASE_URL = "admin/";
             toolbar:  [
                 { template: kendo.template($("#authors_header_template").html()) }
             ],
-            height: 430,
+            height: GRID_HEIGHT,
             sortable: true,
             editable: {
                 mode: "inline",
@@ -315,7 +322,7 @@ var ADMIN_BASE_URL = "admin/";
             toolbar:  [
                 { template: kendo.template($("#document_types_header_template").html()) }
             ],
-            height: 430,
+            height: GRID_HEIGHT,
             sortable: true,
             editable: {
                 mode: "inline",
@@ -408,7 +415,7 @@ var ADMIN_BASE_URL = "admin/";
             toolbar:  [
                 { template: kendo.template($("#directions_header_template").html()) }
             ],
-            height: 430,
+            height: GRID_HEIGHT,
             sortable: true,
             editable: {
                 mode: "inline",
@@ -434,7 +441,7 @@ var ADMIN_BASE_URL = "admin/";
 //                this.expandRow(this.tbody.find("tr.k-master-row").first());
 //            },
             columns: [
-                { field: "direction", title: "Вид интеллектуального права"},
+                { field: "direction", title: "Направление"},
                 { command: [
                     { name: "edit",
                         text: {
@@ -449,6 +456,105 @@ var ADMIN_BASE_URL = "admin/";
         }).data("kendoGrid");
 
         $(".add_direction").click(function(e) {
+            directions.addRow();
+            return false;
+        });
+
+
+        var intellectual_property = $("#intellectual_property").kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: BASE_URL+ADMIN_BASE_URL+"intellectual_property/read/",
+                        dataType: "json",
+                        type: "POST"
+                    },
+                    destroy: {
+                        url: BASE_URL+ADMIN_BASE_URL+"intellectual_property/destroy/",
+                        dataType: "json",
+                        type: "POST"
+                    },
+                    create: {
+                        url: BASE_URL+ADMIN_BASE_URL+"intellectual_property/create/",
+                        dataType: "json",
+                        type: "POST"
+                    },
+                    update: {
+                        url: BASE_URL+ADMIN_BASE_URL+"intellectual_property/update/",
+                        dataType: "json",
+                        type: "POST"
+                    },
+                    parameterMap: function(options, operation) {
+                        if (operation !== "read" && options) {
+                            return {item: kendo.stringify(options)};
+                        }
+                    }
+                },
+                schema: {
+                    model: {
+                        id: "intellectual_property_id",
+                        fields: {
+                            name: {
+                                validation: {
+                                    required: { message: "Поле не может быть пустым" }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            toolbar:  [
+                { template: kendo.template($("#intellectual_property_header_template").html()) }
+            ],
+            height: GRID_HEIGHT,
+            sortable: true,
+            editable: {
+                mode: "inline",
+                confirmation: "Вы уверены, что хотите удалить запись?",
+                confirmDelete: "Да",
+                cancelDelete: "Нет"
+            },
+//            pageable: {
+//                pageSize: 20,
+//                //pageSizes: true,
+//                messages: {
+//                    display: "{0}-{1} из {2} записей",
+//                    empty: " ",
+//                    previous: "Предыдущая страница",
+//                    next: "Следующая страница",
+//                    last: "Последняя страница",
+//                    first: "Первая страница"
+//                }
+//            },
+//            detailTemplate: kendo.template($("#subdivision_detail_template").html()),
+//            detailInit: detailInit,
+//            dataBound: function() {
+//                this.expandRow(this.tbody.find("tr.k-master-row").first());
+//            },
+            columns: [
+                { field: "name", title: "Наименование"},
+                { field: "doc_type", title: "Тип"},
+                { field: "direction", title: "Направление"},
+                { field: "authors", title: "Авторы",
+                    template: "# var fio;" +
+                        "for(var i=0; i<authors.length; i++) {" +
+                        "fio += authors[i].name+authors[i]+', '; }" +
+                        "# #=fio#"},
+                { command: [
+                    { name: "edit",
+                        text: {
+                            edit: "Редактировать",
+                            update: "Сохранить",
+                            cancel: "Отменить"
+                        }
+                    },
+                    { name: "destroy", text: "Удалить" }
+                ], width: "250px", attributes: { style: "text-align: center;"} }
+            ]
+        }).data("kendoGrid");
+
+        $(".add_intellectual_property").click(function(e) {
             directions.addRow();
             return false;
         });

@@ -157,5 +157,32 @@
         "fields": {
             "direction": "Направление 4"
         }
+    },
+    {   "pk": 1,
+        "model": "main.IntellectualProperty",
+        "fields": {
+            "name": "IntellectualProperty1",
+            "doc_type": 1,
+            "direction": 1,
+            "authors": [1]
+        }
+    },
+    {   "pk": 2,
+        "model": "main.IntellectualProperty",
+        "fields": {
+            "name": "IntellectualProperty2",
+            "doc_type": 2,
+            "direction": 2,
+            "authors": [1, 2]
+        }
+    },
+    {   "pk": 3,
+        "model": "main.IntellectualProperty",
+        "fields": {
+            "name": "IntellectualProperty3",
+            "doc_type": 3,
+            "direction": 3,
+            "authors": [1, 2, 3]
+        }
     }
 ]
