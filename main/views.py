@@ -247,7 +247,7 @@ class Authors():
             department = models.Department.objects.get(department_id=int(item["department"]))
         else:
             department = None
-        models.Authors.objects.filter(author_id=item["author_id"]).update(
+        models.Authors.objects.filter(author_id=int(item["author_id"])).update(
             name=item["name"],
             surname=item["surname"],
             patronymic=item["patronymic"],
@@ -255,7 +255,17 @@ class Authors():
             mail=item["mail"],
             post=item["post"],
             department=department)
-        return HttpResponse(json.dumps({}), content_type="application/json")
+        author = models.Authors.objects.get(author_id=int(item["author_id"]))
+        return HttpResponse(json.dumps({"author_id": author.author_id,
+                                        "name": author.name,
+                                        "surname": author.surname,
+                                        "patronymic": author.patronymic,
+                                        "tel": author.tel,
+                                        "mail": author.mail,
+                                        "post": author.post,
+                                        "department": department.department_id if department else None,
+                                        "department__name": department.name if department else None}),
+                            content_type="application/json")
 
 
 class DocumentTypes():
@@ -269,7 +279,7 @@ class DocumentTypes():
         """
         doc_types = list(
             models.DocumentTypes.objects.all().
-            values("doc_type_id", "doc_type")
+            values("doc_type_id", "name")
         )
         if doc_types:
             return HttpResponse(json.dumps(doc_types), content_type="application/json")
@@ -291,9 +301,9 @@ class DocumentTypes():
         добавление типа права
         """
         item = json.loads(request.POST.get("item"))
-        new_documents_type = models.DocumentTypes.objects.create(doc_type=item["doc_type"])
-        return HttpResponse(json.dumps({"doc_type_id": new_documents_type.doc_type_id,
-                                        "doc_type": new_documents_type.doc_type}),
+        new_document_type = models.DocumentTypes.objects.create(name=item["name"])
+        return HttpResponse(json.dumps({"doc_type_id": new_document_type.doc_type_id,
+                                        "name": new_document_type.name}),
                             content_type="application/json")
 
     @staticmethod
@@ -302,8 +312,11 @@ class DocumentTypes():
         редактирование типа права
         """
         item = json.loads(request.POST.get("item"))
-        models.DocumentTypes.objects.filter(doc_type_id=item["doc_type_id"]).update(doc_type=item["doc_type"])
-        return HttpResponse(json.dumps({}), content_type="application/json")
+        models.DocumentTypes.objects.filter(doc_type_id=int(item["doc_type_id"])).update(name=item["name"])
+        document_type = models.DocumentTypes.objects.get(doc_type_id=int(item["doc_type_id"]))
+        return HttpResponse(json.dumps({"doc_type_id": document_type.doc_type_id,
+                                        "name": document_type.name}),
+                            content_type="application/json")
 
 
 class Directions():
@@ -317,7 +330,7 @@ class Directions():
         """
         directions = list(
             models.Directions.objects.all().
-            values("direction_id", "direction")
+            values("direction_id", "name")
         )
         if directions:
             return HttpResponse(json.dumps(directions), content_type="application/json")
@@ -339,9 +352,9 @@ class Directions():
         добавление направлений
         """
         item = json.loads(request.POST.get("item"))
-        new_direction = models.Directions.objects.create(direction=item["direction"])
+        new_direction = models.Directions.objects.create(name=item["name"])
         return HttpResponse(json.dumps({"direction_id": new_direction.direction_id,
-                                        "direction": new_direction.direction}),
+                                        "name": new_direction.name}),
                             content_type="application/json")
 
     @staticmethod
@@ -350,7 +363,7 @@ class Directions():
         редактирование направлений
         """
         item = json.loads(request.POST.get("item"))
-        models.Directions.objects.filter(direction_id=item["direction_id"]).update(direction=item["direction"])
+        models.Directions.objects.filter(direction_id=item["direction_id"]).update(name=item["name"])
         return HttpResponse(json.dumps({}), content_type="application/json")
 
 
@@ -366,8 +379,8 @@ class IntellectualProperty():
         intellectual_properties = list(
             models.IntellectualProperty.objects.all().
             values("intellectual_property_id", "name",
-                   "doc_type", "doc_type__doc_type",
-                   "direction", "direction__direction")
+                   "doc_type", "doc_type__name",
+                   "direction", "direction__name")
         )
         for item in intellectual_properties:
             item["authors"] = list(
@@ -380,15 +393,16 @@ class IntellectualProperty():
         else:
             return HttpResponse(json.dumps(""), content_type="application/json")
 
-    # @staticmethod
-    # def destroy(request):
-    #     """
-    #     удаление типа
-    #     """
-    #     item = json.loads(request.POST.get("item"))
-    #     models.Directions.objects.get(direction_id=int(item["direction_id"])).delete()
-    #     return HttpResponse(json.dumps({}), content_type="application/json")
-    #
+    @staticmethod
+    def destroy(request):
+        """
+        удаление интеллектуальной собственнсоти
+        """
+        item = json.loads(request.POST.get("item"))
+        models.IntellectualProperty.objects.get(
+            intellectual_property_id=int(item["intellectual_property_id"])).delete()
+        return HttpResponse(json.dumps({}), content_type="application/json")
+
     # @staticmethod
     # def create(request):
     #     """

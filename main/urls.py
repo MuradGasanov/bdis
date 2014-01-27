@@ -37,5 +37,6 @@ urlpatterns = patterns('main.views',
                        url(r'^'+ADMIN_BASE_URL+'directions/create/$', Directions.create),
                        url(r'^'+ADMIN_BASE_URL+'directions/update/$', Directions.update),
 
-                       url(r'^'+ADMIN_BASE_URL+'intellectual_property/read/$', IntellectualProperty.read)
+                       url(r'^'+ADMIN_BASE_URL+'intellectual_property/read/$', IntellectualProperty.read),
+                       url(r'^'+ADMIN_BASE_URL+'intellectual_property/destroy/$', IntellectualProperty.destroy)
                        )

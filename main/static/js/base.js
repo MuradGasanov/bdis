@@ -3,15 +3,15 @@
  */
 var BASE_URL = '/';
 
-var N_ALERT = 'alert',
-    N_INFORMATION = 'information',
-    N_ERROR = 'error',
-    N_WARNING = 'warning',
-    N_NOTIFICATION = 'notification',
-    N_SUCCESS = 'success';
+var NOTY_ALERT = 'alert',
+    NOTY_INFORMATION = 'information',
+    NOTY_ERROR = 'error',
+    NOTY_WARNING = 'warning',
+    NOTY_NOTIFICATION = 'notification',
+    NOTY_SUCCESS = 'success';
 
 function noty_error(text, type, timeout) {
-    type = typeof type !== 'undefined' ? type : N_ERROR;
+    type = typeof type !== 'undefined' ? type : NOTY_ERROR;
     timeout = typeof timeout !== 'undefined' ? timeout : 3000;
     noty({
         text: text,
@@ -52,7 +52,7 @@ function noty_alert(text, succes) {
 
 function noty_message(text, type) {
     text = typeof text !== 'undefined' ? text : "Загрузка...";
-    type = typeof type !== 'undefined' ? type : N_INFORMATION;
+    type = typeof type !== 'undefined' ? type : NOTY_INFORMATION;
     return noty({
         text: text,
         type: type,

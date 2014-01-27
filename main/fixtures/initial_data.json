@@ -1,188 +1,76 @@
 [
-    {   "pk": 1,
-        "model": "auth.user",
-        "fields": {"username": "admin",
-            "first_name": "Administrator",
-            "last_name": "creative_solution",
-            "is_active": true,
-            "is_superuser": true,
-            "is_staff": false,
-            "last_login": "2014-01-7T23:54:35.458Z",
-            "groups": [],
+    {   "pk": 1, "model": "auth.user",
+        "fields": {"username": "admin","first_name": "Administrator","last_name": "creative_solution","is_active": true,"is_superuser": true,"is_staff": false,"last_login": "2014-01-7T23:54:35.458Z","groups": [],
             "user_permissions": [],
-            "password": "pbkdf2_sha256$10000$0NtIv2jDYAbO$I1MDJgtSUJRRXnERSTR4MxIcwLSXaSTdxox3OAqGRVc=",
-            "email": "admin@admin.ru",
-            "date_joined": "2014-01-07T20:32:35.458Z"}
-    },
-    {   "pk": 2,
-        "model": "auth.user",
-        "fields": {"username": "user",
-            "first_name": "User",
-            "last_name": "creative_solution",
-            "is_active": true,
-            "is_superuser": false,
-            "is_staff": false,
-            "last_login": "2014-01-7T23:54:35.458Z",
-            "groups": [],
+            "password": "pbkdf2_sha256$10000$0NtIv2jDYAbO$I1MDJgtSUJRRXnERSTR4MxIcwLSXaSTdxox3OAqGRVc=","email": "admin@admin.ru","date_joined": "2014-01-07T20:32:35.458Z"}},
+    {   "pk": 2, "model": "auth.user",
+        "fields": {"username": "user","first_name": "User","last_name": "creative_solution","is_active": true,"is_superuser": false,"is_staff": false,"last_login": "2014-01-7T23:54:35.458Z","groups": [],
             "user_permissions": [],
-            "password": "pbkdf2_sha256$10000$wJUCsUB6ZDha$5e/UMAJrL4LBIOaYVhqEZSGNI/IHj62KW1jfd4cDPFM=",
-            "email": "user@user.ru",
-            "date_joined": "2014-01-07T20:32:35.458Z"}
+            "password": "pbkdf2_sha256$10000$wJUCsUB6ZDha$5e/UMAJrL4LBIOaYVhqEZSGNI/IHj62KW1jfd4cDPFM=","email": "user@user.ru","date_joined": "2014-01-07T20:32:35.458Z"}},
+    {   "pk": 1, "model": "main.Subdivision",
+        "fields": { "name": "ДГТУ", "tel": "+79031234567" }
     },
-    {   "pk": 1,
-        "model": "main.Subdivision",
-        "fields": {
-            "name": "ДГТУ",
-            "tel": "+79031234567"
-        }
+    {   "pk": 2, "model": "main.Subdivision",
+        "fields": { "name": "ДГУ", "tel": "+79031234567" }
     },
-    {   "pk": 2,
-        "model": "main.Subdivision",
-        "fields": {
-            "name": "ДГУ",
-            "tel": "+79031234567"
-        }
+    {   "pk": 5, "model": "main.Subdivision",
+        "fields": { "name": "ДГТУ", "tel": "+79031234567" }
     },
-    {   "pk": 5,
-        "model": "main.Subdivision",
-        "fields": {
-            "name": "ДГТУ",
-            "tel": "+79031234567"
-        }
+    {   "pk": 1, "model": "main.Department",
+        "fields": { "name": "5555", "tel": "+79031234567", "subdivision": "1" }
     },
-    {   "pk": 1,
-        "model": "main.Department",
-        "fields": {
-            "name": "5555",
-            "tel": "+79031234567",
-            "subdivision": "1"
-        }
+    {   "pk": 2, "model": "main.Department",
+        "fields": { "name": "66666", "tel": "+79031234567", "subdivision": "1" }
     },
-    {   "pk": 2,
-        "model": "main.Department",
-        "fields": {
-            "name": "66666",
-            "tel": "+79031234567",
-            "subdivision": "1"
-        }
+    {   "pk": 3, "model": "main.Department",
+        "fields": { "name": "111", "tel": "+79031234567", "subdivision": "2" }
     },
-    {   "pk": 3,
-        "model": "main.Department",
-        "fields": {
-            "name": "111",
-            "tel": "+79031234567",
-            "subdivision": "2"
-        }
+    {   "pk": 4, "model": "main.Department",
+        "fields": { "name": "2222", "tel": "+79031234567", "subdivision": "2" }
     },
-    {   "pk": 4,
-        "model": "main.Department",
-        "fields": {
-            "name": "2222",
-            "tel": "+79031234567",
-            "subdivision": "2"
-        }
+    {   "pk": 1, "model": "main.Authors",
+        "fields": { "name": "Author1", "tel": "+79031234567", "department": "1" }
     },
-    {   "pk": 1,
-        "model": "main.Authors",
-        "fields": {
-            "name": "Author1",
-            "tel": "+79031234567",
-            "department": "1"
-        }
+    {   "pk": 2, "model": "main.Authors",
+        "fields": { "name": "Author2", "tel": "+79031234567", "department": "2" }
     },
-    {   "pk": 2,
-        "model": "main.Authors",
-        "fields": {
-            "name": "Author2",
-            "tel": "+79031234567",
-            "department": "2"
-        }
+    {   "pk": 1, "model": "main.DocumentTypes",
+        "fields": { "name": "Авторское право" }
     },
-    {   "pk": 1,
-        "model": "main.DocumentTypes",
-        "fields": {
-            "doc_type": "Авторское право"
-        }
+    {   "pk": 2, "model": "main.DocumentTypes",
+        "fields": { "name": "Смежные права" }
     },
-    {   "pk": 2,
-        "model": "main.DocumentTypes",
-        "fields": {
-            "doc_type": "Смежные права"
-        }
+    {   "pk": 3, "model": "main.DocumentTypes",
+        "fields": { "name": "Патентное право" }
     },
-    {   "pk": 3,
-        "model": "main.DocumentTypes",
-        "fields": {
-            "doc_type": "Патентное право"
-        }
+    {   "pk": 4, "model": "main.DocumentTypes",
+        "fields": { "name": "Права на средства индивидуализации" }
     },
-    {   "pk": 4,
-        "model": "main.DocumentTypes",
-        "fields": {
-            "doc_type": "Права на средства индивидуализации"
-        }
+    {   "pk": 5, "model": "main.DocumentTypes",
+        "fields": { "name": "Право на секреты производства (Ноу-хау)" }
     },
-    {   "pk": 5,
-        "model": "main.DocumentTypes",
-        "fields": {
-            "doc_type": "Право на секреты производства (Ноу-хау)"
-        }
+    {   "pk": 6, "model": "main.DocumentTypes",
+        "fields": { "name": "Охрана новых сортов растений" }
     },
-    {   "pk": 6,
-        "model": "main.DocumentTypes",
-        "fields": {
-            "doc_type": "Охрана новых сортов растений"
-        }
+    {   "pk": 1, "model": "main.Directions",
+        "fields": { "name": "Направление 1" }
     },
-    {   "pk": 1,
-        "model": "main.Directions",
-        "fields": {
-            "direction": "Направление 1"
-        }
+    {   "pk": 2, "model": "main.Directions",
+        "fields": { "name": "Направление 2" }
     },
-    {   "pk": 2,
-        "model": "main.Directions",
-        "fields": {
-            "direction": "Направление 2"
-        }
+    {   "pk": 3, "model": "main.Directions",
+        "fields": { "name": "Направление 3" }
     },
-    {   "pk": 3,
-        "model": "main.Directions",
-        "fields": {
-            "direction": "Направление 3"
-        }
+    {   "pk": 4, "model": "main.Directions",
+        "fields": { "name": "Направление 4" }
     },
-    {   "pk": 4,
-        "model": "main.Directions",
-        "fields": {
-            "direction": "Направление 4"
-        }
+    {   "pk": 1, "model": "main.IntellectualProperty",
+        "fields": { "name": "IntellectualProperty1", "doc_type": 1, "direction": 1, "authors": [1] }
     },
-    {   "pk": 1,
-        "model": "main.IntellectualProperty",
-        "fields": {
-            "name": "IntellectualProperty1",
-            "doc_type": 1,
-            "direction": 1,
-            "authors": [1]
-        }
+    {   "pk": 2, "model": "main.IntellectualProperty",
+        "fields": { "name": "IntellectualProperty2", "doc_type": 2, "direction": 2, "authors": [1, 2] }
     },
-    {   "pk": 2,
-        "model": "main.IntellectualProperty",
-        "fields": {
-            "name": "IntellectualProperty2",
-            "doc_type": 2,
-            "direction": 2,
-            "authors": [1, 2]
-        }
-    },
-    {   "pk": 3,
-        "model": "main.IntellectualProperty",
-        "fields": {
-            "name": "IntellectualProperty3",
-            "doc_type": 3,
-            "direction": 3,
-            "authors": [1, 2, 3]
-        }
+    {   "pk": 3, "model": "main.IntellectualProperty",
+        "fields": { "name": "IntellectualProperty3", "doc_type": 3, "direction": 3, "authors": [1, 2] }
     }
 ]

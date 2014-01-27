@@ -30,12 +30,12 @@ class Authors(models.Model):
 
 class DocumentTypes(models.Model):
     doc_type_id = models.AutoField(primary_key=True)
-    doc_type = models.CharField(max_length=45)
+    name = models.CharField(max_length=45)
 
 
 class Directions(models.Model):
     direction_id = models.AutoField(primary_key=True)
-    direction = models.CharField(max_length=100, null=False)
+    name = models.CharField(max_length=100, null=False)
 
 
 class IntellectualProperty(models.Model):
@@ -55,5 +55,5 @@ class Files(models.Model):
 
 class Tags(models.Model):
     tag_id = models.AutoField(primary_key=True)
-    tag = models.CharField(max_length=100, null=False)
+    name = models.CharField(max_length=100, null=False)
     intellectual_properties = models.ManyToManyField(IntellectualProperty)

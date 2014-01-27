@@ -20,7 +20,7 @@ var ADMIN_BASE_URL = "admin/";
                 $(e.contentElement).find("div.k-grid-content").css("height",height+"px");
             }
         });
-
+/////////////////////////////////////// ПОДРАЗДЕЛЕНИЯ
         var subdivision = $("#subdivision").kendoGrid({
             dataSource: {
                 type: "json",
@@ -108,9 +108,9 @@ var ADMIN_BASE_URL = "admin/";
             subdivision.addRow();
             return false;
         });
+/////////////////////////////////////// \\ПОДРАЗДЕЛЕНИЯ
 
-        var is_department_select = false;
-
+/////////////////////////////////////// АВТОРЫ
         var authors = $("#authors").kendoGrid({
             dataSource: {
                 type: "json",
@@ -240,10 +240,8 @@ var ADMIN_BASE_URL = "admin/";
                                     }
                                 },
                                 select: function(e) {
-                                    console.log("before select ",is_department_select);
-                                    var dataItem = this.dataItem(e.item.index());
-                                    is_department_select = dataItem;
-                                    console.log("after select ",is_department_select);
+//                                    var dataItem = this.dataItem(e.item.index());
+//                                    is_department_select = dataItem;
                                 }
                             });
                     }
@@ -260,14 +258,12 @@ var ADMIN_BASE_URL = "admin/";
                 ], width: "250px", attributes: { style: "text-align: center;"} }
             ],
             save: function(e) {
-                console.log("on save ",is_department_select, e.model);
-                if (is_department_select) { //если изменили подразделние, меняем и название
-                    if (is_department_select.department_id == e.model.department) {
-                        e.model.department__name = is_department_select.name;
-                        console.log("e model ",e.model);
-                    }
-                    is_department_select = false;
-                }
+//                if (is_department_select) { //если изменили подразделние, меняем и название
+//                    if (is_department_select.department_id == e.model.department) {
+//                        e.model.department__name = is_department_select.name;
+//                    }
+//                    is_department_select = false;
+//                }
             }
         }).data("kendoGrid");
 
@@ -275,6 +271,9 @@ var ADMIN_BASE_URL = "admin/";
             authors.addRow();
             return false;
         });
+/////////////////////////////////////// \\АВТОРЫ
+
+///////////////////////////////////////  ВИДЫ ИНТЕЛЛЕКТУАЛ. СОБСТВЕННОСТИ
 
         var document_types = $("#document_types").kendoGrid({
             dataSource: {
@@ -310,7 +309,7 @@ var ADMIN_BASE_URL = "admin/";
                     model: {
                         id: "doc_type_id",
                         fields: {
-                            doc_type: {
+                            name: {
                                 validation: {
                                     required: { message: "Поле не может быть пустым" }
                                 }
@@ -348,7 +347,7 @@ var ADMIN_BASE_URL = "admin/";
 //                this.expandRow(this.tbody.find("tr.k-master-row").first());
 //            },
             columns: [
-                { field: "doc_type", title: "Вид интеллектуального права"},
+                { field: "name", title: "Вид интеллектуального права"},
                 { command: [
                     { name: "edit",
                         text: {
@@ -368,7 +367,9 @@ var ADMIN_BASE_URL = "admin/";
             document_types.addRow();
             return false;
         });
+///////////////////////////////////////  \\ВИДЫ ИНТЕЛЛЕКТУАЛ. СОБСТВЕННОСТИ
 
+///////////////////////////////////////  НАПРАВЛЕНИЯ
         var directions = $("#directions").kendoGrid({
             dataSource: {
                 type: "json",
@@ -403,7 +404,7 @@ var ADMIN_BASE_URL = "admin/";
                     model: {
                         id: "direction_id",
                         fields: {
-                            direction: {
+                            name: {
                                 validation: {
                                     required: { message: "Поле не может быть пустым" }
                                 }
@@ -441,7 +442,7 @@ var ADMIN_BASE_URL = "admin/";
 //                this.expandRow(this.tbody.find("tr.k-master-row").first());
 //            },
             columns: [
-                { field: "direction", title: "Направление"},
+                { field: "name", title: "Направление"},
                 { command: [
                     { name: "edit",
                         text: {
@@ -459,8 +460,9 @@ var ADMIN_BASE_URL = "admin/";
             directions.addRow();
             return false;
         });
+///////////////////////////////////////  \\НАПРАВЛЕНИЯ
 
-
+///////////////////////////////////////  ИНТЕЛЛЕКТУАЛЮ СОБСТВЕННОСТЬ
         var intellectual_property = $("#intellectual_property").kendoGrid({
             dataSource: {
                 type: "json",
@@ -534,8 +536,42 @@ var ADMIN_BASE_URL = "admin/";
 //            },
             columns: [
                 { field: "name", title: "Наименование"},
-                { field: "doc_type", title: "Тип"},
-                { field: "direction", title: "Направление"},
+                { field: "doc_type__name", title: "Тип",
+                    editor: function(container, options) {
+                        $('<input data-text-field="name" data-value-field="doc_type_id" data-bind="value: doc_type" />')
+                            .css({margin: "3px 0px 1px"})
+                            .appendTo(container)
+                            .kendoDropDownList({
+                                dataSource: {
+                                    type: "json",
+                                    transport: {
+                                        read: {
+                                            url: BASE_URL + ADMIN_BASE_URL + "document_types/read/",
+                                            dataType: "json",
+                                            type: "POST"
+                                        }
+                                    }
+                                }
+                            });
+                    }},
+                { field: "direction__name", title: "Направление",
+                    editor: function(container, options) {
+                        $('<input data-text-field="name" data-value-field="direction_id" data-bind="value: direction" />')
+                            .css({margin: "3px 0px 1px"})
+                            .appendTo(container)
+                            .kendoDropDownList({
+                                dataSource: {
+                                    type: "json",
+                                    transport: {
+                                        read: {
+                                            url: BASE_URL + ADMIN_BASE_URL + "directions/read/",
+                                            dataType: "json",
+                                            type: "POST"
+                                        }
+                                    }
+                                }
+                            });
+                    }},
                 { field: "authors", title: "Авторы",
                     template: "# var fio;" +
                         "for(var i=0; i<authors.length; i++) {" +
@@ -558,10 +594,10 @@ var ADMIN_BASE_URL = "admin/";
             directions.addRow();
             return false;
         });
-
+///////////////////////////////////////  \\ИНТЕЛЛЕКТУАЛЮ СОБСТВЕННОСТЬ
     });
 })(jQuery);
-
+///////////////////////////////////////  ОТДЕЛЫ
 function detailInit(e) {
     var detailRow = e.detailRow;
     var subdivision_id = e.data.subdivision_id;
@@ -699,3 +735,4 @@ function detailInit(e) {
         return false;
     });
 }
+///////////////////////////////////////  \\ОТДЕЛЫ
