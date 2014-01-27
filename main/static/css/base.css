@@ -15,7 +15,7 @@ header#main_header {
     z-index:100;
     position:fixed;
     background-color: #eff3f6;
-    box-shadow: 0 1px 3px #eff3f6;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
 }
 
 footer#main_footer {
@@ -30,7 +30,7 @@ footer#main_footer {
     text-align: center;
     font-size: 12px;
     color: #999999;
-    box-shadow: 0 -1px 3px #eff3f6;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
 }
 
 #logo {

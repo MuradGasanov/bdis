@@ -97,5 +97,65 @@
             "tel": "+79031234567",
             "department": "2"
         }
+    },
+    {   "pk": 1,
+        "model": "main.DocumentTypes",
+        "fields": {
+            "doc_type": "Авторское право"
+        }
+    },
+    {   "pk": 2,
+        "model": "main.DocumentTypes",
+        "fields": {
+            "doc_type": "Смежные права"
+        }
+    },
+    {   "pk": 3,
+        "model": "main.DocumentTypes",
+        "fields": {
+            "doc_type": "Патентное право"
+        }
+    },
+    {   "pk": 4,
+        "model": "main.DocumentTypes",
+        "fields": {
+            "doc_type": "Права на средства индивидуализации"
+        }
+    },
+    {   "pk": 5,
+        "model": "main.DocumentTypes",
+        "fields": {
+            "doc_type": "Право на секреты производства (Ноу-хау)"
+        }
+    },
+    {   "pk": 6,
+        "model": "main.DocumentTypes",
+        "fields": {
+            "doc_type": "Охрана новых сортов растений"
+        }
+    },
+    {   "pk": 1,
+        "model": "main.Directions",
+        "fields": {
+            "direction": "Направление 1"
+        }
+    },
+    {   "pk": 2,
+        "model": "main.Directions",
+        "fields": {
+            "direction": "Направление 2"
+        }
+    },
+    {   "pk": 3,
+        "model": "main.Directions",
+        "fields": {
+            "direction": "Направление 3"
+        }
+    },
+    {   "pk": 4,
+        "model": "main.Directions",
+        "fields": {
+            "direction": "Направление 4"
+        }
     }
 ]

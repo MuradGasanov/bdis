@@ -25,5 +25,15 @@ urlpatterns = patterns('main.views',
                        url(r'^'+ADMIN_BASE_URL+'authors/read/$', Authors.read),
                        url(r'^'+ADMIN_BASE_URL+'authors/destroy/$', Authors.destroy),
                        url(r'^'+ADMIN_BASE_URL+'authors/create/$', Authors.create),
-                       url(r'^'+ADMIN_BASE_URL+'authors/update/$', Authors.update)
+                       url(r'^'+ADMIN_BASE_URL+'authors/update/$', Authors.update),
+
+                       url(r'^'+ADMIN_BASE_URL+'document_types/read/$', DocumentTypes.read),
+                       url(r'^'+ADMIN_BASE_URL+'document_types/destroy/$', DocumentTypes.destroy),
+                       url(r'^'+ADMIN_BASE_URL+'document_types/create/$', DocumentTypes.create),
+                       url(r'^'+ADMIN_BASE_URL+'document_types/update/$', DocumentTypes.update),
+
+                       url(r'^'+ADMIN_BASE_URL+'directions/read/$', Directions.read),
+                       url(r'^'+ADMIN_BASE_URL+'directions/destroy/$', Directions.destroy),
+                       url(r'^'+ADMIN_BASE_URL+'directions/create/$', Directions.create),
+                       url(r'^'+ADMIN_BASE_URL+'directions/update/$', Directions.update)
                        )

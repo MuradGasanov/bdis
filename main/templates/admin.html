@@ -21,12 +21,24 @@
                 <li>
                     Авторы
                 </li>
+                <li>
+                    Виды интеллектуальных прав
+                </li>
+                <li>
+                    Направления
+                </li>
             </ul>
             <div>
                 <div id="subdivision"></div>
             </div>
             <div>
                 <div id="authors"></div>
+            </div>
+            <div>
+                <div id="document_types"></div>
+            </div>
+            <div>
+                <div id="directions"></div>
             </div>
     </div>
 {#    шаблоны detail#}
@@ -46,6 +58,14 @@
 
     <script type="text/x-kendo-template" id="authors_header_template">
         <span class='k-button add_author'><span class='k-icon k-i-plus'></span> Добавить автора</span>
+    </script>
+
+    <script type="text/x-kendo-template" id="document_types_header_template">
+        <span class='k-button add_document_type'><span class='k-icon k-i-plus'></span> Добавить</span>
+    </script>
+
+    <script type="text/x-kendo-template" id="directions_header_template">
+        <span class='k-button add_direction'><span class='k-icon k-i-plus'></span> Добавить направление</span>
     </script>
 {#    /шаблоны header#}
 {% endblock %}

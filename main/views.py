@@ -256,3 +256,99 @@ class Authors():
             post=item["post"],
             department=department)
         return HttpResponse(json.dumps({}), content_type="application/json")
+
+
+class DocumentTypes():
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def read(request):
+        """
+        вывод списка типов прав
+        """
+        doc_types = list(
+            models.DocumentTypes.objects.all().
+            values("doc_type_id", "doc_type")
+        )
+        if doc_types:
+            return HttpResponse(json.dumps(doc_types), content_type="application/json")
+        else:
+            return HttpResponse(json.dumps(""), content_type="application/json")
+
+    @staticmethod
+    def destroy(request):
+        """
+        удаление типа права
+        """
+        item = json.loads(request.POST.get("item"))
+        models.DocumentTypes.objects.get(doc_type_id=int(item["doc_type_id"])).delete()
+        return HttpResponse(json.dumps({}), content_type="application/json")
+
+    @staticmethod
+    def create(request):
+        """
+        добавление типа права
+        """
+        item = json.loads(request.POST.get("item"))
+        new_documents_type = models.DocumentTypes.objects.create(doc_type=item["doc_type"])
+        return HttpResponse(json.dumps({"doc_type_id": new_documents_type.doc_type_id,
+                                        "doc_type": new_documents_type.doc_type}),
+                            content_type="application/json")
+
+    @staticmethod
+    def update(request):
+        """
+        редактирование типа права
+        """
+        item = json.loads(request.POST.get("item"))
+        models.DocumentTypes.objects.filter(doc_type_id=item["doc_type_id"]).update(doc_type=item["doc_type"])
+        return HttpResponse(json.dumps({}), content_type="application/json")
+
+
+class Directions():
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def read(request):
+        """
+        вывод списка
+        """
+        directions = list(
+            models.Directions.objects.all().
+            values("direction_id", "direction")
+        )
+        if directions:
+            return HttpResponse(json.dumps(directions), content_type="application/json")
+        else:
+            return HttpResponse(json.dumps(""), content_type="application/json")
+
+    @staticmethod
+    def destroy(request):
+        """
+        удаление типа
+        """
+        item = json.loads(request.POST.get("item"))
+        models.Directions.objects.get(direction_id=int(item["direction_id"])).delete()
+        return HttpResponse(json.dumps({}), content_type="application/json")
+
+    @staticmethod
+    def create(request):
+        """
+        добавление
+        """
+        item = json.loads(request.POST.get("item"))
+        new_direction = models.Directions.objects.create(direction=item["direction"])
+        return HttpResponse(json.dumps({"direction_id": new_direction.direction_id,
+                                        "direction": new_direction.direction}),
+                            content_type="application/json")
+
+    @staticmethod
+    def update(request):
+        """
+        редактирование
+        """
+        item = json.loads(request.POST.get("item"))
+        models.Directions.objects.filter(direction_id=item["direction_id"]).update(direction=item["direction"])
+        return HttpResponse(json.dumps({}), content_type="application/json")

@@ -33,10 +33,16 @@ class DocumentTypes(models.Model):
     doc_type = models.CharField(max_length=45)
 
 
+class Directions(models.Model):
+    direction_id = models.AutoField(primary_key=True)
+    direction = models.CharField(max_length=100, null=False)
+
+
 class IntellectualProperty(models.Model):
     intellectual_property_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=45, null=False)
     doc_type = models.ForeignKey(DocumentTypes)
+    direction = models.ForeignKey(Directions)
     authors = models.ManyToManyField(Authors)
 
 

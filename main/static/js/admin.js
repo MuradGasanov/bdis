@@ -267,7 +267,191 @@ var ADMIN_BASE_URL = "admin/";
         $(".add_author").click(function(e) {
             authors.addRow();
             return false;
-        })
+        });
+
+        var document_types = $("#document_types").kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: BASE_URL+ADMIN_BASE_URL+"document_types/read/",
+                        dataType: "json",
+                        type: "POST"
+                    },
+                    destroy: {
+                        url: BASE_URL+ADMIN_BASE_URL+"document_types/destroy/",
+                        dataType: "json",
+                        type: "POST"
+                    },
+                    create: {
+                        url: BASE_URL+ADMIN_BASE_URL+"document_types/create/",
+                        dataType: "json",
+                        type: "POST"
+                    },
+                    update: {
+                        url: BASE_URL+ADMIN_BASE_URL+"document_types/update/",
+                        dataType: "json",
+                        type: "POST"
+                    },
+                    parameterMap: function(options, operation) {
+                        if (operation !== "read" && options) {
+                            return {item: kendo.stringify(options)};
+                        }
+                    }
+                },
+                schema: {
+                    model: {
+                        id: "doc_type_id",
+                        fields: {
+                            doc_type: {
+                                validation: {
+                                    required: { message: "Поле не может быть пустым" }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            toolbar:  [
+                { template: kendo.template($("#document_types_header_template").html()) }
+            ],
+            height: 430,
+            sortable: true,
+            editable: {
+                mode: "inline",
+                confirmation: "Вы уверены, что хотите удалить запись?",
+                confirmDelete: "Да",
+                cancelDelete: "Нет"
+            },
+//            pageable: {
+//                pageSize: 20,
+//                //pageSizes: true,
+//                messages: {
+//                    display: "{0}-{1} из {2} записей",
+//                    empty: " ",
+//                    previous: "Предыдущая страница",
+//                    next: "Следующая страница",
+//                    last: "Последняя страница",
+//                    first: "Первая страница"
+//                }
+//            },
+//            detailTemplate: kendo.template($("#subdivision_detail_template").html()),
+//            detailInit: detailInit,
+//            dataBound: function() {
+//                this.expandRow(this.tbody.find("tr.k-master-row").first());
+//            },
+            columns: [
+                { field: "doc_type", title: "Вид интеллектуального права"},
+                { command: [
+                    { name: "edit",
+                        text: {
+                            edit: "Редактировать",
+                            update: "Сохранить",
+                            cancel: "Отменить"
+                        }
+                    },
+                    { name: "destroy", text: "Удалить" }
+                ], width: "250px", attributes: { style: "text-align: center;"} }
+            ],
+            save: function(e) {
+            }
+        }).data("kendoGrid");
+
+        $(".add_document_type").click(function(e) {
+            document_types.addRow();
+            return false;
+        });
+
+        var directions = $("#directions").kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: BASE_URL+ADMIN_BASE_URL+"directions/read/",
+                        dataType: "json",
+                        type: "POST"
+                    },
+                    destroy: {
+                        url: BASE_URL+ADMIN_BASE_URL+"directions/destroy/",
+                        dataType: "json",
+                        type: "POST"
+                    },
+                    create: {
+                        url: BASE_URL+ADMIN_BASE_URL+"directions/create/",
+                        dataType: "json",
+                        type: "POST"
+                    },
+                    update: {
+                        url: BASE_URL+ADMIN_BASE_URL+"directions/update/",
+                        dataType: "json",
+                        type: "POST"
+                    },
+                    parameterMap: function(options, operation) {
+                        if (operation !== "read" && options) {
+                            return {item: kendo.stringify(options)};
+                        }
+                    }
+                },
+                schema: {
+                    model: {
+                        id: "direction_id",
+                        fields: {
+                            direction: {
+                                validation: {
+                                    required: { message: "Поле не может быть пустым" }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            toolbar:  [
+                { template: kendo.template($("#directions_header_template").html()) }
+            ],
+            height: 430,
+            sortable: true,
+            editable: {
+                mode: "inline",
+                confirmation: "Вы уверены, что хотите удалить запись?",
+                confirmDelete: "Да",
+                cancelDelete: "Нет"
+            },
+//            pageable: {
+//                pageSize: 20,
+//                //pageSizes: true,
+//                messages: {
+//                    display: "{0}-{1} из {2} записей",
+//                    empty: " ",
+//                    previous: "Предыдущая страница",
+//                    next: "Следующая страница",
+//                    last: "Последняя страница",
+//                    first: "Первая страница"
+//                }
+//            },
+//            detailTemplate: kendo.template($("#subdivision_detail_template").html()),
+//            detailInit: detailInit,
+//            dataBound: function() {
+//                this.expandRow(this.tbody.find("tr.k-master-row").first());
+//            },
+            columns: [
+                { field: "direction", title: "Вид интеллектуального права"},
+                { command: [
+                    { name: "edit",
+                        text: {
+                            edit: "Редактировать",
+                            update: "Сохранить",
+                            cancel: "Отменить"
+                        }
+                    },
+                    { name: "destroy", text: "Удалить" }
+                ], width: "250px", attributes: { style: "text-align: center;"} }
+            ]
+        }).data("kendoGrid");
+
+        $(".add_direction").click(function(e) {
+            directions.addRow();
+            return false;
+        });
 
     });
 })(jQuery);
