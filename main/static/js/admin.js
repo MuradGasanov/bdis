@@ -614,6 +614,7 @@ var ADMIN_BASE_URL = "admin/";
                     },
                     parameterMap: function(options, operation) {
                         if (operation !== "read" && options) {
+                            console.log(options);
                             return {item: kendo.stringify(options)};
                         }
                     }
@@ -626,7 +627,9 @@ var ADMIN_BASE_URL = "admin/";
                                 validation: {
                                     required: { message: "Поле не может быть пустым" }
                                 }
-                            }
+                            },
+                            doc_type: {defaultValue: {doctype_id: 0, name: ""}},
+                            direction: {defaultValue: {direction_id: 0, name: ""}}
                         }
                     }
                 }
@@ -661,12 +664,15 @@ var ADMIN_BASE_URL = "admin/";
 //            },
             columns: [
                 { field: "name", title: "Наименование"},
-                { field: "doc_type__name", title: "Тип",
+                { field: "doc_type", title: "Тип", template: "#=doc_type.name#",
                     editor: function(container, options) {
-                        $('<input data-text-field="name" data-value-field="doc_type_id" data-bind="value: doc_type" />')
-                            .css({margin: "3px 0px 1px"})
-                            .appendTo(container)
+                        $('<input data-bind="value: doc_type" />')
+                            .css({margin: "3px 0px 1px"}).appendTo(container)
                             .kendoDropDownList({
+                                autoBind: false,
+                                text: "Выбрать...",
+                                dataTextField: "name",
+                                dataValueField: "doc_type_id",
                                 dataSource: {
                                     type: "json",
                                     transport: {
@@ -680,12 +686,15 @@ var ADMIN_BASE_URL = "admin/";
                             });
                     }
                 },
-                { field: "direction__name", title: "Направление",
+                { field: "direction", title: "Направление", template: "#=direction.name#",
                     editor: function(container, options) {
-                        $('<input data-text-field="name" data-value-field="direction_id" data-bind="value: direction" />')
-                            .css({margin: "3px 0px 1px"})
-                            .appendTo(container)
+                        $('<input data-bind="value: direction" />')
+                            .css({margin: "3px 0px 1px"}).appendTo(container)
                             .kendoDropDownList({
+                                autoBind: false,
+                                text: "Выбрать...",
+                                dataTextField: "name",
+                                dataValueField: "direction_id",
                                 dataSource: {
                                     type: "json",
                                     transport: {
@@ -759,16 +768,9 @@ var ADMIN_BASE_URL = "admin/";
                             });
                     }
                 },
-                { command: [
-                    { name: "edit",
-                        text: {
-                            edit: "Редактировать",
-                            update: "Сохранить",
-                            cancel: "Отменить"
-                        }
-                    },
-                    { name: "destroy", text: "Удалить" }
-                ], width: "250px", attributes: { style: "text-align: center;"} }
+                { command: [ { name: "edit", text:  { edit: "Редактировать", update: "Сохранить", cancel: "Отменить" } },
+                             { name: "destroy", text: "Удалить" }
+                           ], width: "250px", attributes: { style: "text-align: center;"} }
             ]
         }).data("kendoGrid");
 

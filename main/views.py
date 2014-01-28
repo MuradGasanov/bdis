@@ -392,10 +392,13 @@ class IntellectualProperty():
         intellectual_properties = list(
             models.IntellectualProperty.objects.all().
             values("intellectual_property_id", "name",
-                   "doc_type", "doc_type__name",
-                   "direction", "direction__name")
+                   "doc_type", "direction")
         )
         for item in intellectual_properties:
+            item["doc_type"] = {
+                "doc_type_id": item["doc_type"].id,
+                "name": item["doc_type"].name
+            }
             authors = list(
                 models.Authors.objects.all().
                 filter(intellectualproperty=int(item["intellectual_property_id"])).
@@ -438,12 +441,12 @@ class IntellectualProperty():
         doc_type = None
         if "doc_type" in item:
             if item["doc_type"]:
-                doc_type = models.DocumentTypes.objects.get(doc_type_id=int(item["doc_type"]["doc_type_id"]))
+                doc_type = models.DocumentTypes.objects.get(doc_type_id=int(item["doc_type"]))
 
         direction = None
         if "direction" in item:
             if item["direction"]:
-                direction = models.Directions.objects.get(direction_id=int(item["direction"]["direction_id"]))
+                direction = models.Directions.objects.get(direction_id=int(item["direction"]))
 
         authors = []
         if "authors" in item:
@@ -471,7 +474,7 @@ class IntellectualProperty():
             new_intellectual_property.tags.add(tag)
         tags = \
             [{"tag_id": t.tag_id,
-              "name": t.surname}
+              "name": t.name}
              for t in tags]
         return HttpResponse(json.dumps({"intellectual_property_id": new_intellectual_property.intellectual_property_id,
                                         "name": new_intellectual_property.name,
