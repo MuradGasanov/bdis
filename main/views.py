@@ -395,12 +395,20 @@ class IntellectualProperty():
                    "doc_type", "direction")
         )
         for item in intellectual_properties:
-            item["doc_type"] = {
-                "doc_type_id": item["doc_type"].id,
-                "name": item["doc_type"].name
-            }
+            try:
+                doc_type = models.DocumentTypes.objects.get(doc_type_id=item["doc_type"])
+                item["doc_type"] = {"doc_type_id": doc_type.doc_type_id,
+                                    "name": doc_type.name}
+            except models.DocumentTypes.DoesNotExist:
+                item["doc_type"] = {}
+            try:
+                direction = models.Directions.objects.get(direction_id=item["direction"])
+                item["direction"] = {"direction_id": direction.direction_id,
+                                     "name": direction.name}
+            except models.Directions.DoesNotExist:
+                item["direction"] = {}
             authors = list(
-                models.Authors.objects.all().
+                models.Authors.objects.
                 filter(intellectualproperty=int(item["intellectual_property_id"])).
                 values("author_id", "name", "surname", "patronymic")
             )
@@ -437,6 +445,7 @@ class IntellectualProperty():
         добавление
         """
         item = json.loads(request.POST.get("item"))
+        return
 
         doc_type = None
         if "doc_type" in item:
@@ -492,11 +501,11 @@ class IntellectualProperty():
         """
         item = json.loads(request.POST.get("item"))
         if item["doc_type"]:
-            doc_type = models.DocumentTypes.objects.get(doc_type_id=int(item["doc_type"]))
+            doc_type = models.DocumentTypes.objects.get(doc_type_id=int(item["doc_type"]["doc_type_id"]))
         else:
             doc_type = None
         if item["direction"]:
-            direction = models.Directions.objects.get(direction_id=int(item["direction"]))
+            direction = models.Directions.objects.get(direction_id=int(item["direction"]["direction_id"]))
         else:
             direction = None
         authors = [models.Authors.objects.get(author_id=int(a["author_id"])) for a in item["authors"]]
@@ -515,6 +524,12 @@ class IntellectualProperty():
         for tag in tags:
             intellectual_property.tags.add(tag)
 
+        if doc_type:
+            doc_type = {"doc_type_id": doc_type.doc_type_id,
+                        "name": doc_type.name}
+        if direction:
+            direction = {"direction_id": direction.direction_id,
+                         "name": direction.name}
         authors = \
             [{"author_id": a.author_id,
               "name": "%s %s %s" % (estr(a.surname), estr(a.name), estr(a.patronymic))}
@@ -527,10 +542,8 @@ class IntellectualProperty():
         return HttpResponse(json.dumps({
             "intellectual_property_id": intellectual_property.intellectual_property_id,
             "name": intellectual_property.name,
-            "doc_type": doc_type.doc_type_id if doc_type else None,
-            "doc_type__name": doc_type.name if doc_type else None,
-            "direction": direction.direction_id if direction else None,
-            "direction__name": direction.name if direction else None,
+            "doc_type": doc_type,
+            "direction": direction,
             "authors": authors,
             "tags": tags
         }), content_type="application/json")

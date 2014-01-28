@@ -25,7 +25,12 @@ class Authors(models.Model):
     tel = models.CharField(max_length=30, null=True)
     mail = models.CharField(max_length=45, null=True)
     post = models.CharField(max_length=100, null=True)
-    department = models.ForeignKey(Department, null=True)
+    department = models.ForeignKey(Department, null=True, on_delete=models.SET_NULL)
+
+
+class Tags(models.Model):
+    tag_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100, null=False)
 
 
 class DocumentTypes(models.Model):
@@ -38,15 +43,10 @@ class Directions(models.Model):
     name = models.CharField(max_length=100, null=False)
 
 
-class Tags(models.Model):
-    tag_id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100, null=False)
-
-
 class IntellectualProperty(models.Model):
     intellectual_property_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=45, null=False)
-    doc_type = models.ForeignKey(DocumentTypes, null=True)
-    direction = models.ForeignKey(Directions, null=True)
+    doc_type = models.ForeignKey(DocumentTypes, null=True, on_delete=models.SET_NULL)
+    direction = models.ForeignKey(Directions, null=True, on_delete=models.SET_NULL)
     authors = models.ManyToManyField(Authors, null=True)
-    tags = models.ManyToManyField(Tags)
+    tags = models.ManyToManyField(Tags, null=True)

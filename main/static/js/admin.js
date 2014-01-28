@@ -614,7 +614,6 @@ var ADMIN_BASE_URL = "admin/";
                     },
                     parameterMap: function(options, operation) {
                         if (operation !== "read" && options) {
-                            console.log(options);
                             return {item: kendo.stringify(options)};
                         }
                     }
@@ -628,8 +627,10 @@ var ADMIN_BASE_URL = "admin/";
                                     required: { message: "Поле не может быть пустым" }
                                 }
                             },
-                            doc_type: {defaultValue: {doctype_id: 0, name: ""}},
-                            direction: {defaultValue: {direction_id: 0, name: ""}}
+                            doc_type: {defaultValue: {doc_type_id: 0, name: "Выбрать..."}},
+                            direction: {defaultValue: {direction_id: 0, name: "Выбрать..."}},
+                            authors: {defaultValue: []},
+                            tags: {defaultValue: []}
                         }
                     }
                 }
@@ -664,15 +665,13 @@ var ADMIN_BASE_URL = "admin/";
 //            },
             columns: [
                 { field: "name", title: "Наименование"},
-                { field: "doc_type", title: "Тип", template: "#=doc_type.name#",
+                { field: "doc_type", title: "Тип", template: "#if (doc_type) if ('name' in doc_type) {# #=doc_type.name# # } #",
                     editor: function(container, options) {
-                        $('<input data-bind="value: doc_type" />')
+                        $('<input data-text-field="name" data-value-field="doc_type_id" data-bind="value: doc_type" />')
                             .css({margin: "3px 0px 1px"}).appendTo(container)
                             .kendoDropDownList({
                                 autoBind: false,
                                 text: "Выбрать...",
-                                dataTextField: "name",
-                                dataValueField: "doc_type_id",
                                 dataSource: {
                                     type: "json",
                                     transport: {
@@ -686,15 +685,13 @@ var ADMIN_BASE_URL = "admin/";
                             });
                     }
                 },
-                { field: "direction", title: "Направление", template: "#=direction.name#",
+                { field: "direction", title: "Направление", template: "#if (direction) if ('name' in direction) {# #=direction.name# # } #",
                     editor: function(container, options) {
-                        $('<input data-bind="value: direction" />')
+                        $('<input data-text-field="name" data-value-field="direction_id" data-bind="value: direction" />')
                             .css({margin: "3px 0px 1px"}).appendTo(container)
                             .kendoDropDownList({
                                 autoBind: false,
                                 text: "Выбрать...",
-                                dataTextField: "name",
-                                dataValueField: "direction_id",
                                 dataSource: {
                                     type: "json",
                                     transport: {
@@ -704,6 +701,11 @@ var ADMIN_BASE_URL = "admin/";
                                             type: "POST"
                                         }
                                     }
+                                },
+                                select: function(e) {
+                                    var dataItem = this.dataItem(e.item.index());
+                                    console.log("select (" + dataItem.text + " : " + dataItem.value + ")" );
+                                    console.log(e);
                                 }
                             });
                     }},
