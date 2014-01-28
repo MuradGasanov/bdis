@@ -11,7 +11,7 @@ var NOTY_ALERT = 'alert',
     NOTY_SUCCESS = 'success';
 
 function noty_error(text, type, timeout) {
-    type = typeof type !== 'undefined' ? type : NOTY_ERROR;
+    type = typeof type !== 'undefined' ? type : NOTY_WARNING;
     timeout = typeof timeout !== 'undefined' ? timeout : 3000;
     noty({
         text: text,

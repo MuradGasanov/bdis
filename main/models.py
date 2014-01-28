@@ -38,22 +38,15 @@ class Directions(models.Model):
     name = models.CharField(max_length=100, null=False)
 
 
-class IntellectualProperty(models.Model):
-    intellectual_property_id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=45, null=False)
-    doc_type = models.ForeignKey(DocumentTypes)
-    direction = models.ForeignKey(Directions)
-    authors = models.ManyToManyField(Authors)
-
-
-class Files(models.Model):
-    file_id = models.AutoField(primary_key=True)
-    path = models.CharField(max_length=200, null=False)
-    name = models.CharField(max_length=45, null=False)
-    intellectual_property_id = models.ForeignKey(IntellectualProperty, null=False)
-
-
 class Tags(models.Model):
     tag_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, null=False)
-    intellectual_properties = models.ManyToManyField(IntellectualProperty)
+
+
+class IntellectualProperty(models.Model):
+    intellectual_property_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=45, null=False)
+    doc_type = models.ForeignKey(DocumentTypes, null=True)
+    direction = models.ForeignKey(Directions, null=True)
+    authors = models.ManyToManyField(Authors, null=True)
+    tags = models.ManyToManyField(Tags)

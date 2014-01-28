@@ -10,7 +10,7 @@
     <script src="{% static "js/admin.js" %}"></script>
 {% endblock %}
 {% block header %}
-    <a class="logout" href="/logout">Выход</a>
+    <a class="logout k-button" href="/logout">Выход</a>
 {% endblock %}
 {% block content %}
     <div id="tab_strip">
@@ -55,27 +55,33 @@
 
 {#    шаблоны header#}
     <script type="text/x-kendo-template" id="subdivision_header_template">
-        <span class='k-button add_subdivision'><span class='k-icon k-i-plus'></span> Добавить подразделение</span>
+        <span class="k-button add_subdivision"><span class="k-icon k-i-plus"></span> Добавить подразделение</span>
+        <span class="k-button reload_subdivision" title="Перезагрузить"><span class="k-icon k-i-refresh"></span></span>
     </script>
 
     <script type="text/x-kendo-template" id="department_header_template">
-        <span class='k-button add_department'><span class='k-icon k-i-plus'></span> Добавить отдел</span>
+        <span class="k-button add_department"><span class="k-icon k-i-plus"></span> Добавить отдел</span>
+        <span class="k-button reload_department" title="Перезагрузить"><span class="k-icon k-i-refresh"></span></span>
     </script>
 
     <script type="text/x-kendo-template" id="authors_header_template">
-        <span class='k-button add_author'><span class='k-icon k-i-plus'></span> Добавить автора</span>
+        <span class="k-button add_author"><span class="k-icon k-i-plus"></span> Добавить автора</span>
+        <span class="k-button reload_author" title="Перезагрузить"><span class="k-icon k-i-refresh"></span></span>
     </script>
 
     <script type="text/x-kendo-template" id="document_types_header_template">
-        <span class='k-button add_document_type'><span class='k-icon k-i-plus'></span> Добавить</span>
+        <span class="k-button add_document_type"><span class="k-icon k-i-plus"></span> Добавить</span>
+        <span class="k-button reload_document_type" title="Перезагрузить"><span class="k-icon k-i-refresh"></span></span>
     </script>
 
     <script type="text/x-kendo-template" id="directions_header_template">
-        <span class='k-button add_direction'><span class='k-icon k-i-plus'></span> Добавить направление</span>
+        <span class="k-button add_direction"><span class="k-icon k-i-plus"></span> Добавить направление</span>
+        <span class="k-button reload_direction" title="Перезагрузить"><span class="k-icon k-i-refresh"></span></span>
     </script>
 
     <script type="text/x-kendo-template" id="intellectual_property_header_template">
-        <span class='k-button add_intellectual_property'><span class='k-icon k-i-plus'></span> Добавить</span>
+        <span class="k-button add_intellectual_property"><span class="k-icon k-i-plus"></span> Добавить</span>
+        <span class="k-button reload_intellectual_property" title="Перезагрузить"><span class="k-icon k-i-refresh"></span></span>
     </script>
 {#    /шаблоны header#}
 {% endblock %}

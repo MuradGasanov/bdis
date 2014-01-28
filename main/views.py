@@ -14,6 +14,10 @@ import json
 import re
 
 
+def estr(s):
+        return '' if s is None else str(s)
+
+
 def home_page(request):
     """
     возвращает главную страницу
@@ -382,7 +386,6 @@ class IntellectualProperty():
                    "doc_type", "doc_type__name",
                    "direction", "direction__name")
         )
-        estr = lambda s: '' if s is None else str(s)
         for item in intellectual_properties:
             authors = list(
                 models.Authors.objects.all().
@@ -408,22 +411,80 @@ class IntellectualProperty():
             intellectual_property_id=int(item["intellectual_property_id"])).delete()
         return HttpResponse(json.dumps({}), content_type="application/json")
 
-    # @staticmethod
-    # def create(request):
-    #     """
-    #     добавление
-    #     """
-    #     item = json.loads(request.POST.get("item"))
-    #     new_direction = models.Directions.objects.create(direction=item["direction"])
-    #     return HttpResponse(json.dumps({"direction_id": new_direction.direction_id,
-    #                                     "direction": new_direction.direction}),
-    #                         content_type="application/json")
-    #
-    # @staticmethod
-    # def update(request):
-    #     """
-    #     редактирование
-    #     """
-    #     item = json.loads(request.POST.get("item"))
-    #     models.Directions.objects.filter(direction_id=item["direction_id"]).update(direction=item["direction"])
-    #     return HttpResponse(json.dumps({}), content_type="application/json")
+    @staticmethod
+    def create(request):
+        """
+        добавление
+        """
+        item = json.loads(request.POST.get("item"))
+        doc_type = None
+        if "doc_type" in item:
+            if item["doc_type"]:
+                doc_type = models.DocumentTypes.objects.get(doc_type_id=int(item["doc_type"]["doc_type_id"]))
+        direction = None
+        if "direction" in item:
+            if item["direction"]:
+                direction = models.Directions.objects.get(direction_id=int(item["direction"]["direction_id"]))
+        authors = []
+        if "authors" in item:
+            if item["authors"]:
+                authors = [models.Authors.objects.get(author_id=int(a["author_id"])) for a in item["authors"]]
+        new_intellectual_property = models.IntellectualProperty.objects.create(
+            name=item["name"],
+            doc_type=doc_type,
+            direction=direction)
+        new_intellectual_property.authors.clear()
+        for author in authors:
+            new_intellectual_property.authors.add(author)
+        authors = \
+            [{"author_id": a.author_id,
+              "name": "%s %s %s" % (estr(a.surname), estr(a.name), estr(a.patronymic))}
+             for a in authors]
+        return HttpResponse(json.dumps({"intellectual_property_id": new_intellectual_property.intellectual_property_id,
+                                        "name": new_intellectual_property.name,
+                                        "doc_type": doc_type.doc_type_id if doc_type else None,
+                                        "doc_type__name": doc_type.name if doc_type else None,
+                                        "direction": direction.direction_id if direction else None,
+                                        "direction__name": direction.name if direction else None,
+                                        "authors": authors}), content_type="application/json")
+
+    @staticmethod
+    def update(request):
+        """
+        редактирование
+        """
+        item = json.loads(request.POST.get("item"))
+        if item["doc_type"]:
+            doc_type = models.DocumentTypes.objects.get(doc_type_id=int(item["doc_type"]))
+        else:
+            doc_type = None
+        if item["direction"]:
+            direction = models.Directions.objects.get(direction_id=int(item["direction"]))
+        else:
+            direction = None
+        authors = [models.Authors.objects.get(author_id=int(a["author_id"])) for a in item["authors"]]
+
+        intellectual_property = models.IntellectualProperty.\
+            objects.get(intellectual_property_id=int(item["intellectual_property_id"]))
+        intellectual_property.name = item["name"]
+        intellectual_property.doc_type = doc_type
+        intellectual_property.direction = direction
+        intellectual_property.save()
+        intellectual_property.authors.clear()
+        for author in authors:
+            intellectual_property.authors.add(author)
+
+        authors = \
+            [{"author_id": a.author_id,
+              "name": "%s %s %s" % (estr(a.surname), estr(a.name), estr(a.patronymic))}
+             for a in authors]
+
+        return HttpResponse(json.dumps({
+            "intellectual_property_id": intellectual_property.intellectual_property_id,
+            "name": intellectual_property.name,
+            "doc_type": doc_type.doc_type_id if doc_type else None,
+            "doc_type__name": doc_type.name if doc_type else None,
+            "direction": direction.direction_id if direction else None,
+            "direction__name": direction.name if direction else None,
+            "authors": authors
+        }), content_type="application/json")

@@ -108,6 +108,12 @@ var ADMIN_BASE_URL = "admin/";
             subdivision.addRow();
             return false;
         });
+
+        $(".reload_subdivision").click(function(e) {
+            subdivision.dataSource.read();
+            subdivision.refresh();
+            return false;
+        });
 /////////////////////////////////////// \\ПОДРАЗДЕЛЕНИЯ
 
 /////////////////////////////////////// АВТОРЫ
@@ -271,6 +277,12 @@ var ADMIN_BASE_URL = "admin/";
             authors.addRow();
             return false;
         });
+
+        $(".reload_author").click(function(e) {
+            authors.dataSource.read();
+            authors.refresh();
+            return false;
+        });
 /////////////////////////////////////// \\АВТОРЫ
 
 ///////////////////////////////////////  ВИДЫ ИНТЕЛЛЕКТУАЛ. СОБСТВЕННОСТИ
@@ -325,7 +337,8 @@ var ADMIN_BASE_URL = "admin/";
             sortable: true,
             editable: {
                 mode: "inline",
-                confirmation: "Вы уверены, что хотите удалить запись?",
+                confirmation: "Вы уверены, что хотите удалить запись," +
+                    " также будут удалены все связанные записи?",
                 confirmDelete: "Да",
                 cancelDelete: "Нет"
             },
@@ -365,6 +378,12 @@ var ADMIN_BASE_URL = "admin/";
 
         $(".add_document_type").click(function(e) {
             document_types.addRow();
+            return false;
+        });
+
+        $(".reload_document_type").click(function(e) {
+            document_types.dataSource.read();
+            document_types.refresh();
             return false;
         });
 ///////////////////////////////////////  \\ВИДЫ ИНТЕЛЛЕКТУАЛ. СОБСТВЕННОСТИ
@@ -420,7 +439,8 @@ var ADMIN_BASE_URL = "admin/";
             sortable: true,
             editable: {
                 mode: "inline",
-                confirmation: "Вы уверены, что хотите удалить запись?",
+                confirmation: "Вы уверены, что хотите удалить запись," +
+                    " также будут удалены все связанные записи?",
                 confirmDelete: "Да",
                 cancelDelete: "Нет"
             },
@@ -460,9 +480,15 @@ var ADMIN_BASE_URL = "admin/";
             directions.addRow();
             return false;
         });
+
+        $(".reload_direction").click(function(e) {
+            directions.dataSource.read();
+            directions.refresh();
+            return false;
+        });
 ///////////////////////////////////////  \\НАПРАВЛЕНИЯ
 
-///////////////////////////////////////  ИНТЕЛЛЕКТУАЛЮ СОБСТВЕННОСТЬ
+///////////////////////////////////////  ИНТЕЛЛЕКТУАЛ. СОБСТВЕННОСТЬ
         var intellectual_property = $("#intellectual_property").kendoGrid({
             dataSource: {
                 type: "json",
@@ -622,10 +648,16 @@ var ADMIN_BASE_URL = "admin/";
         }).data("kendoGrid");
 
         $(".add_intellectual_property").click(function(e) {
-            directions.addRow();
+            intellectual_property.addRow();
             return false;
         });
-///////////////////////////////////////  \\ИНТЕЛЛЕКТУАЛЮ СОБСТВЕННОСТЬ
+
+        $(".reload_intellectual_property").click(function(e) {
+            intellectual_property.dataSource.read();
+            intellectual_property.refresh();
+            return false;
+        });
+///////////////////////////////////////  \\ИНТЕЛЛЕКТУАЛ. СОБСТВЕННОСТЬ
     });
 })(jQuery);
 ///////////////////////////////////////  ОТДЕЛЫ
@@ -763,6 +795,12 @@ function detailInit(e) {
 
     detailRow.find(".add_department").click(function(e) {
         department.addRow();
+        return false;
+    });
+
+    detailRow.find(".add_reload").click(function(e) {
+        department.dataSource.read();
+        department.refresh();
         return false;
     });
 }

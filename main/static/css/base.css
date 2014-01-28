@@ -70,9 +70,7 @@ footer#main_footer {
 
 .logout {
     float: right;
-    line-height: 40px;
-    margin-right: 15px;
-    font-size: 18px;
+    margin: 7px;
 }
 
 :root *>.k-icon, :root *>.k-sprite, :root *>.k-button-group .k-tool-icon {
