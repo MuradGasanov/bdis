@@ -488,6 +488,105 @@ var ADMIN_BASE_URL = "admin/";
         });
 ///////////////////////////////////////  \\НАПРАВЛЕНИЯ
 
+///////////////////////////////////////  КЛЮЧЕВЫЕ СЛОВА
+        var tags = $("#tags").kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: BASE_URL+ADMIN_BASE_URL+"tags/read/",
+                        dataType: "json",
+                        type: "POST"
+                    },
+                    destroy: {
+                        url: BASE_URL+ADMIN_BASE_URL+"tags/destroy/",
+                        dataType: "json",
+                        type: "POST"
+                    },
+                    create: {
+                        url: BASE_URL+ADMIN_BASE_URL+"tags/create/",
+                        dataType: "json",
+                        type: "POST"
+                    },
+                    update: {
+                        url: BASE_URL+ADMIN_BASE_URL+"tags/update/",
+                        dataType: "json",
+                        type: "POST"
+                    },
+                    parameterMap: function(options, operation) {
+                        if (operation !== "read" && options) {
+                            return {item: kendo.stringify(options)};
+                        }
+                    }
+                },
+                schema: {
+                    model: {
+                        id: "tag_id",
+                        fields: {
+                            name: {
+                                validation: {
+                                    required: { message: "Поле не может быть пустым" }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            toolbar:  [
+                { template: kendo.template($("#tags_header_template").html()) }
+            ],
+            height: GRID_HEIGHT,
+            sortable: true,
+            editable: {
+                mode: "inline",
+                confirmation: "Вы уверены, что хотите удалить запись?",
+                confirmDelete: "Да",
+                cancelDelete: "Нет"
+            },
+//            pageable: {
+//                pageSize: 20,
+//                //pageSizes: true,
+//                messages: {
+//                    display: "{0}-{1} из {2} записей",
+//                    empty: " ",
+//                    previous: "Предыдущая страница",
+//                    next: "Следующая страница",
+//                    last: "Последняя страница",
+//                    first: "Первая страница"
+//                }
+//            },
+//            detailTemplate: kendo.template($("#subdivision_detail_template").html()),
+//            detailInit: detailInit,
+//            dataBound: function() {
+//                this.expandRow(this.tbody.find("tr.k-master-row").first());
+//            },
+            columns: [
+                { field: "name", title: "Направление"},
+                { command: [
+                    { name: "edit",
+                        text: {
+                            edit: "Редактировать",
+                            update: "Сохранить",
+                            cancel: "Отменить"
+                        }
+                    },
+                    { name: "destroy", text: "Удалить" }
+                ], width: "250px", attributes: { style: "text-align: center;"} }
+            ]
+        }).data("kendoGrid");
+
+        $(".add_tags").click(function(e) {
+            tags.addRow();
+            return false;
+        });
+
+        $(".reload_tags").click(function(e) {
+            tags.dataSource.read();
+            tags.refresh();
+            return false;
+        });
+///////////////////////////////////////  \\КЛЮЧЕВЫЕ СЛОВА
+
 ///////////////////////////////////////  ИНТЕЛЛЕКТУАЛ. СОБСТВЕННОСТЬ
         var intellectual_property = $("#intellectual_property").kendoGrid({
             dataSource: {
@@ -600,15 +699,16 @@ var ADMIN_BASE_URL = "admin/";
                             });
                     }},
                 { field: "authors", title: "Авторы",
-                    template: "#var fio=[];for(var i=0;i<authors.length;i++){fio.push(authors[i].name);}fio.join(', ');# #=fio#",
+                    template: "#var fio=[];for(var i=0;i<authors.length;i++){fio.push(authors[i].name);}#" +
+                              "#=fio.join(', ')#",
                     editor: function(container, options) {
-                        console.log(options);
                         $("<select multiple='multiple' data-bind='value : authors'/>")
                             .css({margin: "3px 0px 1px"})
                             .appendTo(container)
                             .kendoMultiSelect({
                                 placeholder: "Выберите авторов...",
                                 dataTextField: "name",
+                                itemTemplate: '<span class="k-state-default"><h3>#:data.name#</h3>#if(data.department!=null){ #<p>#:data.department#</p># } #</span>',
                                 dataValueField: "author_id",
                                 dataSource: {
                                     type: "json",
@@ -622,12 +722,37 @@ var ADMIN_BASE_URL = "admin/";
                                                     for(var i=0; i<result.length; i++){
                                                         data.push({
                                                             author_id: result[i].author_id,
-                                                            name: [result[i].surname,result[i].name,result[i].patronymic].join(" ")
+                                                            name: [result[i].surname,result[i].name,result[i].patronymic].join(" "),
+                                                            department: result[i].department__name
                                                         })
                                                     }
                                                     options.success(data);
                                                 }
                                               });
+                                        }
+                                    }
+                                }
+                            });
+                    }
+                },
+                { field: "tags", title: "Ключевые слова",
+                    template: "#var tag=[];for(var i=0;i<tags.length;i++){tag.push(tags[i].name);}#" +
+                              " #=tag.join(', ')#",
+                    editor: function(container, options) {
+                        $("<select multiple='multiple' data-bind='value : tags'/>")
+                            .css({margin: "3px 0px 1px"})
+                            .appendTo(container)
+                            .kendoMultiSelect({
+                                placeholder: "Выберите ключевые слова...",
+                                dataTextField: "name",
+                                dataValueField: "tag_id",
+                                dataSource: {
+                                    type: "json",
+                                    transport: {
+                                        read: {
+                                            url: BASE_URL + ADMIN_BASE_URL + "tags/read/",
+                                            dataType: "json",
+                                            type: "POST"
                                         }
                                     }
                                 }
@@ -710,10 +835,8 @@ function detailInit(e) {
             }
         },
         requestStart: function(e) {
-//            console.log("request started",e);
         },
         requestEnd: function(e) {
-//            console.log("request ended",e);
         }
     });
 

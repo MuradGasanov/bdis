@@ -40,5 +40,10 @@ urlpatterns = patterns('main.views',
                        url(r'^'+ADMIN_BASE_URL+'intellectual_property/read/$', IntellectualProperty.read),
                        url(r'^'+ADMIN_BASE_URL+'intellectual_property/destroy/$', IntellectualProperty.destroy),
                        url(r'^'+ADMIN_BASE_URL+'intellectual_property/update/$', IntellectualProperty.update),
-                       url(r'^'+ADMIN_BASE_URL+'intellectual_property/create/$', IntellectualProperty.create)
+                       url(r'^'+ADMIN_BASE_URL+'intellectual_property/create/$', IntellectualProperty.create),
+
+                       url(r'^'+ADMIN_BASE_URL+'tags/read/$', Tags.read),
+                       url(r'^'+ADMIN_BASE_URL+'tags/destroy/$', Tags.destroy),
+                       url(r'^'+ADMIN_BASE_URL+'tags/update/$', Tags.update),
+                       url(r'^'+ADMIN_BASE_URL+'tags/create/$', Tags.create)
                        )
