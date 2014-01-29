@@ -45,5 +45,7 @@ urlpatterns = patterns('main.views',
                        url(r'^'+ADMIN_BASE_URL+'tags/read/$', Tags.read),
                        url(r'^'+ADMIN_BASE_URL+'tags/destroy/$', Tags.destroy),
                        url(r'^'+ADMIN_BASE_URL+'tags/update/$', Tags.update),
-                       url(r'^'+ADMIN_BASE_URL+'tags/create/$', Tags.create)
+                       url(r'^'+ADMIN_BASE_URL+'tags/create/$', Tags.create),
+
+                       url(r'^'+ADMIN_BASE_URL+'file/upload$', Files.upload)
                        )

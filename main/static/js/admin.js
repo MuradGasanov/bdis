@@ -952,12 +952,12 @@ function subdivision_detail_init(e) {
 ///////////////////////////////////////  ФАЙЛЫ
 function intellectual_property_detail_init(e) {
     var detailRow = e.detailRow;
-    var is_id = e.data.intellectual_property_id;
+    var intellect_prop_id = e.data.intellectual_property_id;
 
     detailRow.find("#files").kendoUpload({
         multiple: true,
         async: {
-            saveUrl: "save",
+            saveUrl: ADMIN_BASE_URL+"file/upload",
             removeUrl: "remove",
             autoUpload: false
         },
@@ -972,9 +972,12 @@ function intellectual_property_detail_init(e) {
             "statusUploaded": "Загруженно",
             "statusFailed": "Ошибка загрузки"
         },
-        template: kendo.template($('#fileTemplate').html())
+        template: kendo.template($('#fileTemplate').html()),
+        upload: function(e) {
+            e.data = {item: JSON.stringify({intellectual_property_id: intellect_prop_id})};
+        }
     });
-    console.log(is_id)
+    console.log(intellect_prop_id)
 }
 
 function addExtensionClass(extension) {

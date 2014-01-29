@@ -50,3 +50,10 @@ class IntellectualProperty(models.Model):
     direction = models.ForeignKey(Directions, null=True, on_delete=models.SET_NULL)
     authors = models.ManyToManyField(Authors, null=True)
     tags = models.ManyToManyField(Tags, null=True)
+
+
+class Files(models.Model):
+    file_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=200, null=False)
+    file = models.FileField(upload_to="documents/%Y/%m/%d")
+    intellectual_property = models.ForeignKey(IntellectualProperty, null=False)

@@ -601,3 +601,21 @@ class Tags():
         tag.save()
         return HttpResponse(json.dumps({}), content_type="application/json")
 ########################################################################################################################
+
+
+class Files():
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def upload(request):
+        item = json.loads(request.POST.get("item"))
+        intellectual_property = models.IntellectualProperty.\
+            objects.get(intellectual_property_id=int(item["intellectual_property_id"]))
+        f = request.FILES['files']
+        models.Files.objects.create(
+            file=f,
+            name=f.name,
+            intellectual_property=intellectual_property
+        )
+        return HttpResponse(json.dumps("ok"), content_type="application/json")
