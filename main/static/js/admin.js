@@ -337,8 +337,7 @@ var ADMIN_BASE_URL = "admin/";
             sortable: true,
             editable: {
                 mode: "inline",
-                confirmation: "Вы уверены, что хотите удалить запись," +
-                    " также будут удалены все связанные записи?",
+                confirmation: "Вы уверены, что хотите удалить запись?",
                 confirmDelete: "Да",
                 cancelDelete: "Нет"
             },
@@ -439,8 +438,7 @@ var ADMIN_BASE_URL = "admin/";
             sortable: true,
             editable: {
                 mode: "inline",
-                confirmation: "Вы уверены, что хотите удалить запись," +
-                    " также будут удалены все связанные записи?",
+                confirmation: "Вы уверены, что хотите удалить запись?",
                 confirmDelete: "Да",
                 cancelDelete: "Нет"
             },
