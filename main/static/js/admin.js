@@ -786,7 +786,7 @@ var ADMIN_BASE_URL = "admin/";
                         function(o) {
                             if (o.intellectual_property_id != e.model.intellectual_property_id) {
                                 return o.name.toUpperCase() == new_name.toUpperCase();
-                            } else { //проверка, есть ли такие подразделения
+                            } else { //проверка, есть ли такие
                                 return false;
                             }
                         }
@@ -800,7 +800,7 @@ var ADMIN_BASE_URL = "admin/";
                         function(o) {
                             if (o.intellectual_property_id != "") {
                                 return o.name.toUpperCase() == new_name.toUpperCase();
-                            } else { //проверка, есть ли такие подразделения
+                            } else { //проверка, есть ли такие
                                 return false;
                             }
                         }
