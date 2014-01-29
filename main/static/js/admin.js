@@ -614,6 +614,14 @@ var ADMIN_BASE_URL = "admin/";
                     },
                     parameterMap: function(options, operation) {
                         if (operation !== "read" && options) {
+                            if (operation == "create" || operation == "update") {
+                                if (Object.prototype.toString.call(options.doc_type) == "[object Array]") {
+                                    options.doc_type = options.doc_type[0];
+                                }
+                                if (Object.prototype.toString.call(options.direction) == "[object Array]") {
+                                    options.direction = options.direction[0];
+                                }
+                            }
                             return {item: kendo.stringify(options)};
                         }
                     }
@@ -627,8 +635,8 @@ var ADMIN_BASE_URL = "admin/";
                                     required: { message: "Поле не может быть пустым" }
                                 }
                             },
-                            doc_type: {defaultValue: {doc_type_id: 0, name: "Выбрать..."}},
-                            direction: {defaultValue: {direction_id: 0, name: "Выбрать..."}},
+                            doc_type: {defaultValue: {doc_type_id: 0, name: ""}},
+                            direction: {defaultValue: {direction_id: 0, name: ""}},
                             authors: {defaultValue: []},
                             tags: {defaultValue: []}
                         }
@@ -669,9 +677,10 @@ var ADMIN_BASE_URL = "admin/";
                     editor: function(container, options) {
                         $('<input data-text-field="name" data-value-field="doc_type_id" data-bind="value: doc_type" />')
                             .css({margin: "3px 0px 1px"}).appendTo(container)
-                            .kendoDropDownList({
+                            .kendoMultiSelect({
                                 autoBind: false,
-                                text: "Выбрать...",
+                                placeholder: "Выбрать...",
+                                maxSelectedItems: 1,
                                 dataSource: {
                                     type: "json",
                                     transport: {
@@ -689,9 +698,10 @@ var ADMIN_BASE_URL = "admin/";
                     editor: function(container, options) {
                         $('<input data-text-field="name" data-value-field="direction_id" data-bind="value: direction" />')
                             .css({margin: "3px 0px 1px"}).appendTo(container)
-                            .kendoDropDownList({
+                            .kendoMultiSelect({
                                 autoBind: false,
-                                text: "Выбрать...",
+                                placeholder: "Выбрать...",
+                                maxSelectedItems: 1,
                                 dataSource: {
                                     type: "json",
                                     transport: {
@@ -703,9 +713,10 @@ var ADMIN_BASE_URL = "admin/";
                                     }
                                 },
                                 select: function(e) {
-                                    var dataItem = this.dataItem(e.item.index());
-                                    console.log("select (" + dataItem.text + " : " + dataItem.value + ")" );
                                     console.log(e);
+//                                    var dataItem = this.dataItem(e);
+//                                    console.log("select (" + dataItem.text + " : " + dataItem.value + ")" );
+//                                    console.log(e.sender._selectedValue);
                                 }
                             });
                     }},
