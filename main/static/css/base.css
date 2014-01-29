@@ -36,7 +36,7 @@ footer#main_footer {
 #logo {
     display: inline-block;
     height: 40px;
-    width: 300px;
+    width: 30px;
     background-image: url("../img/logo.png");
 }
 
@@ -76,3 +76,5 @@ footer#main_footer {
 :root *>.k-icon, :root *>.k-sprite, :root *>.k-button-group .k-tool-icon {
     vertical-align: sub;
 }
+
+.fa { display: inline; }
