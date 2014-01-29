@@ -496,17 +496,19 @@ class IntellectualProperty():
         """
         item = json.loads(request.POST.get("item"))
         doc_type = None
-        if item["doc_type"]:
-            try:
-                doc_type = models.DocumentTypes.objects.get(doc_type_id=item["doc_type"]["doc_type_id"])
-            except models.DocumentTypes.DoesNotExist:
-                doc_type = None
+        if "doc_type" in item:
+            if item["doc_type"]:
+                try:
+                    doc_type = models.DocumentTypes.objects.get(doc_type_id=item["doc_type"]["doc_type_id"])
+                except models.DocumentTypes.DoesNotExist:
+                    doc_type = None
         direction = None
-        if item["direction"]:
-            try:
-                direction = models.Directions.objects.get(direction_id=item["direction"]["direction_id"])
-            except models.Directions.DoesNotExist:
-                direction = None
+        if "direction" in item:
+            if item["direction"]:
+                try:
+                    direction = models.Directions.objects.get(direction_id=item["direction"]["direction_id"])
+                except models.Directions.DoesNotExist:
+                    direction = None
 
         authors = [models.Authors.objects.get(author_id=int(a["author_id"])) for a in item["authors"]]
         tags = [models.Tags.objects.get(tag_id=int(t["tag_id"])) for t in item["tags"]]
