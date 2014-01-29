@@ -143,6 +143,11 @@ var ADMIN_BASE_URL = "admin/";
                     },
                     parameterMap: function(options, operation) {
                         if (operation !== "read" && options) {
+                            if (operation == "update") {
+                                if (typeof options.department == "object") {
+                                    options.department = options.department.department_id;
+                                }
+                            }
                             return {item: kendo.stringify(options)};
                         }
                     }
@@ -152,16 +157,17 @@ var ADMIN_BASE_URL = "admin/";
                         id: "author_id",
                         fields: {
                             name: {
+                                type: "string",
                                 validation: {
                                     required: { message: "Поле не может быть пустым" }
                                 }
-                            },
-                            surname: {},
-                            patronymic: {},
-                            tel: {},
-                            post: {},
-                            mail: {},
-                            department: {}
+                            }//,
+//                            surname: { type: "string"},
+//                            patronymic: { type: "string"},
+//                            tel: {type: "string"},
+//                            post: {type: "string"},
+//                            mail: {type: "string"},
+//                            department: {type: "number", defaultValue: 0 }
                         }
                     }
                 }
@@ -177,23 +183,6 @@ var ADMIN_BASE_URL = "admin/";
                 confirmDelete: "Да",
                 cancelDelete: "Нет"
             },
-//            pageable: {
-//                pageSize: 20,
-//                //pageSizes: true,
-//                messages: {
-//                    display: "{0}-{1} из {2} записей",
-//                    empty: " ",
-//                    previous: "Предыдущая страница",
-//                    next: "Следующая страница",
-//                    last: "Последняя страница",
-//                    first: "Первая страница"
-//                }
-//            },
-//            detailTemplate: kendo.template($("#subdivision_detail_template").html()),
-//            detailInit: detailInit,
-//            dataBound: function() {
-//                this.expandRow(this.tbody.find("tr.k-master-row").first());
-//            },
             columns: [
                 { field: "name", title: "ФИО", template: "#var fio=[surname,name,patronymic].join(' ');# #=fio#",
                     editor: function(container, options) {
@@ -244,10 +233,6 @@ var ADMIN_BASE_URL = "admin/";
                                             dataType: "json"
                                         }
                                     }
-                                },
-                                select: function(e) {
-//                                    var dataItem = this.dataItem(e.item.index());
-//                                    is_department_select = dataItem;
                                 }
                             });
                     }

@@ -77,4 +77,6 @@ footer#main_footer {
     vertical-align: sub;
 }
 
+.k-grid tbody .k-button, .k-ie8 .k-grid tbody button.k-button {min-width: inherit}
+
 .fa { display: inline; }
