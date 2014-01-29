@@ -84,10 +84,7 @@ var ADMIN_BASE_URL = "admin/";
 //                }
 //            },
             detailTemplate: kendo.template($("#subdivision_detail_template").html()),
-            detailInit: detailInit,
-//            dataBound: function() {
-//                this.expandRow(this.tbody.find("tr.k-master-row").first());
-//            },
+            detailInit: subdivision_detail_init,
             columns: [
                 { field: "name", title: "Название" },
                 { field: "tel", title: "Телефон", width: "300px", attributes: {title: "#=tel#"} },
@@ -649,11 +646,8 @@ var ADMIN_BASE_URL = "admin/";
 //                    first: "Первая страница"
 //                }
 //            },
-//            detailTemplate: kendo.template($("#subdivision_detail_template").html()),
-//            detailInit: detailInit,
-//            dataBound: function() {
-//                this.expandRow(this.tbody.find("tr.k-master-row").first());
-//            },
+            detailTemplate: kendo.template($("#intellectual_property_detail_template").html()),
+            detailInit: intellectual_property_detail_init,
             columns: [
                 { field: "name", title: "Наименование"},
                 { field: "doc_type", title: "Тип", template: "#if (doc_type) if ('name' in doc_type) {# #=doc_type.name# # } #",
@@ -812,7 +806,7 @@ var ADMIN_BASE_URL = "admin/";
     });
 })(jQuery);
 ///////////////////////////////////////  ОТДЕЛЫ
-function detailInit(e) {
+function subdivision_detail_init(e) {
     var detailRow = e.detailRow;
     var subdivision_id = e.data.subdivision_id;
 
@@ -954,3 +948,55 @@ function detailInit(e) {
     });
 }
 ///////////////////////////////////////  \\ОТДЕЛЫ
+
+///////////////////////////////////////  ФАЙЛЫ
+function intellectual_property_detail_init(e) {
+    var detailRow = e.detailRow;
+    var is_id = e.data.intellectual_property_id;
+
+    detailRow.find("#files").kendoUpload({
+        multiple: true,
+        async: {
+            saveUrl: "save",
+            removeUrl: "remove",
+            autoUpload: false
+        },
+        localization: {
+            "select": "Выбрать...",
+            "cancel": "Отменить",
+            "retry": "Повторить",
+            "remove": "Удалить",
+            "uploadSelectedFiles": "Загрузить",
+            "dropFilesHere": "Перетащите файл сюда",
+            "statusUploading": "Загрузка...",
+            "statusUploaded": "Загруженно",
+            "statusFailed": "Ошибка загрузки"
+        },
+        template: kendo.template($('#fileTemplate').html())
+    });
+    console.log(is_id)
+}
+
+function addExtensionClass(extension) {
+    switch (extension) {
+        case '.jpg':
+        case '.img':
+        case '.png':
+        case '.gif':
+            return "img-file";
+        case '.doc':
+        case '.docx':
+            return "doc-file";
+        case '.xls':
+        case '.xlsx':
+            return "xls-file";
+        case '.pdf':
+            return "pdf-file";
+        case '.zip':
+        case '.rar':
+            return "zip-file";
+        default:
+            return "default-file";
+    }
+}
+///////////////////////////////////////  \\ФАЙЛЫ

@@ -57,6 +57,19 @@
     <script type="text/x-kendo-template" id="subdivision_detail_template">
         <div id="department"><div>
     </script>
+
+    <script type="text/x-kendo-template" id="intellectual_property_detail_template">
+        <input type="file" name="files" id="files" />
+    </script>
+    <script id="fileTemplate" type="text/x-kendo-template">
+        <span class='k-progress'></span>
+        <div class='file-wrapper'>
+            <span class='file-icon #=addExtensionClass(files[0].extension)#'></span>
+            <h4 class='file-heading file-name-heading'>Имя: #=name#</h4>
+            <h4 class='file-heading file-size-heading'>Размер: #=(size/1024).toPrecision(2)# Кбайт</h4>
+            <button type='button' class='k-upload-action'></button>
+        </div>
+    </script>
 {#    /шаблоны detail#}
 
 {#    шаблоны header#}
