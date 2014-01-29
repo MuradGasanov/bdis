@@ -207,7 +207,7 @@ var ADMIN_BASE_URL = "admin/";
                                     .css({margin: "3px 0px 1px"})
                                     .appendTo(container);
                             }},
-                { field: "post", title: "Должность", width: "300px", attributes: {title: "#=post#"} },
+                { field: "post", title: "Ученая степень", width: "300px", attributes: {title: "#=post#"} },
                 { field: "tel", title: "Телефон", width: "150px", attributes: {title: "#=tel#"} },
                 { field: "mail", title: "Электронный адрес", width: "250px", attributes: {title: "#=mail#"} },
                 { field: "department__name", title: "Подразделение", width: "200px", attributes: {title: ""},
@@ -709,12 +709,6 @@ var ADMIN_BASE_URL = "admin/";
                                             type: "POST"
                                         }
                                     }
-                                },
-                                select: function(e) {
-                                    console.log(e);
-//                                    var dataItem = this.dataItem(e);
-//                                    console.log("select (" + dataItem.text + " : " + dataItem.value + ")" );
-//                                    console.log(e.sender._selectedValue);
                                 }
                             });
                     }},
@@ -782,7 +776,41 @@ var ADMIN_BASE_URL = "admin/";
                 { command: [ { name: "edit", text:  { edit: "Редактировать", update: "Сохранить", cancel: "Отменить" } },
                              { name: "destroy", text: "Удалить" }
                            ], width: "250px", attributes: { style: "text-align: center;"} }
-            ]
+            ],
+            save: function(e) {
+                var new_name = e.model.name;
+                var data = intellectual_property.dataSource.data();
+                var result;
+                if (e.model.intellectual_property_id != "") { ///возможно это редактирование
+                    result = $.grep(data,
+                        function(o) {
+                            if (o.intellectual_property_id != e.model.intellectual_property_id) {
+                                return o.name.toUpperCase() == new_name.toUpperCase();
+                            } else { //проверка, есть ли такие подразделения
+                                return false;
+                            }
+                        }
+                    );
+                    if (result.length > 0) {
+                        noty_error("Такое имя уже добавлен");
+                        e.preventDefault();
+                    }
+                } else { //возможно это добавление, (id == "")
+                    result = $.grep(data,
+                        function(o) {
+                            if (o.intellectual_property_id != "") {
+                                return o.name.toUpperCase() == new_name.toUpperCase();
+                            } else { //проверка, есть ли такие подразделения
+                                return false;
+                            }
+                        }
+                    );
+                    if (result.length > 0) {
+                        noty_error("Такое имя уже добавлен");
+                        e.preventDefault();
+                    }
+                }
+            }
         }).data("kendoGrid");
 
         $(".add_intellectual_property").click(function(e) {
