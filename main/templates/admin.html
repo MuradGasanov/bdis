@@ -53,6 +53,85 @@
                 <div id="intellectual_property"></div>
             </div>
     </div>
+
+{#    шаблоны window#}
+    <div id="change_intellectual_property_window" style="display: none">
+        <div id="change_intellectual_property" class="k-edit-form-container" style="width: inherit;">
+            <div class="k-edit-label">
+                <label>Наименование<span class="required">*</span>:</label>
+            </div>
+            <div class="k-edit-field">
+                <input type="text" class="k-textbox" required placeholder="Наименование" style="width: 100%"
+                       data-bind="value: name"/>
+            </div>
+            <div class="k-edit-label">
+                <label>Вид ИС:</label>
+            </div>
+            <div class="k-edit-field">
+                <select data-role="dropdownlist" name="doc_type" style="width: 100%"
+                        data-text-field="name" data-value-field="doc_type_id"
+                        data-bind="source: doc_types, value: doc_type" >
+                </select>
+                <div class="add_new_item">
+                    <input type="text" class="k-textbox" placeholder="Добавить вид ИС"
+                           data-bind="value: new_doc_type_name"/>
+                    <span class="k-button" data-bind="events: {click: add_doc_type}"><span class="k-icon k-i-plus"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="k-edit-label">
+                <label >Направление:</label>
+            </div>
+            <div class="k-edit-field">
+                <select data-role="dropdownlist" name="direction" style="width: 100%"
+                        data-text-field="name" data-value-field="direction_id"
+                        data-bind="source: directions, value: direction" >
+                </select>
+                <div class="add_new_item">
+                    <input type="text" class="k-textbox" placeholder="Добавить направление"
+                           data-bind="value: new_direction_name"/>
+                    <span class="k-button" data-bind="events: {click: add_direction}"><span class="k-icon k-i-plus"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="k-edit-label">
+                <label>Авторы:</label>
+            </div>
+            <div class="k-edit-field">
+                 <input data-role="multiselect"
+                   data-placeholder="Выберите авторов..."
+                   data-text-field="name"
+                   data-value-field="author_id"
+{#                   data-item-template='<span class="k-state-default"><h3>#:data.name#</h3>#if(data.department!=null){ #<p>#:data.department#</p># } #</span>'#}
+                   data-bind="value: authors, source: authors_source"
+                   style=""/>
+            </div>
+            <div class="k-edit-label">
+                <label>Ключевые слова:</label>
+            </div>
+            <div class="k-edit-field">
+                 <input data-role="multiselect"
+                   data-placeholder="Выберите ключевые слова..."
+                   data-text-field="name"
+                   data-value-field="tag_id"
+                   data-bind="value: tags, source: tags_source"
+                   style=""/>
+            </div>
+            <div style="clear: both"></div>
+             <input type="file" name="files" id="files" />
+            <input type="hidden" id="is_intellectual_property_edit" value="false">
+            <div class="k-edit-buttons k-state-default">
+                <a class="k-button k-button-icontext k-grid-update" id="intellectual_property_save" href="#">
+                    <span class="k-icon k-update"></span>Сохранить
+                </a>
+                <a class="k-button k-button-icontext k-grid-cancel" id="intellectual_property_cancel" href="#">
+                    <span class="k-icon k-cancel"></span>Отмена
+                </a>
+            </div>
+        </div>
+    </div>
+{#    /шаблоны window#}
+
 {#    шаблоны detail#}
     <script type="text/x-kendo-template" id="subdivision_detail_template">
         <div id="department"><div>
@@ -101,6 +180,7 @@
     <script type="text/x-kendo-template" id="intellectual_property_header_template">
         <span class="k-button add_intellectual_property"><span class="k-icon k-i-plus"></span> Добавить</span>
         <span class="k-button reload_intellectual_property" title="Перезагрузить таблицу"><span class="k-icon k-i-refresh"></span></span>
+        <span class="k-button intellectual_property_test"><span class="k-icon k-i-plus"></span> test</span>
     </script>
 
     <script type="text/x-kendo-template" id="tags_header_template">

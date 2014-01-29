@@ -802,6 +802,95 @@ var ADMIN_BASE_URL = "admin/";
             intellectual_property.refresh();
             return false;
         });
+
+        var intellectual_property_wibdow = $("#change_intellectual_property_window").kendoWindow({
+            resizable: false,
+            animation: {
+                close: {
+                    effects: "",
+                    duration: 350
+                },
+                open: {
+                    effects: "",
+                    duration: 350
+                }
+            },
+            modal: true,
+            visible: false,
+            width: 750,
+            title: "Редактировать"
+        }).data("kendoWindow");
+
+        var intellectual_property_model = kendo.observable({
+            intellectual_property_id: 0,
+            name: "",
+            doc_types: "",
+            doc_type: "",
+            new_doc_type_name: "",
+            add_doc_type: function(e) {
+                console.log(e);
+            },
+            directions: "",
+            direction: "",
+            new_direction_name: "",
+            add_direction: function(e) {
+                console.log(e);
+            },
+            authors: "",
+            authors_source: "",
+            tags: "",
+            tags_source: "",
+            files: "",
+            file_template: kendo.template($('#fileTemplate').html()),
+            file_async:  {
+                saveUrl: ADMIN_BASE_URL+"file/upload",
+                removeUrl: "remove",
+                autoUpload: false
+            },
+            files_upload: function(e) {
+                console.log(e)
+            }
+        });
+
+        kendo.bind($("#change_intellectual_property"), intellectual_property_model);
+
+        var files = [
+        { name: "file1.doc", size: 525, extension: ".doc" },
+        { name: "file2.jpg", size: 600, extension: ".jpg" },
+        { name: "file3.xls", size: 720, extension: ".xls" },
+    ];
+
+    window.fi = $("#files").kendoUpload({
+        multiple: true,
+        async: {
+            saveUrl: ADMIN_BASE_URL+"file/upload",
+            removeUrl: "remove",
+            autoUpload: false
+        },
+        localization: {
+            cancel: "Отменить",
+            dropFilesHere: "Перетащите файл сюда",
+            headerStatusUploaded: "Done",
+            headerStatusUploading: "Uploading...",
+            remove: "Удалить",
+            retry: "Повторить",
+            select: "Выбрать...",
+            statusFailed: "Ошибка загрузки",
+            statusUploaded: "Загруженно",
+            statusUploading: "Загрузка...",
+            statusWarning: "warning",
+            uploadSelectedFiles: "Загрузить"
+        },
+        template: kendo.template($('#fileTemplate').html()),
+        files: files,
+        upload: function(e) {
+            e.data = {item: JSON.stringify({intellectual_property_id: intellect_prop_id})};
+        }
+    }).data("kendoUpload");
+
+        $(".intellectual_property_test").click(function(e) {
+           intellectual_property_wibdow.center().open();
+        });
 ///////////////////////////////////////  \\ИНТЕЛЛЕКТУАЛ. СОБСТВЕННОСТЬ
     });
 })(jQuery);
@@ -954,6 +1043,12 @@ function intellectual_property_detail_init(e) {
     var detailRow = e.detailRow;
     var intellect_prop_id = e.data.intellectual_property_id;
 
+    var files = [
+        { name: "file1.doc", size: 525, extension: ".doc" },
+        { name: "file2.jpg", size: 600, extension: ".jpg" },
+        { name: "file3.xls", size: 720, extension: ".xls" },
+    ];
+
     detailRow.find("#files").kendoUpload({
         multiple: true,
         async: {
@@ -973,11 +1068,11 @@ function intellectual_property_detail_init(e) {
             "statusFailed": "Ошибка загрузки"
         },
         template: kendo.template($('#fileTemplate').html()),
+        files: files,
         upload: function(e) {
             e.data = {item: JSON.stringify({intellectual_property_id: intellect_prop_id})};
         }
     });
-    console.log(intellect_prop_id)
 }
 
 function addExtensionClass(extension) {

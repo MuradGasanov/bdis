@@ -17,10 +17,9 @@
 
 .file-heading
 {
-    /*float: left;*/
     font-size: 1.1em;
     display: block;
-    width: 450px;
+    //width: 450px;
     margin: 0 0 0 20px;
     height: 25px;
     -ms-text-overflow: ellipsis;
@@ -54,5 +53,32 @@ li.k-file div.file-wrapper
     height: 65px;
 }
 
+.k-upload-files {
+    line-height: 2.2;
+}
+
 .k-upload-action.k-button.k-button-bare { min-width: inherit; }
 .k-button.k-upload-selected { margin: 0 .7em .7em }
+.k-file-success .k-progress { background-color: #ddffd0; }
+.k-file-success { color: #28760b; }
+
+#change_intellectual_property.k-edit-form-container .k-edit-label {
+    width: 20% !important;
+}
+
+#change_intellectual_property.k-edit-form-container .k-edit-field {
+    width: 73% !important;
+}
+
+.k-edit-form-container .k-edit-buttons {
+    position: static;
+}
+
+.add_new_item {
+    margin-top: 5px;
+    text-align: center;
+}
+
+.add_new_item input {
+    width: 350px;
+}
