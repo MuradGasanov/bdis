@@ -657,10 +657,14 @@ var ADMIN_BASE_URL = "admin/";
                         click: function(e) {
                             $(".k-widget.k-tooltip.k-tooltip-validation.k-invalid-msg").hide();
                             var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                            console.log(dataItem);
                             $("#is_intellectual_property_edit").val("true");
                             intellectual_property_model.set("intellectual_property_id", dataItem.intellectual_property_id);
+                            intellectual_property_model.set("name", "");
                             intellectual_property_model.set("name", dataItem.name);
+                            intellectual_property_model.set("doc_type", "");
                             intellectual_property_model.set("doc_type", dataItem.doc_type.doc_type_id);
+                            intellectual_property_model.set("direction", "");
                             intellectual_property_model.set("direction", dataItem.direction.direction_id);
                             authors_multiselect.dataSource.read();
                             tags_multiselect.dataSource.read();
