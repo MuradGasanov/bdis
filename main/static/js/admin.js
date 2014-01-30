@@ -568,7 +568,7 @@ var ADMIN_BASE_URL = "admin/";
 ///////////////////////////////////////  \\КЛЮЧЕВЫЕ СЛОВА
 
 ///////////////////////////////////////  ИНТЕЛЛЕКТУАЛ. СОБСТВЕННОСТЬ
-        window.intellectual_property = $("#intellectual_property").kendoGrid({
+        var intellectual_property = $("#intellectual_property").kendoGrid({
             dataSource: {
                 type: "json",
                 transport: {
@@ -655,6 +655,7 @@ var ADMIN_BASE_URL = "admin/";
                 { command: [
                     {   text: "Редактировать",
                         click: function(e) {
+                            $(".k-widget.k-tooltip.k-tooltip-validation.k-invalid-msg").hide();
                             var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
                             $("#is_intellectual_property_edit").val("true");
                             intellectual_property_model.set("intellectual_property_id", dataItem.intellectual_property_id);
@@ -807,15 +808,30 @@ var ADMIN_BASE_URL = "admin/";
             }),
             direction: ""
         });
-
         kendo.bind($("#change_intellectual_property"), intellectual_property_model);
 
+        var intellectual_property_validator = $("#change_intellectual_property").kendoValidator({
+            rules: {
+                required: function(input) {
+                    if (input.is("[required]")) {
+                        return $.trim(input.val()) !== "";
+                    } else return true;
+                }
+            },
+            messages: {
+                required: "Поле не может быть пустым"
+            }
+        }).data("kendoValidator");
+
         $(".add_intellectual_property").click(function (e) {
+            $(".k-widget.k-tooltip.k-tooltip-validation.k-invalid-msg").hide();
             $("#is_intellectual_property_edit").val("false");
             intellectual_property_model.set("intellectual_property_id", 0);
             intellectual_property_model.set("name", "");
             intellectual_property_model.set("doc_type", "");
             intellectual_property_model.set("direction", "");
+            authors_multiselect.value([]);
+            tags_multiselect.valueOf([]);
             intellectual_property_model.get("doc_types").read();
             intellectual_property_model.get("directions").read();
             intellectual_property_wibdow.center().open();
@@ -851,6 +867,7 @@ var ADMIN_BASE_URL = "admin/";
         }
 
         $("#intellectual_property_save").click(function (e) {
+            if (!intellectual_property_validator.validate()) return false;
             var doc_type = intellectual_property_model.get("doc_type");
             if (!doc_type) {doc_type = ""}
             var direction = intellectual_property_model.get("direction");

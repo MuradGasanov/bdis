@@ -82,3 +82,5 @@ li.k-file div.file-wrapper
 .add_new_item input {
     width: 350px;
 }
+
+.k-widget.k-tooltip.k-tooltip-validation.k-invalid-msg { margin-top: 3px}
