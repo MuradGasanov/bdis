@@ -662,6 +662,8 @@ var ADMIN_BASE_URL = "admin/";
                             intellectual_property_model.set("name", dataItem.name);
                             intellectual_property_model.set("doc_type", dataItem.doc_type.doc_type_id);
                             intellectual_property_model.set("direction", dataItem.direction.direction_id);
+                            authors_multiselect.dataSource.read();
+                            tags_multiselect.dataSource.read();
                             var authors = [], tags = [], i;
                             for (i=0; i<dataItem.authors.length; i++) authors.push(dataItem.authors[i].author_id);
                             authors_multiselect.value(authors);
@@ -830,6 +832,8 @@ var ADMIN_BASE_URL = "admin/";
             intellectual_property_model.set("name", "");
             intellectual_property_model.set("doc_type", "");
             intellectual_property_model.set("direction", "");
+            authors_multiselect.dataSource.read();
+            tags_multiselect.dataSource.read();
             authors_multiselect.value([]);
             tags_multiselect.valueOf([]);
             intellectual_property_model.get("doc_types").read();
@@ -1041,35 +1045,71 @@ function intellectual_property_detail_init(e) {
     var intellect_prop_id = e.data.intellectual_property_id;
 
     var files = [
-        { name: "file1.doc", size: 525, extension: ".doc" },
-        { name: "file2.jpg", size: 600, extension: ".jpg" },
-        { name: "file3.xls", size: 720, extension: ".xls" },
+//        { name: "file1.doc", size: 525, extension: ".doc" },
+//        { name: "file2.jpg", size: 600, extension: ".jpg" },
+//        { name: "file3.xls", size: 720, extension: ".xls" }
     ];
 
-    detailRow.find("#files").kendoUpload({
-        multiple: true,
-        async: {
-            saveUrl: ADMIN_BASE_URL + "file/upload",
-            removeUrl: "remove",
-            autoUpload: false
-        },
-        localization: {
-            "select": "Выбрать...",
-            "cancel": "Отменить",
-            "retry": "Повторить",
-            "remove": "Удалить",
-            "uploadSelectedFiles": "Загрузить",
-            "dropFilesHere": "Перетащите файл сюда",
-            "statusUploading": "Загрузка...",
-            "statusUploaded": "Загруженно",
-            "statusFailed": "Ошибка загрузки"
-        },
-        template: kendo.template($('#fileTemplate').html()),
-        files: files,
-        upload: function (e) {
-            e.data = {item: JSON.stringify({intellectual_property_id: intellect_prop_id})};
-        }
-    });
+    $.post(ADMIN_BASE_URL + "file/get_list/",
+        {item: JSON.stringify({intellectual_property_id: intellect_prop_id})},
+        function(data) {
+            files = data;
+            var intellectual_property_file = detailRow.find("#files").kendoUpload({
+                multiple: true,
+                async: {
+                    saveUrl: ADMIN_BASE_URL + "file/upload/",
+                    removeUrl: ADMIN_BASE_URL + "file/delete/",
+                    autoUpload: false
+                },
+                localization: {
+                    cancel: "Отменить",
+                    dropFilesHere: "Перетащите файл сюда",
+                    headerStatusUploaded: "Выполнено",
+                    headerStatusUploading: "Загрузка...",
+                    remove: "Удалить",
+                    retry: "Повторить",
+                    select: "Выбрать файлы для загрузки...",
+                    statusFailed: "Ошибка загрузки",
+                    statusUploaded: "Загруженно",
+                    statusUploading: "Загрузка...",
+                    statusWarning: "Внимание",
+                    uploadSelectedFiles: "Загрузить"
+                },
+                template: kendo.template($('#fileTemplate').html()),
+                files: files,
+                select: function(e) {
+                    console.log(e);
+                    $.each(e.files, function (index, value) {
+                        console.log("Name: " + value.name);
+                        console.log("Size: " + value.size + " bytes");
+                        console.log("Extension: " + value.extension);
+                    });
+                },
+                upload: function (e) {
+                    var f = e.files;
+                    console.log(f);
+                    for (var i=0; i<f.length; i++) {
+                        for (var j=i+1; j<f.length; j++) {
+                            if ((f[i].name == f[j].name) &&
+                                (f[i].size == f[j].size) &&
+                                (f[i].extension == f[j].extension)) {
+                                noty_error("Не загружайте одинаковые файлы!");
+                                e.preventDefault();
+                                return;
+                            }
+                        }
+                    }
+                    e.data = {item: JSON.stringify({intellectual_property_id: intellect_prop_id})};
+                },
+                remove: function(e) {
+                    var files = e.files;
+                    e.data = {item: JSON.stringify(files)};
+                    if (!confirm("Вы уверены, что хотите удалить "+files[0].name+"?")) {
+                        e.preventDefault();
+                    }
+                }
+            }).data("kendoUpload");
+    }, "json");
 }
 
 function addExtensionClass(extension) {

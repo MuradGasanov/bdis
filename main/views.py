@@ -11,7 +11,7 @@ from django.core.mail import send_mail
 from django.utils.timezone import utc
 from datetime import *
 import json
-import re
+import os.path
 
 
 def estr(s):
@@ -652,6 +652,28 @@ class Files():
         models.Files.objects.create(
             file=f,
             name=f.name,
+            size=f.size,
+            extension=os.path.splitext(f.name)[1],
             intellectual_property=intellectual_property
         )
-        return HttpResponse(json.dumps("ok"), content_type="application/json")
+        return HttpResponse(json.dumps({}), content_type="application/json")
+
+    @staticmethod
+    def get_list(request):
+        item = json.loads(request.POST.get("item"))
+        files = list(
+            models.Files.objects.all().
+            filter(intellectual_property=item["intellectual_property_id"]).
+            values("name", "size", "extension")
+        )
+        if files:
+            return HttpResponse(json.dumps(files), content_type="application/json")
+        else:
+            return HttpResponse(json.dumps(""), content_type="application/json")
+
+    @staticmethod
+    def delete(request):
+        item = json.loads(request.POST.get("item"))
+        for f in item:
+            models.Files.objects.get(name=f["name"], size=f["size"], extension=f["extension"]).delete()
+        return HttpResponse(json.dumps({}), content_type="application/json")

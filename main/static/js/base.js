@@ -23,8 +23,9 @@ function noty_error(text, type, timeout) {
     });
 }
 
-function noty_confirm(text, succes) {
+function noty_confirm(text, succes, cansel) {
     succes = typeof succes !== 'undefined' ? succes : function() {};
+    cansel = typeof cansel !== 'undefined' ? cansel : function() {};
     noty({
         text: text,
         type: NOTY_INFORMATION,
@@ -36,6 +37,7 @@ function noty_confirm(text, succes) {
             }
             },
             {addClass: 'k-button', text: 'Отмена', onClick: function($noty) {
+                cansel();
                 $noty.close();
             }
             }

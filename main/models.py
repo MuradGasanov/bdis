@@ -55,5 +55,32 @@ class IntellectualProperty(models.Model):
 class Files(models.Model):
     file_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200, null=False)
-    file = models.FileField(upload_to="documents/%Y/%m/%d")
+    size = models.FloatField(null=True)
+    extension = models.CharField(max_length=5, null=True)
+    file = models.FileField(upload_to="documents/%Y/%m/%d", null=False)
     intellectual_property = models.ForeignKey(IntellectualProperty, null=False)
+
+from django.dispatch import receiver
+import os
+# These two auto-delete files from filesystem when they are unneeded:
+@receiver(models.signals.post_delete, sender=Files)
+def auto_delete_file_on_delete(sender, instance, **kwargs):
+    """Deletes file from filesystem
+    when corresponding `MediaFile` object is deleted.
+    """
+    if instance.file:
+        if os.path.isfile(instance.file.path):
+            os.remove(instance.file.path)
+
+@receiver(models.signals.pre_save, sender=Files)
+def auto_delete_file_on_change(sender, instance, **kwargs):
+    """Deletes file from filesystem
+    when corresponding `MediaFile` object is changed.
+    """
+    if not instance.pk:
+        return False
+
+    try:
+        old_file = Files.objects.get(pk=instance.pk).file
+    except Files.DoesNotExist:
+        return False
