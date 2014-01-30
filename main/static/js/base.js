@@ -24,12 +24,16 @@ function noty_error(text, type, timeout) {
 }
 
 function noty_confirm(text, succes) {
-    succes = typeof succes !== 'undefined' ? succes : function($n) { $n.close(); };
+    succes = typeof succes !== 'undefined' ? succes : function() {};
     noty({
         text: text,
-        layout: 'center',
+        type: NOTY_INFORMATION,
+        layout: 'topCenter',
         buttons: [
-            {addClass: 'k-button', text: 'Да', onClick: succes
+            {addClass: 'k-button', text: 'Да', onClick: function ($noty) {
+                succes();
+                $noty.close();
+            }
             },
             {addClass: 'k-button', text: 'Отмена', onClick: function($noty) {
                 $noty.close();

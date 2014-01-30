@@ -445,16 +445,36 @@ class IntellectualProperty():
         добавление
         """
         item = json.loads(request.POST.get("item"))
-        try:
-            doc_type = models.DocumentTypes.objects.get(doc_type_id=item["doc_type"]["doc_type_id"])
-        except models.DocumentTypes.DoesNotExist:
+        doc_type = item["doc_type"]
+        if type(doc_type) == unicode and len(doc_type) != 0:
+            try:
+                doc_type = models.DocumentTypes.objects.create(name=doc_type)
+            except:
+                doc_type = None
+        elif type(doc_type) == int:
+            try:
+                doc_type = models.DocumentTypes.objects.get(doc_type_id=doc_type)
+            except models.DocumentTypes.DoesNotExist:
+                doc_type = None
+        else:
             doc_type = None
-        try:
-            direction = models.Directions.objects.get(direction_id=item["direction"]["direction_id"])
-        except models.Directions.DoesNotExist:
+
+        direction = item["direction"]
+        if type(direction) == unicode and len(direction) != 0:
+            try:
+                direction = models.Directions.objects.create(name=direction)
+            except:
+                direction = None
+        elif type(direction) == int:
+            try:
+                direction = models.Directions.objects.get(direction_id=direction)
+            except models.Directions.DoesNotExist:
+                direction = None
+        else:
             direction = None
-        authors = [models.Authors.objects.get(author_id=int(a["author_id"])) for a in item["authors"]]
-        tags = [models.Tags.objects.get(tag_id=int(t["tag_id"])) for t in item["tags"]]
+
+        authors = [models.Authors.objects.get(author_id=int(a)) for a in item["authors"]]
+        tags = [models.Tags.objects.get(tag_id=int(t)) for t in item["tags"]]
 
         new_intellectual_property = models.IntellectualProperty.objects.create(
             name=item["name"],
@@ -467,13 +487,14 @@ class IntellectualProperty():
             new_intellectual_property.tags.add(tag)
 
         doc_type = {
-            "doc_type_id": doc_type.doc_type_id if doc_type else 0,
+            "doc_type_id": doc_type.doc_type_id if doc_type else "",
             "name": doc_type.name if doc_type else ""
         }
         direction = {
-            "direction_id": direction.direction_id if direction else 0,
+            "direction_id": direction.direction_id if direction else "",
             "name": direction.name if direction else ""
         }
+
         authors = \
             [{"author_id": a.author_id,
               "name": "%s %s %s" % (estr(a.surname), estr(a.name), estr(a.patronymic))}
@@ -495,23 +516,36 @@ class IntellectualProperty():
         редактирование
         """
         item = json.loads(request.POST.get("item"))
-        doc_type = None
-        if "doc_type" in item:
-            if item["doc_type"]:
-                try:
-                    doc_type = models.DocumentTypes.objects.get(doc_type_id=item["doc_type"]["doc_type_id"])
-                except models.DocumentTypes.DoesNotExist:
-                    doc_type = None
-        direction = None
-        if "direction" in item:
-            if item["direction"]:
-                try:
-                    direction = models.Directions.objects.get(direction_id=item["direction"]["direction_id"])
-                except models.Directions.DoesNotExist:
-                    direction = None
+        doc_type = item["doc_type"]
+        if type(doc_type) == int:
+            try:
+                doc_type = models.DocumentTypes.objects.get(doc_type_id=int(doc_type))
+            except models.DocumentTypes.DoesNotExist:
+                doc_type = None
+        elif type(doc_type) == unicode and len(doc_type) != 0:
+            try:
+                doc_type = models.DocumentTypes.objects.create(name=doc_type)
+            except:
+                doc_type = None
+        else:
+            doc_type = None
 
-        authors = [models.Authors.objects.get(author_id=int(a["author_id"])) for a in item["authors"]]
-        tags = [models.Tags.objects.get(tag_id=int(t["tag_id"])) for t in item["tags"]]
+        direction = item["direction"]
+        if type(direction) == int:
+            try:
+                direction = models.Directions.objects.get(direction_id=int(direction))
+            except models.Directions.DoesNotExist:
+                direction = None
+        elif type(direction) == unicode and len(direction) != 0:
+            try:
+                direction = models.Directions.objects.create(name=direction)
+            except:
+                direction = None
+        else:
+            direction = None
+
+        authors = [models.Authors.objects.get(author_id=int(a)) for a in item["authors"]]
+        tags = [models.Tags.objects.get(tag_id=int(t)) for t in item["tags"]]
 
         intellectual_property = models.IntellectualProperty.\
             objects.get(intellectual_property_id=int(item["intellectual_property_id"]))
@@ -526,12 +560,14 @@ class IntellectualProperty():
         for tag in tags:
             intellectual_property.tags.add(tag)
 
-        if doc_type:
-            doc_type = {"doc_type_id": doc_type.doc_type_id,
-                        "name": doc_type.name}
-        if direction:
-            direction = {"direction_id": direction.direction_id,
-                         "name": direction.name}
+        doc_type = {
+            "doc_type_id": doc_type.doc_type_id if doc_type else "",
+            "name": doc_type.name if doc_type else ""
+        }
+        direction = {
+            "direction_id": direction.direction_id if direction else "",
+            "name": direction.name if direction else ""
+        }
         authors = \
             [{"author_id": a.author_id,
               "name": "%s %s %s" % (estr(a.surname), estr(a.name), estr(a.patronymic))}
