@@ -71,18 +71,6 @@ var ADMIN_BASE_URL = "admin/";
                 confirmDelete: "Да",
                 cancelDelete: "Нет"
             },
-//            pageable: {
-//                pageSize: 20,
-//                //pageSizes: true,
-//                messages: {
-//                    display: "{0}-{1} из {2} записей",
-//                    empty: " ",
-//                    previous: "Предыдущая страница",
-//                    next: "Следующая страница",
-//                    last: "Последняя страница",
-//                    first: "Первая страница"
-//                }
-//            },
             detailTemplate: kendo.template($("#subdivision_detail_template").html()),
             detailInit: subdivision_detail_init,
             columns: [
@@ -158,13 +146,13 @@ var ADMIN_BASE_URL = "admin/";
                                 validation: {
                                     required: { message: "Поле не может быть пустым" }
                                 }
-                            }//,
-//                            surname: { type: "string"},
-//                            patronymic: { type: "string"},
-//                            tel: {type: "string"},
-//                            post: {type: "string"},
-//                            mail: {type: "string"},
-//                            department: {type: "number", defaultValue: 0 }
+                            },
+                            surname: { type: "string"},
+                            patronymic: { type: "string"},
+                            tel: {type: "string"},
+                            post: {type: "string"},
+                            mail: {type: "string"},
+                            department: {type: "number", defaultValue: 0 }
                         }
                     }
                 }
@@ -244,15 +232,7 @@ var ADMIN_BASE_URL = "admin/";
                     },
                     { name: "destroy", text: "Удалить" }
                 ], width: "250px", attributes: { style: "text-align: center;"} }
-            ],
-            save: function (e) {
-//                if (is_department_select) { //если изменили подразделние, меняем и название
-//                    if (is_department_select.department_id == e.model.department) {
-//                        e.model.department__name = is_department_select.name;
-//                    }
-//                    is_department_select = false;
-//                }
-            }
+            ]
         }).data("kendoGrid");
 
         $(".add_author").click(function (e) {
@@ -323,23 +303,6 @@ var ADMIN_BASE_URL = "admin/";
                 confirmDelete: "Да",
                 cancelDelete: "Нет"
             },
-//            pageable: {
-//                pageSize: 20,
-//                //pageSizes: true,
-//                messages: {
-//                    display: "{0}-{1} из {2} записей",
-//                    empty: " ",
-//                    previous: "Предыдущая страница",
-//                    next: "Следующая страница",
-//                    last: "Последняя страница",
-//                    first: "Первая страница"
-//                }
-//            },
-//            detailTemplate: kendo.template($("#subdivision_detail_template").html()),
-//            detailInit: detailInit,
-//            dataBound: function() {
-//                this.expandRow(this.tbody.find("tr.k-master-row").first());
-//            },
             columns: [
                 { field: "name", title: "Вид интеллектуального права"},
                 { command: [
@@ -424,23 +387,6 @@ var ADMIN_BASE_URL = "admin/";
                 confirmDelete: "Да",
                 cancelDelete: "Нет"
             },
-//            pageable: {
-//                pageSize: 20,
-//                //pageSizes: true,
-//                messages: {
-//                    display: "{0}-{1} из {2} записей",
-//                    empty: " ",
-//                    previous: "Предыдущая страница",
-//                    next: "Следующая страница",
-//                    last: "Последняя страница",
-//                    first: "Первая страница"
-//                }
-//            },
-//            detailTemplate: kendo.template($("#subdivision_detail_template").html()),
-//            detailInit: detailInit,
-//            dataBound: function() {
-//                this.expandRow(this.tbody.find("tr.k-master-row").first());
-//            },
             columns: [
                 { field: "name", title: "Направление"},
                 { command: [
@@ -523,23 +469,6 @@ var ADMIN_BASE_URL = "admin/";
                 confirmDelete: "Да",
                 cancelDelete: "Нет"
             },
-//            pageable: {
-//                pageSize: 20,
-//                //pageSizes: true,
-//                messages: {
-//                    display: "{0}-{1} из {2} записей",
-//                    empty: " ",
-//                    previous: "Предыдущая страница",
-//                    next: "Следующая страница",
-//                    last: "Последняя страница",
-//                    first: "Первая страница"
-//                }
-//            },
-//            detailTemplate: kendo.template($("#subdivision_detail_template").html()),
-//            detailInit: detailInit,
-//            dataBound: function() {
-//                this.expandRow(this.tbody.find("tr.k-master-row").first());
-//            },
             columns: [
                 { field: "name", title: "Направление"},
                 { command: [
@@ -624,18 +553,6 @@ var ADMIN_BASE_URL = "admin/";
                 confirmDelete: "Да",
                 cancelDelete: "Нет"
             },
-//            pageable: {
-//                pageSize: 20,
-//                //pageSizes: true,
-//                messages: {
-//                    display: "{0}-{1} из {2} записей",
-//                    empty: " ",
-//                    previous: "Предыдущая страница",
-//                    next: "Следующая страница",
-//                    last: "Последняя страница",
-//                    first: "Первая страница"
-//                }
-//            },
             detailTemplate: kendo.template($("#intellectual_property_detail_template").html()),
             detailInit: intellectual_property_detail_init,
             columns: [
@@ -1058,7 +975,7 @@ function intellectual_property_detail_init(e) {
         {item: JSON.stringify({intellectual_property_id: intellect_prop_id})},
         function(data) {
             files = data;
-            var intellectual_property_file = detailRow.find("#files").kendoUpload({
+            detailRow.find("#files").kendoUpload({
                 multiple: true,
                 async: {
                     saveUrl: ADMIN_BASE_URL + "file/upload/",
@@ -1112,7 +1029,7 @@ function intellectual_property_detail_init(e) {
                         e.preventDefault();
                     }
                 }
-            }).data("kendoUpload");
+            });
     }, "json");
 }
 

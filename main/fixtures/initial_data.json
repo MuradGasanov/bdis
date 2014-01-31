@@ -17,22 +17,22 @@
         "fields": { "name": "ДГТУ", "tel": "+79031234567" }
     },
     {   "pk": 1, "model": "main.Department",
-        "fields": { "name": "5555", "tel": "+79031234567", "subdivision": "1" }
+        "fields": { "name": "Юридический", "tel": "+79031234567", "subdivision": "1" }
     },
     {   "pk": 2, "model": "main.Department",
-        "fields": { "name": "66666", "tel": "+79031234567", "subdivision": "1" }
+        "fields": { "name": "Прикладных коммуникаций", "tel": "+79031234567", "subdivision": "1" }
     },
     {   "pk": 3, "model": "main.Department",
-        "fields": { "name": "111", "tel": "+79031234567", "subdivision": "2" }
+        "fields": { "name": "Прикладной математики - процессов управления", "tel": "+79031234567", "subdivision": "2" }
     },
     {   "pk": 4, "model": "main.Department",
-        "fields": { "name": "2222", "tel": "+79031234567", "subdivision": "2" }
+        "fields": { "name": "Математико-механический", "tel": "+79031234567", "subdivision": "2" }
     },
     {   "pk": 1, "model": "main.Authors",
-        "fields": { "name": "Author1", "tel": "+79031234567", "department": "1" }
+        "fields": { "name": "Иван", "surname":"Иванов", "tel": "+79031234567", "department": "1" }
     },
     {   "pk": 2, "model": "main.Authors",
-        "fields": { "name": "Author2", "tel": "+79031234567", "department": "2" }
+        "fields": { "name": "Петр", "surname":"Петров", "tel": "+79031234567", "department": "2" }
     },
     {   "pk": 1, "model": "main.DocumentTypes",
         "fields": { "name": "Авторское право" }

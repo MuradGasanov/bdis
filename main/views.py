@@ -15,7 +15,7 @@ import os.path
 
 
 def estr(s):
-        return '' if s is None else str(s.encode('utf8'))
+        return '' if s is None else str(s.encode('utf-8'))
 ########################################################################################################################
 
 
