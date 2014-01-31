@@ -6,7 +6,6 @@ var ADMIN_BASE_URL = "admin/";
 
 (function ($) {
     $(document).ready(function (e) {
-
         var GRID_HEIGHT = $(window).height() - $("header#main_header").height() - $("footer#main_footer").height() - 65;
         $("#tab_strip").kendoTabStrip({
             animation: {
@@ -58,6 +57,11 @@ var ADMIN_BASE_URL = "admin/";
                             validation: { required: { message: "Поле не может быть пустым" } }
                         }, tel: {} }
                     }
+                },
+                requestEnd: function(e) {
+                    if (e.type == "destroy") {
+                        $reload_author.click();
+                    }
                 }
             },
             toolbar: [
@@ -94,7 +98,8 @@ var ADMIN_BASE_URL = "admin/";
             return false;
         });
 
-        $(".reload_subdivision").click(function (e) {
+        var $reload_subdivision = $(".reload_subdivision");
+        $reload_subdivision.click(function (e) {
             subdivision.dataSource.read();
             subdivision.refresh();
             return false;
@@ -127,6 +132,7 @@ var ADMIN_BASE_URL = "admin/";
                         type: "POST"
                     },
                     parameterMap: function (options, operation) {
+                        console.log(options, operation);
                         if (operation !== "read" && options) {
                             if (operation == "update") {
                                 if (typeof options.department == "object") {
@@ -154,6 +160,11 @@ var ADMIN_BASE_URL = "admin/";
                             mail: {type: "string"},
                             department: {type: "number", defaultValue: 0 }
                         }
+                    }
+                },
+                requestEnd: function(e) {
+                    if ((e.type == "update") || (e.type == "destroy")) {
+                        $reload_intellectual_property.click();
                     }
                 }
             },
@@ -240,7 +251,8 @@ var ADMIN_BASE_URL = "admin/";
             return false;
         });
 
-        $(".reload_author").click(function (e) {
+        var $reload_author = $(".reload_author");
+        $reload_author.click(function (e) {
             authors.dataSource.read();
             authors.refresh();
             return false;
@@ -290,6 +302,11 @@ var ADMIN_BASE_URL = "admin/";
                             }
                         }
                     }
+                },
+                requestEnd: function(e) {
+                    if ((e.type == "update") || (e.type == "destroy")) {
+                        $reload_intellectual_property.click();
+                    }
                 }
             },
             toolbar: [
@@ -315,9 +332,7 @@ var ADMIN_BASE_URL = "admin/";
                     },
                     { name: "destroy", text: "Удалить" }
                 ], width: "250px", attributes: { style: "text-align: center;"} }
-            ],
-            save: function (e) {
-            }
+            ]
         }).data("kendoGrid");
 
         $(".add_document_type").click(function (e) {
@@ -325,7 +340,8 @@ var ADMIN_BASE_URL = "admin/";
             return false;
         });
 
-        $(".reload_document_type").click(function (e) {
+        var $reload_document_type = $(".reload_document_type");
+        $reload_document_type.click(function (e) {
             document_types.dataSource.read();
             document_types.refresh();
             return false;
@@ -374,6 +390,11 @@ var ADMIN_BASE_URL = "admin/";
                             }
                         }
                     }
+                },
+                requestEnd: function(e) {
+                    if ((e.type == "update") || (e.type == "destroy")) {
+                        $reload_intellectual_property.click();
+                    }
                 }
             },
             toolbar: [
@@ -407,7 +428,8 @@ var ADMIN_BASE_URL = "admin/";
             return false;
         });
 
-        $(".reload_direction").click(function (e) {
+        var $reload_direction = $(".reload_direction");
+        $reload_direction.click(function (e) {
             directions.dataSource.read();
             directions.refresh();
             return false;
@@ -456,6 +478,11 @@ var ADMIN_BASE_URL = "admin/";
                             }
                         }
                     }
+                },
+                requestEnd: function(e) {
+                    if ((e.type == "update") || (e.type == "destroy")) {
+                        $reload_intellectual_property.click();
+                    }
                 }
             },
             toolbar: [
@@ -489,7 +516,8 @@ var ADMIN_BASE_URL = "admin/";
             return false;
         });
 
-        $(".reload_tags").click(function (e) {
+        var $reload_tags = $(".reload_tags");
+        $reload_tags.click(function (e) {
             tags.dataSource.read();
             tags.refresh();
             return false;
@@ -634,7 +662,8 @@ var ADMIN_BASE_URL = "admin/";
             }
         }).data("kendoGrid");
 
-        $(".reload_intellectual_property").click(function (e) {
+        var $reload_intellectual_property = $(".reload_intellectual_property");
+        $reload_intellectual_property.click(function (e) {
             intellectual_property.dataSource.read();
             intellectual_property.refresh();
             return false;
@@ -865,9 +894,10 @@ function subdivision_detail_init(e) {
                 }, tel: {}, mail: {} }
             }
         },
-        requestStart: function (e) {
-        },
-        requestEnd: function (e) {
+        requestEnd: function(e) {
+            if ((e.type == "update") || (e.type == "destroy")) {
+                $(".reload_author").click();
+            }
         }
     });
 

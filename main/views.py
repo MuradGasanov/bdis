@@ -204,6 +204,11 @@ class Authors():
                    "mail", "tel", "post", 
                    "department", "department__name")
         )
+        for author in authors:
+            author["department"] = {
+                "department_id": author.pop("department") if author["department"] else "",
+                "name": author.pop("department__name") if author["department"] else ""
+            }
         if authors:
             return HttpResponse(json.dumps(authors), content_type="application/json")
         else:

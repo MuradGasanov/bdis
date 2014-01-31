@@ -10,6 +10,13 @@ var NOTY_ALERT = 'alert',
     NOTY_NOTIFICATION = 'notification',
     NOTY_SUCCESS = 'success';
 
+var log = function(){
+    if(this.console){
+        console.log( arguments );
+    }
+};
+
+
 function noty_error(text, type, timeout) {
     type = typeof type !== 'undefined' ? type : NOTY_WARNING;
     timeout = typeof timeout !== 'undefined' ? timeout : 3000;
