@@ -484,7 +484,16 @@ class IntellectualProperty():
             direction = None
 
         authors = [models.Authors.objects.get(author_id=int(a)) for a in item["authors"]]
-        tags = [models.Tags.objects.get(tag_id=int(t)) for t in item["tags"]]
+        tags = []
+        for t in item["tags"]:
+            try:
+                tag = models.Tags.objects.get(name=t)
+            except models.Tags.DoesNotExist:
+                tag = models.Tags.objects.create(name=t)
+            except:
+                tag = None
+            if tag:
+                tags.append(tag)
 
         new_intellectual_property = models.IntellectualProperty.objects.create(
             name=item["name"],
@@ -554,9 +563,17 @@ class IntellectualProperty():
         else:
             direction = None
 
-
         authors = [models.Authors.objects.get(author_id=int(a)) for a in item["authors"]]
-        tags = [models.Tags.objects.get(tag_id=int(t)) for t in item["tags"]]
+        tags = []
+        for t in item["tags"]:
+            try:
+                tag = models.Tags.objects.get(name=t)
+            except models.Tags.DoesNotExist:
+                tag = models.Tags.objects.create(name=t)
+            except:
+                tag = None
+            if tag:
+                tags.append(tag)
 
         intellectual_property = models.IntellectualProperty.\
             objects.get(intellectual_property_id=int(item["intellectual_property_id"]))

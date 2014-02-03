@@ -16,20 +16,6 @@ var log = function(){
     }
 };
 
-
-function noty_error(text, type, timeout) {
-    type = typeof type !== 'undefined' ? type : NOTY_WARNING;
-    timeout = typeof timeout !== 'undefined' ? timeout : 3000;
-    noty({
-        text: text,
-        type: type,
-        timeout: timeout,
-        dismissQueue: false,
-        layout: 'topCenter',
-        theme: 'defaultTheme'
-    });
-}
-
 function noty_confirm(text, succes, cansel) {
     succes = typeof succes !== 'undefined' ? succes : function() {};
     cansel = typeof cansel !== 'undefined' ? cansel : function() {};
@@ -63,14 +49,20 @@ function noty_alert(text, succes) {
     });
 }
 
-function noty_message(text, type) {
+function noty_message(text, timeout, type) {
     text = typeof text !== 'undefined' ? text : "Загрузка...";
+    timeout = typeof timeout !== 'undefined' ? timeout : 3000;
     type = typeof type !== 'undefined' ? type : NOTY_INFORMATION;
     return noty({
         text: text,
         type: type,
+        timeout: timeout,
         dismissQueue: false,
         layout: 'topCenter',
         theme: 'defaultTheme'
     });
+}
+
+function noty_error(text) {
+    return noty_message(text, 4500, NOTY_ERROR)
 }

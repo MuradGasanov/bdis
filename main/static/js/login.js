@@ -25,16 +25,5 @@
                 }, "json");
             return false;
         });
-
-//        $("input[name='password'],input[name='login']").keypress(function(e) {
-//            if (e.keyCode == 13) {
-//                e.preventDefault();
-//                if (e.currentTarget.name == "login" ) {
-//                    $("form.login input[name=password]").select();
-//                } else {
-//                    $("form.login").submit();
-//                }
-//            }
-//        });
     });
 })(jQuery);

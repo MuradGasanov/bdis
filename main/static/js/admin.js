@@ -28,6 +28,7 @@ var ADMIN_BASE_URL = "admin/";
                 required: "Поле не может быть пустым"
             }
         };
+        var log_message;
         $("#tab_strip").kendoTabStrip({
             animation: {
                 open: {
@@ -254,8 +255,8 @@ var ADMIN_BASE_URL = "admin/";
                             author_model.set("mail", dataItem.mail);
                             author_subdivision.value("");
                             author_model.get("subdivisions").read();
-                            author_model.get("departments").read();
                             author_model.set("department", dataItem.department);
+                            author_model.get("departments").read();
                             author_window.center().open();
                         }
                     },
@@ -354,6 +355,8 @@ var ADMIN_BASE_URL = "admin/";
 
         $("#author_save").click(function (e) {
             if (!author_validator.validate()) return false;
+            var department = author_model.get("department");
+            if (typeof department == "object") {department = department.department_id}
             var send = {
                 author_id: author_model.get("author_id"),
                 surname: author_model.get("surname"),
@@ -362,7 +365,7 @@ var ADMIN_BASE_URL = "admin/";
                 post: author_model.get("post"),
                 tel: author_model.get("tel"),
                 mail: author_model.get("mail"),
-                department: author_model.get("department")
+                department: department
             };
             if ($("#is_author_edit").val() === "false") {
                $.post(BASE_URL + ADMIN_BASE_URL + "authors/create/",
@@ -857,21 +860,21 @@ var ADMIN_BASE_URL = "admin/";
                             $("#is_intellectual_property_edit").val("true");
                             intellectual_property_model.set("intellectual_property_id", dataItem.intellectual_property_id);
                             intellectual_property_model.set("name", "");
-                            intellectual_property_model.set("name", dataItem.name);
                             intellectual_property_model.set("doc_type", "");
-                            intellectual_property_model.set("doc_type", dataItem.doc_type.doc_type_id);
                             intellectual_property_model.set("direction", "");
+                            intellectual_property_model.set("tags", "");
+                            intellectual_property_model.set("name", dataItem.name);
+                            intellectual_property_model.set("doc_type", dataItem.doc_type.doc_type_id);
                             intellectual_property_model.set("direction", dataItem.direction.direction_id);
-                            intellectual_property_model.set("new_tags", "");
-                            authors_multiselect.dataSource.read();
-                            tags_multiselect.dataSource.read();
                             var authors = [], tags = [], i;
+                            for(i=0; i<dataItem.tags.length; i++) {tags += dataItem.tags[i].name + ", ";}
+                            intellectual_property_model.set("tags", tags);
+                            authors_multiselect.dataSource.read();
                             for (i=0; i<dataItem.authors.length; i++) authors.push(dataItem.authors[i].author_id);
                             authors_multiselect.value(authors);
-                            for (i=0; i<dataItem.tags.length; i++) tags.push(dataItem.tags[i].tag_id);
-                            tags_multiselect.value(tags);
                             intellectual_property_model.get("doc_types").read();
                             intellectual_property_model.get("directions").read();
+                            intellectual_property_model.get("tags_source").read();
                             intellectual_property_wibdow.center().open();
                         }
                     },
@@ -953,21 +956,6 @@ var ADMIN_BASE_URL = "admin/";
             }
         }).data("kendoMultiSelect");
         authors_multiselect.wrapper.css({width: "501px", display: "inline-block"});
-        var tags_multiselect = $("#tags_multiselect").kendoMultiSelect({
-            placeholder: "Выберите ключевые слова...",
-            dataTextField: "name",
-            dataValueField: "tag_id",
-            dataSource: {
-                type: "json",
-                transport: {
-                    read: {
-                        url: BASE_URL + ADMIN_BASE_URL + "tags/read/",
-                        dataType: "json",
-                        type: "POST"
-                    }
-                }
-            }
-        }).data("kendoMultiSelect");
 
         var intellectual_property_model = kendo.observable({
             intellectual_property_id: 0,
@@ -995,7 +983,18 @@ var ADMIN_BASE_URL = "admin/";
                 }
             }),
             direction: "",
-            new_tags: []
+
+            tags_source: new kendo.data.DataSource({
+                type: "json",
+                transport: {
+                    read: {
+                        url: BASE_URL + ADMIN_BASE_URL + "tags/read/",
+                        dataType: "json",
+                        type: "POST"
+                    }
+                }
+            }),
+            tags: ""
         });
         kendo.bind($("#change_intellectual_property"), intellectual_property_model);
 
@@ -1019,13 +1018,12 @@ var ADMIN_BASE_URL = "admin/";
             intellectual_property_model.set("name", "");
             intellectual_property_model.set("doc_type", "");
             intellectual_property_model.set("direction", "");
-            intellectual_property_model.set("new_tags", "");
             authors_multiselect.dataSource.read();
-            tags_multiselect.dataSource.read();
             authors_multiselect.value([]);
-            tags_multiselect.valueOf([]);
             intellectual_property_model.get("doc_types").read();
             intellectual_property_model.get("directions").read();
+            intellectual_property_model.set("tags", "");
+            intellectual_property_model.get("tags_source").read();
             intellectual_property_wibdow.center().open();
         });
 
@@ -1054,8 +1052,26 @@ var ADMIN_BASE_URL = "admin/";
                 };
                 data.add(item);
             }
+
+            $reload_direction.click();
+            $reload_document_type.click();
+            $reload_tags.click();
+
             intellectual_property.refresh();
             intellectual_property_wibdow.close();
+        }
+
+        function tag_spliter(tags) {
+            tags = $.trim(tags);
+            while (tags[0] == ",") tags = tags.substr(1);
+            while (tags[tags.length - 1] == ",") tags = tags.substr(0, tags.length - 1);
+            tags = tags.split(",");
+            var result = [];
+            $.each(tags, function(i, tag){
+                tag = $.trim(tag);
+                if ($.inArray(tag, result) == -1) result.push(tag);
+            });
+            return result;
         }
 
         $("#intellectual_property_save").click(function (e) {
@@ -1064,19 +1080,14 @@ var ADMIN_BASE_URL = "admin/";
             if (!doc_type) {doc_type = ""}
             var direction = intellectual_property_model.get("direction");
             if (!direction) {direction = ""}
-            var  new_tags = intellectual_property_model.get("new_tags");
-            new_tags = $.trim(new_tags);
-            while (new_tags[0] == ",") new_tags = new_tags.substr(1);
-            while (new_tags[new_tags.length - 1] == ",") new_tags = new_tags.substr(0, new_tags.length - 2);
-            new_tags = new_tags.split(",");
+            var  tags = tag_spliter(intellectual_property_model.get("tags"));
             var send = {
                 intellectual_property_id: intellectual_property_model.get("intellectual_property_id"),
                 name: intellectual_property_model.get("name"),
                 doc_type: doc_type,
                 direction: direction,
                 authors: authors_multiselect.value(),
-                tags: tags_multiselect.value(),
-                new_tags: new_tags
+                tags: tags
             };
             if ($("#is_intellectual_property_edit").val() === "false") {
                $.post(BASE_URL + ADMIN_BASE_URL + "intellectual_property/create/",
