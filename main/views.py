@@ -99,8 +99,6 @@ class Subdivision():
         добавление подразделений
         """
         item = json.loads(request.POST.get("item"))
-        # new_subdivision = models.Subdivision(name=item["name"], tel=item["tel"])
-        # new_subdivision.save(force_insert=True)
         new_subdivision = models.Subdivision.objects.create(
             name=item["name"],
             tel=item["tel"])
@@ -114,11 +112,13 @@ class Subdivision():
         редактирование подразделений
         """
         item = json.loads(request.POST.get("item"))
-        models.Subdivision.objects.filter(subdivision_id=item["subdivision_id"]).update(
-            name=item["name"],
-            tel=item["tel"]
-        )
-        return HttpResponse(json.dumps({}), content_type="application/json")
+        subdivision = models.Subdivision.objects.get(subdivision_id=item["subdivision_id"])
+        subdivision.name = item["name"]
+        subdivision.tel = item["tel"]
+        subdivision.save()
+        return HttpResponse(json.dumps({"subdivision_id": subdivision.subdivision_id,
+                                        "name": subdivision.name,
+                                        "tel": subdivision.tel}), content_type="application/json")
 ########################################################################################################################
 
 
@@ -207,7 +207,7 @@ class Authors():
         for author in authors:
             author["department"] = {
                 "department_id": author.pop("department") if author["department"] else "",
-                "name": author.pop("department__name") if author["department"] else ""
+                "name": author.pop("department__name") if author["department__name"] else ""
             }
         if authors:
             return HttpResponse(json.dumps(authors), content_type="application/json")
@@ -229,9 +229,9 @@ class Authors():
         добавление автора
         """
         item = json.loads(request.POST.get("item"))
-        if item["department"]:
+        try:
             department = models.Department.objects.get(department_id=int(item["department"]))
-        else:
+        except:
             department = None
         new_author = models.Authors.objects.create(
             name=item["name"],
@@ -248,8 +248,8 @@ class Authors():
                                         "tel": new_author.tel,
                                         "mail": new_author.mail,
                                         "post": new_author.post,
-                                        "department": department.department_id if department else None,
-                                        "department__name": department.name if department else None}),
+                                        "department": {"department_id": department.department_id if department else "",
+                                                       "name": department.name if department else ""}}),
                             content_type="application/json")
 
     @staticmethod
@@ -258,19 +258,19 @@ class Authors():
         редактирование автора
         """
         item = json.loads(request.POST.get("item"))
-        if item["department"]:
-            department = models.Department.objects.get(department_id=int(item["department"]))
-        else:
-            department = None
-        models.Authors.objects.filter(author_id=int(item["author_id"])).update(
-            name=item["name"],
-            surname=item["surname"],
-            patronymic=item["patronymic"],
-            tel=item["tel"],
-            mail=item["mail"],
-            post=item["post"],
-            department=department)
         author = models.Authors.objects.get(author_id=int(item["author_id"]))
+        try:
+            department = models.Department.objects.get(department_id=item["department"])
+        except:
+            department = None
+        author.name = item["name"]
+        author.surname = item["surname"]
+        author.patronymic = item["patronymic"]
+        author.tel = item["tel"]
+        author.mail = item["mail"]
+        author.post = item["post"]
+        author.department = department
+        author.save()
         return HttpResponse(json.dumps({"author_id": author.author_id,
                                         "name": author.name,
                                         "surname": author.surname,
@@ -278,8 +278,9 @@ class Authors():
                                         "tel": author.tel,
                                         "mail": author.mail,
                                         "post": author.post,
-                                        "department": department.department_id if department else None,
-                                        "department__name": department.name if department else None}),
+                                        "department": {
+                                            "department_id": department.department_id if department else "",
+                                            "name": department.name if department else ""}}),
                             content_type="application/json")
 ########################################################################################################################
 

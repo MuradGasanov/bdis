@@ -73,12 +73,6 @@
                         data-text-field="name" data-value-field="doc_type_id"
                         data-bind="source: doc_types, value: doc_type" >
                 </select>
-{#                <div class="add_new_item">#}
-{#                    <input type="text" class="k-textbox" placeholder="Добавить вид ИС"#}
-{#                           data-bind="value: new_doc_type_name"/>#}
-{#                    <span class="k-button" data-bind="events: {click: add_doc_type}"><span class="k-icon k-i-plus"></span>#}
-{#                    </span>#}
-{#                </div>#}
             </div>
             <div class="k-edit-label">
                 <label >Направление:</label>
@@ -88,12 +82,6 @@
                         data-text-field="name" data-value-field="direction_id"
                         data-bind="source: directions, value: direction" >
                 </select>
-{#                <div class="add_new_item">#}
-{#                    <input type="text" class="k-textbox" placeholder="Добавить направление"#}
-{#                           data-bind="value: new_direction_name"/>#}
-{#                    <span class="k-button" data-bind="events: {click: add_direction}"><span class="k-icon k-i-plus"></span>#}
-{#                    </span>#}
-{#                </div>#}
             </div>
             <div class="k-edit-label">
                 <label>Авторы:</label>
@@ -108,9 +96,8 @@
                 <div id="tags_multiselect" ></div>
             </div>
             <div style="clear: both"></div>
-{#             <input type="file" name="files" id="files" />#}
             <input type="hidden" id="is_intellectual_property_edit" value="false">
-            <div class="k-edit-buttons k-state-default">
+            <div class="k-edit-buttons k-state-active">
                 <a class="k-button k-button-icontext k-grid-update" id="intellectual_property_save" href="#">
                     <span class="k-icon k-update"></span>Сохранить
                 </a>
@@ -120,6 +107,133 @@
             </div>
         </div>
     </div>
+
+    <div id="change_subdivision_window" style="display: none">
+        <div id="change_subdivision" class="k-edit-form-container" style="width: inherit;">
+            <div class="k-edit-label">
+                <label>Название:<span class="required">*</span>:</label>
+            </div>
+            <div class="k-edit-field">
+                <input type="text" class="k-textbox" name="name" required placeholder="Название" style="width: 100%"
+                       data-bind="value: name"/>
+            </div>
+            <div class="k-edit-label">
+                <label>Телефон:</label>
+            </div>
+            <div class="k-edit-field">
+                <input type="text" class="k-textbox" name="tel" placeholder="Телефон" style="width: 100%"
+                       data-bind="value: tel"/>
+            </div>
+            <input type="hidden" id="is_subdivision_edit" value="false">
+            <div class="k-edit-buttons k-state-default">
+                <a class="k-button k-button-icontext k-grid-update" id="subdivision_save" href="#">
+                    <span class="k-icon k-update"></span>Сохранить
+                </a>
+                <a class="k-button k-button-icontext k-grid-cancel" id="subdivision_cancel" href="#">
+                    <span class="k-icon k-cancel"></span>Отмена
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="change_author_window" style="display: none">
+        <div id="change_author" class="k-edit-form-container" style="width: inherit;">
+            <div class="k-edit-label">
+                <label>Фамилия<span class="required">*</span>:</label>
+            </div>
+            <div class="k-edit-field">
+                <input type="text" class="k-textbox" name="surname" required placeholder="Фамилия" style="width: 100%"
+                       data-bind="value: surname"/>
+            </div>
+            <div class="k-edit-label">
+                <label>Имя<span class="required">*</span>:</label>
+            </div>
+            <div class="k-edit-field">
+                <input type="text" class="k-textbox" name="name" required placeholder="Имя" style="width: 100%"
+                       data-bind="value: name"/>
+            </div>
+            <div class="k-edit-label">
+                <label>Отчество:</label>
+            </div>
+            <div class="k-edit-field">
+                <input type="text" class="k-textbox" name="patronymic" placeholder="Отчество" style="width: 100%"
+                       data-bind="value: patronymic"/>
+            </div>
+            <div class="k-edit-label">
+                <label>Учёные степени и звания:</label>
+            </div>
+            <div class="k-edit-field">
+                <input type="text" class="k-textbox" name="post" placeholder="Учёные степени и звания" style="width: 100%"
+                       data-bind="value: post"/>
+            </div>
+            <div class="k-edit-label">
+                <label>Телефон:</label>
+            </div>
+            <div class="k-edit-field">
+                <input type="text" class="k-textbox" name="tel" placeholder="Телефон" style="width: 100%"
+                       data-bind="value: tel"/>
+            </div>
+            <div class="k-edit-label">
+                <label>Эллектронный адресс:</label>
+            </div>
+            <div class="k-edit-field">
+                <input type="text" class="k-textbox" name="mail" placeholder="Эллектронный адресс" style="width: 100%"
+                       data-bind="value: mail"/>
+            </div>
+            <div class="k-edit-label">
+                <label>Подразделение:</label>
+            </div>
+            <div class="k-edit-field">
+                <select data-role="dropdownlist"  id="author_subdivision" name="author_subdivision" style="margin: 3px 0 1px; width: 100%"
+                        data-option-label="Выберите подразделение..."
+                        data-text-field="name"
+                        data-value-field="subdivision_id"
+                        data-bind="value: subdivision, source: subdivisions"  ></select>
+                <select data-role="dropdownlist" id="city" data-cascade-from="author_subdivision" name="author_department" style="margin: 3px 0 1px; width: 100%"
+                        data-option-label="Выберите отдел..."
+                        data-text-field="name"
+                        data-value-field="department_id"
+                        data-bind="value: department, source:departments" ></select>
+            </div>
+            <input type="hidden" id="is_author_edit" value="false">
+            <div class="k-edit-buttons k-state-active">
+                <a class="k-button k-button-icontext k-grid-update" id="author_save" href="#">
+                    <span class="k-icon k-update"></span>Сохранить
+                </a>
+                <a class="k-button k-button-icontext k-grid-cancel" id="author_cancel" href="#">
+                    <span class="k-icon k-cancel"></span>Отмена
+                </a>
+            </div>
+        </div>
+    </div>
+
+{#    <div id="change_subdivision_window" style="display: none">#}
+{#        <div id="change_subdivision" class="k-edit-form-container" style="width: inherit;">#}
+{#            <div class="k-edit-label">#}
+{#                <label>Название:<span class="required">*</span>:</label>#}
+{#            </div>#}
+{#            <div class="k-edit-field">#}
+{#                <input type="text" class="k-textbox" name="name" required placeholder="Название" style="width: 100%"#}
+{#                       data-bind="value: name"/>#}
+{#            </div>#}
+{#            <div class="k-edit-label">#}
+{#                <label>Телефон:</label>#}
+{#            </div>#}
+{#            <div class="k-edit-field">#}
+{#                <input type="text" class="k-textbox" name="tel" placeholder="Телефон" style="width: 100%"#}
+{#                       data-bind="value: tel"/>#}
+{#            </div>#}
+{#            <input type="hidden" id="is_subdivision_edit" value="false">#}
+{#            <div class="k-edit-buttons k-state-default">#}
+{#                <a class="k-button k-button-icontext k-grid-update" id="subdivision_save" href="#">#}
+{#                    <span class="k-icon k-update"></span>Сохранить#}
+{#                </a>#}
+{#                <a class="k-button k-button-icontext k-grid-cancel" id="subdivision_cancel" href="#">#}
+{#                    <span class="k-icon k-cancel"></span>Отмена#}
+{#                </a>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
 {#    /шаблоны window#}
 
 {#    шаблоны detail#}

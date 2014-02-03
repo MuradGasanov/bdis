@@ -1,3 +1,5 @@
+.k-overlay { background-color: #F0F0F0; }
+
 .file-icon
 {
     display: inline-block;
@@ -62,11 +64,11 @@ li.k-file div.file-wrapper
 .k-file-success .k-progress { background-color: #ddffd0; }
 .k-file-success { color: #28760b; }
 
-#change_intellectual_property.k-edit-form-container .k-edit-label {
+.k-edit-form-container .k-edit-label {
     width: 20% !important;
 }
 
-#change_intellectual_property.k-edit-form-container .k-edit-field {
+.k-edit-form-container .k-edit-field {
     width: 73% !important;
 }
 

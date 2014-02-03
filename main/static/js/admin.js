@@ -7,6 +7,27 @@ var ADMIN_BASE_URL = "admin/";
 (function ($) {
     $(document).ready(function (e) {
         var GRID_HEIGHT = $(window).height() - $("header#main_header").height() - $("footer#main_footer").height() - 65;
+        var window_option = {
+            resizable: false,
+            actions: [],
+            animation: { close: { effects: "", duration: 350 },
+                open: { effects: "", duration: 350 } },
+            modal: true,
+            width: 750,
+            visible: false};
+        var validator_option = {
+            rules: {
+                required: function(input) {
+                    if (input.is("[required]")) {
+                        input.val($.trim(input.val())); //удалить обертывающиепробелы
+                        return input.val() !== "";
+                    } else return true;
+                }
+            },
+            messages: {
+                required: "Поле не может быть пустым"
+            }
+        };
         $("#tab_strip").kendoTabStrip({
             animation: {
                 open: {
@@ -34,16 +55,6 @@ var ADMIN_BASE_URL = "admin/";
                         dataType: "json",
                         type: "POST"
                     },
-                    create: {
-                        url: BASE_URL + ADMIN_BASE_URL + "subdivision/create/",
-                        dataType: "json",
-                        type: "POST"
-                    },
-                    update: {
-                        url: BASE_URL + ADMIN_BASE_URL + "subdivision/update/",
-                        dataType: "json",
-                        type: "POST"
-                    },
                     parameterMap: function (options, operation) {
                         if (operation !== "read" && options) {
                             return {item: kendo.stringify(options)};
@@ -53,9 +64,7 @@ var ADMIN_BASE_URL = "admin/";
                 schema: {
                     model: {
                         id: "subdivision_id",
-                        fields: { name: {
-                            validation: { required: { message: "Поле не может быть пустым" } }
-                        }, tel: {} }
+                        fields: { name: {type: "string"}, tel: {type: "string"} }
                     }
                 },
                 requestEnd: function(e) {
@@ -81,11 +90,17 @@ var ADMIN_BASE_URL = "admin/";
                 { field: "name", title: "Название" },
                 { field: "tel", title: "Телефон", width: "300px", attributes: {title: "#=tel#"} },
                 { command: [
-                    { name: "edit",
-                        text: {
-                            edit: "Редактировать",
-                            update: "Сохранить",
-                            cancel: "Отменить"
+                    {   text: "Редактировать",
+                        click: function(e) {
+                            $(".k-widget.k-tooltip.k-tooltip-validation.k-invalid-msg").hide();
+                            var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                            $("#is_subdivision_edit").val("true");
+                            subdivision_model.set("subdivision_id", dataItem.subdivision_id);
+                            subdivision_model.set("name", "");
+                            subdivision_model.set("name", dataItem.name);
+                            subdivision_model.set("tel", "");
+                            subdivision_model.set("tel", dataItem.tel);
+                            subdivision_window.center().open();
                         }
                     },
                     { name: "destroy", text: "Удалить" }
@@ -93,8 +108,64 @@ var ADMIN_BASE_URL = "admin/";
             ]
         }).data("kendoGrid");
 
+        window_option.width = 500;
+        var subdivision_window = $("#change_subdivision_window").kendoWindow(window_option).data("kendoWindow");
+        var subdivision_model = kendo.observable({
+            subdivision_id: 0,
+            name: "",
+            tel: ""
+        });
+        var $change_subdivision = $("#change_subdivision");
+        kendo.bind($change_subdivision, subdivision_model);
+        var subdivision_validator = $change_subdivision.kendoValidator(validator_option).data("kendoValidator");
+
         $(".add_subdivision").click(function (e) {
-            subdivision.addRow();
+            $(".k-widget.k-tooltip.k-tooltip-validation.k-invalid-msg").hide();
+            $("#is_subdivision_edit").val(false);
+            subdivision_model.set("subdivision_id", 0);
+            subdivision_model.set("name", "");
+            subdivision_model.set("tel", "");
+            subdivision_window.center().open();
+        });
+
+        $("#subdivision_cancel").click(function (e) {
+            subdivision_window.close();
+            return false;
+        });
+
+        function check_response_subdivision(d) {
+            var data = subdivision.dataSource;
+            var item = data.get(d.subdivision_id);
+            console.log(data, item);
+            if (item) {
+                item.name = d.name;
+                item.tel = d.tel;
+            } else {
+                item = {
+                    subdivision_id: d.subdivision_id,
+                    name: d.name,
+                    tel: d.tel
+                };
+                data.add(item);
+            }
+            subdivision.refresh();
+            subdivision_window.close();
+        }
+
+        $("#subdivision_save").click(function (e) {
+            if (!subdivision_validator.validate()) return false;
+            var send = {
+                subdivision_id: subdivision_model.get("subdivision_id"),
+                name: subdivision_model.get("name"),
+                tel: subdivision_model.get("tel")
+            };
+            if ($("#is_subdivision_edit").val() === "false") {
+               $.post(BASE_URL + ADMIN_BASE_URL + "subdivision/create/",
+                   {item: JSON.stringify(send) }, check_response_subdivision, "json");
+            } else {
+                $.post(BASE_URL + ADMIN_BASE_URL + "subdivision/update/",
+                    {item: JSON.stringify(send) }, check_response_subdivision, "json");
+            }
             return false;
         });
 
@@ -121,24 +192,9 @@ var ADMIN_BASE_URL = "admin/";
                         dataType: "json",
                         type: "POST"
                     },
-                    create: {
-                        url: BASE_URL + ADMIN_BASE_URL + "authors/create/",
-                        dataType: "json",
-                        type: "POST"
-                    },
-                    update: {
-                        url: BASE_URL + ADMIN_BASE_URL + "authors/update/",
-                        dataType: "json",
-                        type: "POST"
-                    },
                     parameterMap: function (options, operation) {
                         console.log(options, operation);
                         if (operation !== "read" && options) {
-                            if (operation == "update") {
-                                if (typeof options.department == "object") {
-                                    options.department = options.department.department_id;
-                                }
-                            }
                             return {item: kendo.stringify(options)};
                         }
                     }
@@ -158,7 +214,7 @@ var ADMIN_BASE_URL = "admin/";
                             tel: {type: "string"},
                             post: {type: "string"},
                             mail: {type: "string"},
-                            department: {type: "number", defaultValue: 0 }
+                            department: { defaultValue: {department_id: "", name: ""} }
                         }
                     }
                 },
@@ -180,65 +236,29 @@ var ADMIN_BASE_URL = "admin/";
                 cancelDelete: "Нет"
             },
             columns: [
-                { field: "name", title: "ФИО", template: "#var fio=[surname,name,patronymic].join(' ');# #=fio#",
-                    editor: function (container, options) {
-                        $('<input required placeholder="Фамилия" data-bind="value: surname" class="k-textbox"/>')
-                            .css({margin: "3px 0px 1px"})
-                            .appendTo(container);
-                        $('<input required placeholder="Имя" data-bind="value: name" class="k-textbox" />')
-                            .css({margin: "3px 0px 1px"})
-                            .appendTo(container);
-                        $('<input data-bind="value: patronymic" placeholder="Отчество" class="k-textbox"/>')
-                            .css({margin: "3px 0px 1px"})
-                            .appendTo(container);
-                    }},
-                { field: "post", title: "Ученая степень", width: "300px", attributes: {title: "#=post#"} },
+                { field: "name", title: "ФИО", template: "#var fio=[surname,name,patronymic].join(' ');# #=fio#"},
+                { field: "post", title: "Учёные степени и звания", width: "300px", attributes: {title: "#=post#"} },
                 { field: "tel", title: "Телефон", width: "150px", attributes: {title: "#=tel#"} },
                 { field: "mail", title: "Электронный адрес", width: "250px", attributes: {title: "#=mail#"} },
-                { field: "department__name", title: "Подразделение", width: "200px", attributes: {title: ""},
-                    editor: function (container, options) {
-                        $('<input id="author_subdivision" data-text-field="name" data-value-field="subdivision_id" />')
-                            .css({margin: "3px 0px 1px"})
-                            .appendTo(container)
-                            .kendoDropDownList({
-                                optionLabel: "Выберите подразделение...",
-                                dataSource: {
-                                    type: "json",
-                                    transport: {
-                                        read: {
-                                            url: BASE_URL + ADMIN_BASE_URL + "subdivision/read/",
-                                            dataType: "json",
-                                            type: "POST"
-                                        }
-                                    }
-                                }
-                            });
-                        $('<input data-text-field="name" disabled="disabled" data-value-field="department_id" data-bind="value: department"/>')
-                            .css({margin: "3px 0px 1px"})
-                            .appendTo(container)
-                            .kendoDropDownList({
-                                optionLabel: "Выберите отдел...",
-                                cascadeFrom: "author_subdivision",
-                                cascadeFromField: "subdivision_id",
-                                dataSource: {
-                                    type: "json",
-                                    transport: {
-                                        read: {
-                                            url: BASE_URL + ADMIN_BASE_URL + "department/read/",
-                                            type: "POST",
-                                            dataType: "json"
-                                        }
-                                    }
-                                }
-                            });
-                    }
-                },
+                { field: "department", title: "Подразделение", width: "200px", attributes: {title: ""}, template: "#=department.name#"},
                 { command: [
-                    { name: "edit",
-                        text: {
-                            edit: "Редактировать",
-                            update: "Сохранить",
-                            cancel: "Отменить"
+                    {   text: "Редактировать",
+                        click: function(e) {
+                            $(".k-widget.k-tooltip.k-tooltip-validation.k-invalid-msg").hide();
+                            var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                            $("#is_author_edit").val("true");
+                            author_model.set("author_id", dataItem.author_id);
+                            author_model.set("surname", dataItem.surname);
+                            author_model.set("name", dataItem.name);
+                            author_model.set("patronymic", dataItem.patronymic);
+                            author_model.set("post", dataItem.post);
+                            author_model.set("tel", dataItem.tel);
+                            author_model.set("mail", dataItem.mail);
+                            author_subdivision.value("");
+                            author_model.get("subdivisions").read();
+                            author_model.get("departments").read();
+                            author_model.set("department", dataItem.department);
+                            author_window.center().open();
                         }
                     },
                     { name: "destroy", text: "Удалить" }
@@ -246,8 +266,112 @@ var ADMIN_BASE_URL = "admin/";
             ]
         }).data("kendoGrid");
 
+        window_option.width = 500;
+        var author_window = $("#change_author_window").kendoWindow(window_option).data("kendoWindow");
+        var author_model = kendo.observable({
+            author_id: 0,
+            surname: "",
+            name: "",
+            patronymic: "",
+            post: "",
+            tel: "",
+            mail: "",
+            subdivisions: new kendo.data.DataSource({   type: "json",
+                transport: {
+                    read: {
+                        url: BASE_URL + ADMIN_BASE_URL + "subdivision/read/",
+                        dataType: "json",
+                        type: "POST"
+                    }
+                }
+            }),
+            subdivision: "",
+            departments: new kendo.data.DataSource({   type: "json",
+                transport: {
+                    read: {
+                        url: BASE_URL + ADMIN_BASE_URL + "department/read/",
+                        dataType: "json",
+                        type: "POST"
+                    }
+                }
+            }),
+            department: ""
+        });
+        var $change_author = $("#change_author");
+        kendo.bind($change_author, author_model);
+        var author_subdivision = $("#author_subdivision").data("kendoDropDownList");
+        var author_validator = $change_author.kendoValidator(validator_option).data("kendoValidator");
+
         $(".add_author").click(function (e) {
-            authors.addRow();
+            $(".k-widget.k-tooltip.k-tooltip-validation.k-invalid-msg").hide();
+            $("#is_author_edit").val(false);
+            author_model.set("author_id", 0);
+            author_model.set("surname", "");
+            author_model.set("name", "");
+            author_model.set("patronymic", "");
+            author_model.set("post", "");
+            author_model.set("tel", "");
+            author_model.set("mail", "");
+            author_model.get("subdivisions").read();
+            author_model.set("subdivision", "");
+            author_model.get("departments").read();
+            author_model.set("department", "");
+            author_window.center().open();
+        });
+
+        $("#author_cancel").click(function (e) {
+            author_window.close();
+            return false;
+        });
+
+        function check_response_author(d) {
+            var data = authors.dataSource;
+            var item = data.get(d.author_id);
+            if (item) {
+                item.author_id = d.author_id;
+                item.surname = d.surname;
+                item.name = d.name;
+                item.patronymic = d.patronymic;
+                item.post = d.post;
+                item.tel = d.tel;
+                item.mail = d.mail;
+                item.department = d.department;
+            } else {
+                item = {
+                    author_id: d.author_id,
+                    surname: d.surname,
+                    name: d.name,
+                    patronymic: d.patronymic,
+                    post: d.post,
+                    tel: d.tel,
+                    mail: d.mail,
+                    department: d.department
+                };
+                data.add(item);
+            }
+            authors.refresh();
+            author_window.close();
+        }
+
+        $("#author_save").click(function (e) {
+            if (!author_validator.validate()) return false;
+            var send = {
+                author_id: author_model.get("author_id"),
+                surname: author_model.get("surname"),
+                name: author_model.get("name"),
+                patronymic: author_model.get("patronymic"),
+                post: author_model.get("post"),
+                tel: author_model.get("tel"),
+                mail: author_model.get("mail"),
+                department: author_model.get("department")
+            };
+            if ($("#is_author_edit").val() === "false") {
+               $.post(BASE_URL + ADMIN_BASE_URL + "authors/create/",
+                   {item: JSON.stringify(send) }, check_response_author, "json");
+            } else {
+                $.post(BASE_URL + ADMIN_BASE_URL + "authors/update/",
+                    {item: JSON.stringify(send) }, check_response_author, "json");
+            }
             return false;
         });
 
@@ -669,24 +793,7 @@ var ADMIN_BASE_URL = "admin/";
             return false;
         });
 
-        var intellectual_property_wibdow = $("#change_intellectual_property_window").kendoWindow({
-            resizable: false,
-            actions: [],
-            animation: {
-                close: {
-                    effects: "",
-                    duration: 350
-                },
-                open: {
-                    effects: "",
-                    duration: 350
-                }
-            },
-            modal: true,
-            visible: false,
-            width: 750,
-            title: "Редактировать"
-        }).data("kendoWindow");
+        var intellectual_property_wibdow = $("#change_intellectual_property_window").kendoWindow(window_option).data("kendoWindow");
 
         var authors_multiselect = $("#authors_multiselect").kendoMultiSelect({
             placeholder: "Выберите авторов...",
