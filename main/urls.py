@@ -49,5 +49,7 @@ urlpatterns = patterns('main.views',
 
                        url(r'^'+ADMIN_BASE_URL+'file/upload/$', Files.upload),
                        url(r'^'+ADMIN_BASE_URL+'file/get_list/$', Files.get_list),
-                       url(r'^'+ADMIN_BASE_URL+'file/delete/$', Files.delete)
+                       url(r'^'+ADMIN_BASE_URL+'file/delete/$', Files.delete),
+
+                       url(r'^'+ADMIN_BASE_URL+'temp/$', temp)
                        )

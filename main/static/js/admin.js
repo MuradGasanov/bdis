@@ -136,7 +136,6 @@ var ADMIN_BASE_URL = "admin/";
         function check_response_subdivision(d) {
             var data = subdivision.dataSource;
             var item = data.get(d.subdivision_id);
-            console.log(data, item);
             if (item) {
                 item.name = d.name;
                 item.tel = d.tel;
@@ -193,7 +192,6 @@ var ADMIN_BASE_URL = "admin/";
                         type: "POST"
                     },
                     parameterMap: function (options, operation) {
-                        console.log(options, operation);
                         if (operation !== "read" && options) {
                             return {item: kendo.stringify(options)};
                         }
@@ -312,8 +310,8 @@ var ADMIN_BASE_URL = "admin/";
             author_model.set("post", "");
             author_model.set("tel", "");
             author_model.set("mail", "");
+            author_subdivision.value("");
             author_model.get("subdivisions").read();
-            author_model.set("subdivision", "");
             author_model.get("departments").read();
             author_model.set("department", "");
             author_window.center().open();
@@ -327,7 +325,7 @@ var ADMIN_BASE_URL = "admin/";
         function check_response_author(d) {
             var data = authors.dataSource;
             var item = data.get(d.author_id);
-            if (item) {
+            if (item) { //обновить в таблице
                 item.author_id = d.author_id;
                 item.surname = d.surname;
                 item.name = d.name;
@@ -336,7 +334,7 @@ var ADMIN_BASE_URL = "admin/";
                 item.tel = d.tel;
                 item.mail = d.mail;
                 item.department = d.department;
-            } else {
+            } else { //добавить в таблицу
                 item = {
                     author_id: d.author_id,
                     surname: d.surname,
@@ -348,6 +346,7 @@ var ADMIN_BASE_URL = "admin/";
                     department: d.department
                 };
                 data.add(item);
+                if (authors_multiselect) { authors_multiselect.dataSource.read(); }
             }
             authors.refresh();
             author_window.close();
@@ -855,7 +854,6 @@ var ADMIN_BASE_URL = "admin/";
                         click: function(e) {
                             $(".k-widget.k-tooltip.k-tooltip-validation.k-invalid-msg").hide();
                             var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-                            console.log(dataItem);
                             $("#is_intellectual_property_edit").val("true");
                             intellectual_property_model.set("intellectual_property_id", dataItem.intellectual_property_id);
                             intellectual_property_model.set("name", "");
@@ -864,6 +862,7 @@ var ADMIN_BASE_URL = "admin/";
                             intellectual_property_model.set("doc_type", dataItem.doc_type.doc_type_id);
                             intellectual_property_model.set("direction", "");
                             intellectual_property_model.set("direction", dataItem.direction.direction_id);
+                            intellectual_property_model.set("new_tags", "");
                             authors_multiselect.dataSource.read();
                             tags_multiselect.dataSource.read();
                             var authors = [], tags = [], i;
@@ -922,6 +921,7 @@ var ADMIN_BASE_URL = "admin/";
             return false;
         });
 
+        window_option.width = 750;
         var intellectual_property_wibdow = $("#change_intellectual_property_window").kendoWindow(window_option).data("kendoWindow");
 
         var authors_multiselect = $("#authors_multiselect").kendoMultiSelect({
@@ -952,11 +952,11 @@ var ADMIN_BASE_URL = "admin/";
                 }
             }
         }).data("kendoMultiSelect");
+        authors_multiselect.wrapper.css({width: "501px", display: "inline-block"});
         var tags_multiselect = $("#tags_multiselect").kendoMultiSelect({
             placeholder: "Выберите ключевые слова...",
             dataTextField: "name",
             dataValueField: "tag_id",
-
             dataSource: {
                 type: "json",
                 transport: {
@@ -994,7 +994,8 @@ var ADMIN_BASE_URL = "admin/";
                     }
                 }
             }),
-            direction: ""
+            direction: "",
+            new_tags: []
         });
         kendo.bind($("#change_intellectual_property"), intellectual_property_model);
 
@@ -1018,6 +1019,7 @@ var ADMIN_BASE_URL = "admin/";
             intellectual_property_model.set("name", "");
             intellectual_property_model.set("doc_type", "");
             intellectual_property_model.set("direction", "");
+            intellectual_property_model.set("new_tags", "");
             authors_multiselect.dataSource.read();
             tags_multiselect.dataSource.read();
             authors_multiselect.value([]);
@@ -1062,13 +1064,19 @@ var ADMIN_BASE_URL = "admin/";
             if (!doc_type) {doc_type = ""}
             var direction = intellectual_property_model.get("direction");
             if (!direction) {direction = ""}
+            var  new_tags = intellectual_property_model.get("new_tags");
+            new_tags = $.trim(new_tags);
+            while (new_tags[0] == ",") new_tags = new_tags.substr(1);
+            while (new_tags[new_tags.length - 1] == ",") new_tags = new_tags.substr(0, new_tags.length - 2);
+            new_tags = new_tags.split(",");
             var send = {
                 intellectual_property_id: intellectual_property_model.get("intellectual_property_id"),
                 name: intellectual_property_model.get("name"),
                 doc_type: doc_type,
                 direction: direction,
                 authors: authors_multiselect.value(),
-                tags: tags_multiselect.value()
+                tags: tags_multiselect.value(),
+                new_tags: new_tags
             };
             if ($("#is_intellectual_property_edit").val() === "false") {
                $.post(BASE_URL + ADMIN_BASE_URL + "intellectual_property/create/",
@@ -1265,16 +1273,9 @@ function intellectual_property_detail_init(e) {
                 template: kendo.template($('#fileTemplate').html()),
                 files: files,
                 select: function(e) {
-                    console.log(e);
-                    $.each(e.files, function (index, value) {
-                        console.log("Name: " + value.name);
-                        console.log("Size: " + value.size + " bytes");
-                        console.log("Extension: " + value.extension);
-                    });
                 },
                 upload: function (e) {
                     var f = e.files;
-                    console.log(f);
                     for (var i=0; i<f.length; i++) {
                         for (var j=i+1; j<f.length; j++) {
                             if ((f[i].name == f[j].name) &&

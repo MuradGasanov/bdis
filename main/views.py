@@ -5,10 +5,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseForbidden
 from main.additionally.public import *
 import main.models as models
-from django.contrib.auth.models import User
-from django.core.validators import email_re
-from django.core.mail import send_mail
-from django.utils.timezone import utc
 from datetime import *
 import json
 import os.path
@@ -31,12 +27,16 @@ def home_page(request):
 ########################################################################################################################
 
 
+def temp(request):
+    for i in range(1, 4500):
+        models.Tags.objects.create(name="tag %i" % i)
+    return HttpResponse("Ok")
+
+
 def log_in(request):
     """
     вход в профиль
     """
-
-    errors_list = []
 
     try:
         data = json.loads(request.body)
@@ -55,7 +55,7 @@ def log_in(request):
         login(request, user)
         request.session.set_expiry(timedelta(days=1).seconds)
         if user.is_active:
-            return HttpResponse(json.dumps({"error": errors_list}), content_type="application/json")
+            return HttpResponse(json.dumps({"error": []}), content_type="application/json")
         else:
             return HttpResponse(json.dumps({"error": ["Пользователь заблокирован"]}), content_type="application/json")
     else:
@@ -553,6 +553,7 @@ class IntellectualProperty():
                 direction = None
         else:
             direction = None
+
 
         authors = [models.Authors.objects.get(author_id=int(a)) for a in item["authors"]]
         tags = [models.Tags.objects.get(tag_id=int(t)) for t in item["tags"]]
