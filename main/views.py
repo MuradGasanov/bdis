@@ -329,8 +329,9 @@ class DocumentTypes():
         редактирование типа права
         """
         item = json.loads(request.POST.get("item"))
-        models.DocumentTypes.objects.filter(doc_type_id=int(item["doc_type_id"])).update(name=item["name"])
         document_type = models.DocumentTypes.objects.get(doc_type_id=int(item["doc_type_id"]))
+        document_type.name = item["name"]
+        document_type.save()
         return HttpResponse(json.dumps({"doc_type_id": document_type.doc_type_id,
                                         "name": document_type.name}),
                             content_type="application/json")
@@ -381,8 +382,11 @@ class Directions():
         редактирование направлений
         """
         item = json.loads(request.POST.get("item"))
-        models.Directions.objects.filter(direction_id=item["direction_id"]).update(name=item["name"])
-        return HttpResponse(json.dumps({}), content_type="application/json")
+        direction = models.Directions.objects.get(direction_id=item["direction_id"])
+        direction.name = item["name"]
+        direction.save()
+        return HttpResponse(json.dumps({"direction_id": direction.direction_id,
+                                        "name": direction.name}), content_type="application/json")
 ########################################################################################################################
 
 
@@ -641,7 +645,8 @@ class Tags():
         tag = models.Tags.objects.get(tag_id=int(item["tag_id"]))
         tag.name = item["name"]
         tag.save()
-        return HttpResponse(json.dumps({}), content_type="application/json")
+        return HttpResponse(json.dumps({"tag_id": tag.tag_id,
+                                        "name": tag.name}), content_type="application/json")
 ########################################################################################################################
 
 

@@ -399,16 +399,6 @@ var ADMIN_BASE_URL = "admin/";
                         dataType: "json",
                         type: "POST"
                     },
-                    create: {
-                        url: BASE_URL + ADMIN_BASE_URL + "document_types/create/",
-                        dataType: "json",
-                        type: "POST"
-                    },
-                    update: {
-                        url: BASE_URL + ADMIN_BASE_URL + "document_types/update/",
-                        dataType: "json",
-                        type: "POST"
-                    },
                     parameterMap: function (options, operation) {
                         if (operation !== "read" && options) {
                             return {item: kendo.stringify(options)};
@@ -447,11 +437,14 @@ var ADMIN_BASE_URL = "admin/";
             columns: [
                 { field: "name", title: "Вид интеллектуального права"},
                 { command: [
-                    { name: "edit",
-                        text: {
-                            edit: "Редактировать",
-                            update: "Сохранить",
-                            cancel: "Отменить"
+                    {   text: "Редактировать",
+                        click: function(e) {
+                            $(".k-widget.k-tooltip.k-tooltip-validation.k-invalid-msg").hide();
+                            var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                            $("#is_document_types_edit").val("true");
+                            document_types_model.set("doc_type_id", dataItem.doc_type_id);
+                            document_types_model.set("name", dataItem.name);
+                            document_types_window.center().open();
                         }
                     },
                     { name: "destroy", text: "Удалить" }
@@ -459,8 +452,58 @@ var ADMIN_BASE_URL = "admin/";
             ]
         }).data("kendoGrid");
 
+        window_option.width = 500;
+        var document_types_window = $("#change_document_types_window").kendoWindow(window_option).data("kendoWindow");
+        var document_types_model = kendo.observable({
+            doc_type_id: 0,
+            name: ""
+        });
+        var $change_document_types = $("#change_document_types");
+        kendo.bind($change_document_types, document_types_model);
+        var document_types_validator = $change_document_types.kendoValidator(validator_option).data("kendoValidator");
+
         $(".add_document_type").click(function (e) {
-            document_types.addRow();
+            $(".k-widget.k-tooltip.k-tooltip-validation.k-invalid-msg").hide();
+            $("#is_document_types_edit").val(false);
+            document_types_model.set("doc_type_id", 0);
+            document_types_model.set("name", "");
+            document_types_window.center().open();
+        });
+
+        $("#document_types_cancel").click(function (e) {
+            document_types_window.close();
+            return false;
+        });
+
+        function check_response_document_types(d) {
+            var data = document_types.dataSource;
+            var item = data.get(d.doc_type_id);
+            if (item) {
+                item.name = d.name;
+            } else {
+                item = {
+                    doc_type_id: d.doc_type_id,
+                    name: d.name
+                };
+                data.add(item);
+            }
+            document_types.refresh();
+            document_types_window.close();
+        }
+
+        $("#document_types_save").click(function (e) {
+            if (!document_types_validator.validate()) return false;
+            var send = {
+                doc_type_id: document_types_model.get("doc_type_id"),
+                name: document_types_model.get("name")
+            };
+            if ($("#is_document_types_edit").val() === "false") {
+               $.post(BASE_URL + ADMIN_BASE_URL + "document_types/create/",
+                   {item: JSON.stringify(send) }, check_response_document_types, "json");
+            } else {
+                $.post(BASE_URL + ADMIN_BASE_URL + "document_types/update/",
+                    {item: JSON.stringify(send) }, check_response_document_types, "json");
+            }
             return false;
         });
 
@@ -484,16 +527,6 @@ var ADMIN_BASE_URL = "admin/";
                     },
                     destroy: {
                         url: BASE_URL + ADMIN_BASE_URL + "directions/destroy/",
-                        dataType: "json",
-                        type: "POST"
-                    },
-                    create: {
-                        url: BASE_URL + ADMIN_BASE_URL + "directions/create/",
-                        dataType: "json",
-                        type: "POST"
-                    },
-                    update: {
-                        url: BASE_URL + ADMIN_BASE_URL + "directions/update/",
                         dataType: "json",
                         type: "POST"
                     },
@@ -535,11 +568,14 @@ var ADMIN_BASE_URL = "admin/";
             columns: [
                 { field: "name", title: "Направление"},
                 { command: [
-                    { name: "edit",
-                        text: {
-                            edit: "Редактировать",
-                            update: "Сохранить",
-                            cancel: "Отменить"
+                    {   text: "Редактировать",
+                        click: function(e) {
+                            $(".k-widget.k-tooltip.k-tooltip-validation.k-invalid-msg").hide();
+                            var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                            $("#is_directions_edit").val("true");
+                            directions_model.set("direction_id", dataItem.direction_id);
+                            directions_model.set("name", dataItem.name);
+                            directions_window.center().open();
                         }
                     },
                     { name: "destroy", text: "Удалить" }
@@ -547,8 +583,58 @@ var ADMIN_BASE_URL = "admin/";
             ]
         }).data("kendoGrid");
 
+        window_option.width = 500;
+        var directions_window = $("#change_directions_window").kendoWindow(window_option).data("kendoWindow");
+        var directions_model = kendo.observable({
+            direction_id: 0,
+            name: ""
+        });
+        var $change_directions = $("#change_directions");
+        kendo.bind($change_directions, directions_model);
+        var directions_validator = $change_directions.kendoValidator(validator_option).data("kendoValidator");
+
         $(".add_direction").click(function (e) {
-            directions.addRow();
+            $(".k-widget.k-tooltip.k-tooltip-validation.k-invalid-msg").hide();
+            $("#is_directions_edit").val(false);
+            directions_model.set("direction_id", 0);
+            directions_model.set("name", "");
+            directions_window.center().open();
+        });
+
+        $("#directions_cancel").click(function (e) {
+            directions_window.close();
+            return false;
+        });
+
+        function check_response_directions(d) {
+            var data = directions.dataSource;
+            var item = data.get(d.direction_id);
+            if (item) {
+                item.name = d.name;
+            } else {
+                item = {
+                    direction_id: d.direction_id,
+                    name: d.name
+                };
+                data.add(item);
+            }
+            directions.refresh();
+            directions_window.close();
+        }
+
+        $("#directions_save").click(function (e) {
+            if (!directions_validator.validate()) return false;
+            var send = {
+                direction_id: directions_model.get("direction_id"),
+                name: directions_model.get("name")
+            };
+            if ($("#is_directions_edit").val() === "false") {
+               $.post(BASE_URL + ADMIN_BASE_URL + "directions/create/",
+                   {item: JSON.stringify(send) }, check_response_directions, "json");
+            } else {
+                $.post(BASE_URL + ADMIN_BASE_URL + "directions/update/",
+                    {item: JSON.stringify(send) }, check_response_directions, "json");
+            }
             return false;
         });
 
@@ -572,16 +658,6 @@ var ADMIN_BASE_URL = "admin/";
                     },
                     destroy: {
                         url: BASE_URL + ADMIN_BASE_URL + "tags/destroy/",
-                        dataType: "json",
-                        type: "POST"
-                    },
-                    create: {
-                        url: BASE_URL + ADMIN_BASE_URL + "tags/create/",
-                        dataType: "json",
-                        type: "POST"
-                    },
-                    update: {
-                        url: BASE_URL + ADMIN_BASE_URL + "tags/update/",
                         dataType: "json",
                         type: "POST"
                     },
@@ -623,11 +699,14 @@ var ADMIN_BASE_URL = "admin/";
             columns: [
                 { field: "name", title: "Направление"},
                 { command: [
-                    { name: "edit",
-                        text: {
-                            edit: "Редактировать",
-                            update: "Сохранить",
-                            cancel: "Отменить"
+                    {   text: "Редактировать",
+                        click: function(e) {
+                            $(".k-widget.k-tooltip.k-tooltip-validation.k-invalid-msg").hide();
+                            var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                            $("#is_tags_edit").val("true");
+                            tags_model.set("tag_id", dataItem.tag_id);
+                            tags_model.set("name", dataItem.name);
+                            tags_window.center().open();
                         }
                     },
                     { name: "destroy", text: "Удалить" }
@@ -635,8 +714,58 @@ var ADMIN_BASE_URL = "admin/";
             ]
         }).data("kendoGrid");
 
+        window_option.width = 500;
+        var tags_window = $("#tags_window").kendoWindow(window_option).data("kendoWindow");
+        var tags_model = kendo.observable({
+            tag_id: 0,
+            name: ""
+        });
+        var $change_tags = $("#change_tags");
+        kendo.bind($change_tags, tags_model);
+        var tags_validator = $change_tags.kendoValidator(validator_option).data("kendoValidator");
+
         $(".add_tags").click(function (e) {
-            tags.addRow();
+            $(".k-widget.k-tooltip.k-tooltip-validation.k-invalid-msg").hide();
+            $("#is_tags_edit").val(false);
+            tags_model.set("tag_id", 0);
+            tags_model.set("name", "");
+            tags_window.center().open();
+        });
+
+        $("#tags_cancel").click(function (e) {
+            tags_window.close();
+            return false;
+        });
+
+        function check_response_tags(d) {
+            var data = tags.dataSource;
+            var item = data.get(d.tag_id);
+            if (item) {
+                item.name = d.name;
+            } else {
+                item = {
+                    tag_id: d.tag_id,
+                    name: d.name
+                };
+                data.add(item);
+            }
+            tags.refresh();
+            tags_window.close();
+        }
+
+        $("#tags_save").click(function (e) {
+            if (!tags_validator.validate()) return false;
+            var send = {
+                tag_id: tags_model.get("tag_id"),
+                name: tags_model.get("name")
+            };
+            if ($("#is_tags_edit").val() === "false") {
+               $.post(BASE_URL + ADMIN_BASE_URL + "tags/create/",
+                   {item: JSON.stringify(send) }, check_response_tags, "json");
+            } else {
+                $.post(BASE_URL + ADMIN_BASE_URL + "tags/update/",
+                    {item: JSON.stringify(send) }, check_response_tags, "json");
+            }
             return false;
         });
 
