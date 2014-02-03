@@ -927,7 +927,7 @@ var ADMIN_BASE_URL = "admin/";
         var authors_multiselect = $("#authors_multiselect").kendoMultiSelect({
             placeholder: "Выберите авторов...",
             dataTextField: "name",
-            itemTemplate: '<span class="k-state-default"><h3>#:data.name#</h3>#if(data.department!=null){ #<p>#:data.department#</p># } #</span>',
+            itemTemplate: '<span class="k-state-default"><h3>#:data.name#</h3>#if(data.department!=null){ #<p><i>#:data.department#</i></p># } #</span>',
             dataValueField: "author_id",
             dataSource: {
                 type: "json",
@@ -942,7 +942,7 @@ var ADMIN_BASE_URL = "admin/";
                                     data.push({
                                         author_id: result[i].author_id,
                                         name: [result[i].surname, result[i].name, result[i].patronymic].join(" "),
-                                        department: result[i].department__name
+                                        department: result[i].department.name
                                     })
                                 }
                                 options.success(data);
