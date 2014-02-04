@@ -736,3 +736,23 @@ class Tree():
             return HttpResponse(json.dumps(items), content_type="application/json")
         else:
             return HttpResponse(json.dumps(""), content_type="application/json")
+########################################################################################################################
+
+
+def search_data_source(request):
+    items = list(
+        models.IntellectualProperty.objects.all().
+        values("intellectual_property_id", "name")
+    )
+    authors = list(
+        models.Authors.objects.all().
+        values("author_id", "name", "surname", "patronymic")
+    )
+    items += [{"author_id": a["author_id"],"name": "%s %s %s" % (a["surname"], a["surname"], a["surname"])}
+              for a in authors]
+    items += list(
+        models.Tags.objects.all().
+        values("tag_id", "name")
+    )
+    return HttpResponse(json.dumps(items), content_type="application/json")
+

@@ -71,41 +71,60 @@ var API_BASE_URL = "api/";
             ]
         }).data("kendoGrid");
 
-        var intellectual_properties = [],
-            tags = [],
-            authors = [];
-        $.post(BASE_URL + API_BASE_URL + "intellectual_property/read/",
-               function(data) {
-                   intellectual_properties = data;
-               }, "json");
-        $.post(BASE_URL + API_BASE_URL + "tags/read/",
-               function(data) {
-                   tags = data;
-               }, "json");
-        $.post(BASE_URL + API_BASE_URL + "authors/read/",
-               function(data) {
-                   var authors = [];
-                   for (var i = 0; i < data.length; i++) {
-                       authors.push({
-                           author_id: data[i].author_id,
-                           name: [data[i].surname, data[i].name, data[i].patronymic].join(" ")
-                       })
-                   }
-               }, "json");
+//        var intellectual_properties = [],
+//            tags = [],
+//            authors = [];
+//        $.post(BASE_URL + API_BASE_URL + "intellectual_property/read/",
+//               function(data) {
+//                   intellectual_properties = data;
+//               }, "json");
+//        $.post(BASE_URL + API_BASE_URL + "tags/read/",
+//               function(data) {
+//                   tags = data;
+//               }, "json");
+//        $.post(BASE_URL + API_BASE_URL + "authors/read/",
+//               function(data) {
+//                   authors = [];
+//                   for (var i = 0; i < data.length; i++) {
+//                       authors.push({
+//                           author_id: data[i].author_id,
+//                           name: [data[i].surname, data[i].name, data[i].patronymic].join(" ")
+//                       })
+//                   }
+//               }, "json");
+//
+//        function search_data_source_change(e) {
+//            var search_data_source = [];
+//            if ($search_name.is(":checked")) {
+//                search_data_source = search_data_source.concat(intellectual_properties);
+//            }
+//            if ($search_author.is(":checked")) {
+//                search_data_source = search_data_source.concat(authors);
+//            }
+//            if ($search_tag.is(":checked")) {
+//                search_data_source = search_data_source.concat(tags);
+//            }
+//            console.log(search_data_source);
+//            var ds = new kendo.data.DataSource({
+//                data: search_data_source
+//            });
+//            search.setDataSource(ds);
+//        }
 
-        function serch_data_source_change(e) {
-            console.log($search_name.is(":checked"),$search_author.is(":checked"),$search_tag.is(":checked"));
-            if ($search_name.is(":checked")) {
-
-            }
-        }
-
-        $search_name.click(serch_data_source_change);
-        $search_author.click(serch_data_source_change);
-        $search_tag.click(serch_data_source_change);
+//        $search_name.click(search_data_source_change);
+//        $search_author.click(search_data_source_change);
+//        $search_tag.click(search_data_source_change);
 
         var search = $("#search").kendoAutoComplete({
-            textField: "name",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: BASE_URL + API_BASE_URL + "search_data_source/"
+                    }
+                }
+            },
+            dataTextField: "name",
+            separator: ", ",
             placeholder: "Поиск",
             filter: "contains"
         }).data("kendoAutoComplete")

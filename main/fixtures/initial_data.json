@@ -35,13 +35,13 @@
         "fields": { "name": "Петр", "surname":"Петров", "tel": "+79031234567", "department": "2" }
     },
     {   "pk": 1, "model": "main.DocumentTypes",
-        "fields": { "name": "Авторское право" }
+        "fields": { "name": "Статья" }
     },
     {   "pk": 2, "model": "main.DocumentTypes",
-        "fields": { "name": "Смежные права" }
+        "fields": { "name": "Тезисы" }
     },
     {   "pk": 3, "model": "main.DocumentTypes",
-        "fields": { "name": "Патентное право" }
+        "fields": { "name": "Методическое пособие" }
     },
     {   "pk": 4, "model": "main.DocumentTypes",
         "fields": { "name": "Права на средства индивидуализации" }
