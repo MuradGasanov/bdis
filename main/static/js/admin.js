@@ -2,7 +2,7 @@
  * Created by user on 23.01.14.
  */
 
-var ADMIN_BASE_URL = "admin/";
+var API_BASE_URL = "api/";
 
 (function ($) {
     $(document).ready(function (e) {
@@ -47,12 +47,12 @@ var ADMIN_BASE_URL = "admin/";
                 type: "json",
                 transport: {
                     read: {
-                        url: BASE_URL + ADMIN_BASE_URL + "subdivision/read/",
+                        url: BASE_URL + API_BASE_URL + "subdivision/read/",
                         dataType: "json",
                         type: "POST"
                     },
                     destroy: {
-                        url: BASE_URL + ADMIN_BASE_URL + "subdivision/destroy/",
+                        url: BASE_URL + API_BASE_URL + "subdivision/destroy/",
                         dataType: "json",
                         type: "POST"
                     },
@@ -160,10 +160,10 @@ var ADMIN_BASE_URL = "admin/";
                 tel: subdivision_model.get("tel")
             };
             if ($("#is_subdivision_edit").val() === "false") {
-               $.post(BASE_URL + ADMIN_BASE_URL + "subdivision/create/",
+               $.post(BASE_URL + API_BASE_URL + "subdivision/create/",
                    {item: JSON.stringify(send) }, check_response_subdivision, "json");
             } else {
-                $.post(BASE_URL + ADMIN_BASE_URL + "subdivision/update/",
+                $.post(BASE_URL + API_BASE_URL + "subdivision/update/",
                     {item: JSON.stringify(send) }, check_response_subdivision, "json");
             }
             return false;
@@ -183,12 +183,12 @@ var ADMIN_BASE_URL = "admin/";
                 type: "json",
                 transport: {
                     read: {
-                        url: BASE_URL + ADMIN_BASE_URL + "authors/read/",
+                        url: BASE_URL + API_BASE_URL + "authors/read/",
                         dataType: "json",
                         type: "POST"
                     },
                     destroy: {
-                        url: BASE_URL + ADMIN_BASE_URL + "authors/destroy/",
+                        url: BASE_URL + API_BASE_URL + "authors/destroy/",
                         dataType: "json",
                         type: "POST"
                     },
@@ -278,7 +278,7 @@ var ADMIN_BASE_URL = "admin/";
             subdivisions: new kendo.data.DataSource({   type: "json",
                 transport: {
                     read: {
-                        url: BASE_URL + ADMIN_BASE_URL + "subdivision/read/",
+                        url: BASE_URL + API_BASE_URL + "subdivision/read/",
                         dataType: "json",
                         type: "POST"
                     }
@@ -288,7 +288,7 @@ var ADMIN_BASE_URL = "admin/";
             departments: new kendo.data.DataSource({   type: "json",
                 transport: {
                     read: {
-                        url: BASE_URL + ADMIN_BASE_URL + "department/read/",
+                        url: BASE_URL + API_BASE_URL + "department/read/",
                         dataType: "json",
                         type: "POST"
                     }
@@ -368,10 +368,10 @@ var ADMIN_BASE_URL = "admin/";
                 department: department
             };
             if ($("#is_author_edit").val() === "false") {
-               $.post(BASE_URL + ADMIN_BASE_URL + "authors/create/",
+               $.post(BASE_URL + API_BASE_URL + "authors/create/",
                    {item: JSON.stringify(send) }, check_response_author, "json");
             } else {
-                $.post(BASE_URL + ADMIN_BASE_URL + "authors/update/",
+                $.post(BASE_URL + API_BASE_URL + "authors/update/",
                     {item: JSON.stringify(send) }, check_response_author, "json");
             }
             return false;
@@ -392,12 +392,12 @@ var ADMIN_BASE_URL = "admin/";
                 type: "json",
                 transport: {
                     read: {
-                        url: BASE_URL + ADMIN_BASE_URL + "document_types/read/",
+                        url: BASE_URL + API_BASE_URL + "document_types/read/",
                         dataType: "json",
                         type: "POST"
                     },
                     destroy: {
-                        url: BASE_URL + ADMIN_BASE_URL + "document_types/destroy/",
+                        url: BASE_URL + API_BASE_URL + "document_types/destroy/",
                         dataType: "json",
                         type: "POST"
                     },
@@ -500,10 +500,10 @@ var ADMIN_BASE_URL = "admin/";
                 name: document_types_model.get("name")
             };
             if ($("#is_document_types_edit").val() === "false") {
-               $.post(BASE_URL + ADMIN_BASE_URL + "document_types/create/",
+               $.post(BASE_URL + API_BASE_URL + "document_types/create/",
                    {item: JSON.stringify(send) }, check_response_document_types, "json");
             } else {
-                $.post(BASE_URL + ADMIN_BASE_URL + "document_types/update/",
+                $.post(BASE_URL + API_BASE_URL + "document_types/update/",
                     {item: JSON.stringify(send) }, check_response_document_types, "json");
             }
             return false;
@@ -523,12 +523,12 @@ var ADMIN_BASE_URL = "admin/";
                 type: "json",
                 transport: {
                     read: {
-                        url: BASE_URL + ADMIN_BASE_URL + "directions/read/",
+                        url: BASE_URL + API_BASE_URL + "directions/read/",
                         dataType: "json",
                         type: "POST"
                     },
                     destroy: {
-                        url: BASE_URL + ADMIN_BASE_URL + "directions/destroy/",
+                        url: BASE_URL + API_BASE_URL + "directions/destroy/",
                         dataType: "json",
                         type: "POST"
                     },
@@ -631,10 +631,10 @@ var ADMIN_BASE_URL = "admin/";
                 name: directions_model.get("name")
             };
             if ($("#is_directions_edit").val() === "false") {
-               $.post(BASE_URL + ADMIN_BASE_URL + "directions/create/",
+               $.post(BASE_URL + API_BASE_URL + "directions/create/",
                    {item: JSON.stringify(send) }, check_response_directions, "json");
             } else {
-                $.post(BASE_URL + ADMIN_BASE_URL + "directions/update/",
+                $.post(BASE_URL + API_BASE_URL + "directions/update/",
                     {item: JSON.stringify(send) }, check_response_directions, "json");
             }
             return false;
@@ -654,12 +654,12 @@ var ADMIN_BASE_URL = "admin/";
                 type: "json",
                 transport: {
                     read: {
-                        url: BASE_URL + ADMIN_BASE_URL + "tags/read/",
+                        url: BASE_URL + API_BASE_URL + "tags/read/",
                         dataType: "json",
                         type: "POST"
                     },
                     destroy: {
-                        url: BASE_URL + ADMIN_BASE_URL + "tags/destroy/",
+                        url: BASE_URL + API_BASE_URL + "tags/destroy/",
                         dataType: "json",
                         type: "POST"
                     },
@@ -762,10 +762,10 @@ var ADMIN_BASE_URL = "admin/";
                 name: tags_model.get("name")
             };
             if ($("#is_tags_edit").val() === "false") {
-               $.post(BASE_URL + ADMIN_BASE_URL + "tags/create/",
+               $.post(BASE_URL + API_BASE_URL + "tags/create/",
                    {item: JSON.stringify(send) }, check_response_tags, "json");
             } else {
-                $.post(BASE_URL + ADMIN_BASE_URL + "tags/update/",
+                $.post(BASE_URL + API_BASE_URL + "tags/update/",
                     {item: JSON.stringify(send) }, check_response_tags, "json");
             }
             return false;
@@ -785,12 +785,12 @@ var ADMIN_BASE_URL = "admin/";
                 type: "json",
                 transport: {
                     read: {
-                        url: BASE_URL + ADMIN_BASE_URL + "intellectual_property/read/",
+                        url: BASE_URL + API_BASE_URL + "intellectual_property/read/",
                         dataType: "json",
                         type: "POST"
                     },
                     destroy: {
-                        url: BASE_URL + ADMIN_BASE_URL + "intellectual_property/destroy/",
+                        url: BASE_URL + API_BASE_URL + "intellectual_property/destroy/",
                         dataType: "json",
                         type: "POST"
                     },
@@ -937,7 +937,7 @@ var ADMIN_BASE_URL = "admin/";
                 transport: {
                     read: function (options) {
                         $.ajax({
-                            url: BASE_URL + ADMIN_BASE_URL + "authors/read/",
+                            url: BASE_URL + API_BASE_URL + "authors/read/",
                             dataType: "json",
                             success: function (result) {
                                 var data = [];
@@ -964,7 +964,7 @@ var ADMIN_BASE_URL = "admin/";
             doc_types: new kendo.data.DataSource({   type: "json",
                 transport: {
                     read: {
-                        url: BASE_URL + ADMIN_BASE_URL + "document_types/read/",
+                        url: BASE_URL + API_BASE_URL + "document_types/read/",
                         dataType: "json",
                         type: "POST"
                     }
@@ -976,7 +976,7 @@ var ADMIN_BASE_URL = "admin/";
                 type: "json",
                 transport: {
                     read: {
-                        url: BASE_URL + ADMIN_BASE_URL + "directions/read/",
+                        url: BASE_URL + API_BASE_URL + "directions/read/",
                         dataType: "json",
                         type: "POST"
                     }
@@ -988,7 +988,7 @@ var ADMIN_BASE_URL = "admin/";
                 type: "json",
                 transport: {
                     read: {
-                        url: BASE_URL + ADMIN_BASE_URL + "tags/read/",
+                        url: BASE_URL + API_BASE_URL + "tags/read/",
                         dataType: "json",
                         type: "POST"
                     }
@@ -1090,10 +1090,10 @@ var ADMIN_BASE_URL = "admin/";
                 tags: tags
             };
             if ($("#is_intellectual_property_edit").val() === "false") {
-               $.post(BASE_URL + ADMIN_BASE_URL + "intellectual_property/create/",
+               $.post(BASE_URL + API_BASE_URL + "intellectual_property/create/",
                    {item: JSON.stringify(send) }, check_response_intellectual_property, "json");
             } else {
-                $.post(BASE_URL + ADMIN_BASE_URL + "intellectual_property/update/",
+                $.post(BASE_URL + API_BASE_URL + "intellectual_property/update/",
                     {item: JSON.stringify(send) }, check_response_intellectual_property, "json");
             }
             return false;
@@ -1110,22 +1110,22 @@ function subdivision_detail_init(e) {
         type: "json",
         transport: {
             read: {
-                url: BASE_URL + ADMIN_BASE_URL + "department/read/",
+                url: BASE_URL + API_BASE_URL + "department/read/",
                 type: "POST",
                 dataType: "json"
             },
             destroy: {
-                url: BASE_URL + ADMIN_BASE_URL + "department/destroy/",
+                url: BASE_URL + API_BASE_URL + "department/destroy/",
                 dataType: "json",
                 type: "POST"
             },
             create: {
-                url: BASE_URL + ADMIN_BASE_URL + "department/create/",
+                url: BASE_URL + API_BASE_URL + "department/create/",
                 dataType: "json",
                 type: "POST"
             },
             update: {
-                url: BASE_URL + ADMIN_BASE_URL + "department/update/",
+                url: BASE_URL + API_BASE_URL + "department/update/",
                 dataType: "json",
                 type: "POST"
             },
@@ -1256,15 +1256,15 @@ function intellectual_property_detail_init(e) {
 //        { name: "file3.xls", size: 720, extension: ".xls" }
     ];
 
-    $.post(ADMIN_BASE_URL + "file/get_list/",
+    $.post(API_BASE_URL + "file/get_list/",
         {item: JSON.stringify({intellectual_property_id: intellect_prop_id})},
         function(data) {
             files = data;
             detailRow.find("#files").kendoUpload({
                 multiple: true,
                 async: {
-                    saveUrl: ADMIN_BASE_URL + "file/upload/",
-                    removeUrl: ADMIN_BASE_URL + "file/delete/",
+                    saveUrl: API_BASE_URL + "file/upload/",
+                    removeUrl: API_BASE_URL + "file/delete/",
                     autoUpload: false
                 },
                 localization: {

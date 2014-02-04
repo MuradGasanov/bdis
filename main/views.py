@@ -706,3 +706,33 @@ class Files():
         for f in item:
             models.Files.objects.get(name=f["name"], size=f["size"], extension=f["extension"]).delete()
         return HttpResponse(json.dumps({}), content_type="application/json")
+########################################################################################################################
+
+
+class Tree():
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def read(request):
+        items = list(
+            models.Subdivision.objects.all().values("subdivision_id", "name")
+        )
+        for subdivision in items:
+            subdivision["type"] = "subdivision"
+            subdivision["items"] = list(
+                models.Department.objects.filter(subdivision=subdivision["subdivision_id"]).
+                values("department_id", "name")
+            )
+            subdivision["has_items"] = True if len(subdivision["items"]) else False
+            for department in subdivision["items"]:
+                department["type"] = "department"
+                department["items"] = list(
+                    models.Authors.objects.filter(department=department["department_id"]).
+                    values("author_id", "surname", "name", "patronymic")
+                )
+                department["has_items"] = True if len(department["items"]) else False
+        if items:
+            return HttpResponse(json.dumps(items), content_type="application/json")
+        else:
+            return HttpResponse(json.dumps(""), content_type="application/json")
