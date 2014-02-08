@@ -38,7 +38,6 @@
     margin: 15px 0 0;
 }
 
-
 .item_subdivision {
 
 }
@@ -47,4 +46,8 @@
 }
 .item_author {
 
+}
+
+.intellectual_property_item {
+    margin: 3px;
 }

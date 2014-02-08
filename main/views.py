@@ -407,16 +407,16 @@ class IntellectualProperty():
         for item in intellectual_properties:
             try:
                 doc_type = models.DocumentTypes.objects.get(doc_type_id=item["doc_type"])
-                item["doc_type"] = {"doc_type_id": doc_type.doc_type_id,
-                                    "name": doc_type.name}
+                item["doc_type"] = {"doc_type_id": doc_type.doc_type_id if doc_type else "",
+                                    "name": doc_type.name if doc_type else ""}
             except models.DocumentTypes.DoesNotExist:
-                item["doc_type"] = {}
+                item["doc_type"] = {"doc_type_id": "", "name": ""}
             try:
                 direction = models.Directions.objects.get(direction_id=item["direction"])
-                item["direction"] = {"direction_id": direction.direction_id,
-                                     "name": direction.name}
+                item["direction"] = {"direction_id": direction.direction_id if direction else "",
+                                     "name": direction.name if direction else ""}
             except models.Directions.DoesNotExist:
-                item["direction"] = {}
+                item["direction"] = {"direction_id": "", "name": ""}
             authors = list(
                 models.Authors.objects.
                 filter(intellectualproperty=int(item["intellectual_property_id"])).
@@ -748,7 +748,7 @@ def search_data_source(request):
         models.Authors.objects.all().
         values("author_id", "name", "surname", "patronymic")
     )
-    items += [{"author_id": a["author_id"],"name": "%s %s %s" % (a["surname"], a["surname"], a["surname"])}
+    items += [{"author_id": a["author_id"], "name": "%s %s %s" % (a["surname"], a["surname"], a["surname"])}
               for a in authors]
     items += list(
         models.Tags.objects.all().

@@ -26,10 +26,10 @@
         <div id="search_tree"></div>
     </div>
     <div class="section result_section">
-        <div id="result_grid"></div>
+        <div id="result"></div>
     </div>
 
-    <script type="text/x-kendo-tmpl" id="item_template">
+    <script type="text/x-kendo-tmpl" id="tree_item_template">
         #if (item.type == "subdivision") {#
             <span >
                 # item.expanded = true; #
@@ -50,5 +50,17 @@
                 </span>
             </span>
         #} #
-</script>
+    </script>
+
+    <script type="text/x-kendo-template" id="result_item_template">
+        <div class="intellectual_property_item section" data-id="#=intellectual_property_id#">
+            <h1>#=name#</h1>
+            <p>#=doc_type.name#</p>
+            <p>#=direction.name#</p>
+            #var fio=[];console.log(authors);for(var i=0;i<authors.length;i++){fio.push(authors[i].name);}#
+            <p>#=fio.join(", ")#</p>
+            #var tag=[];for(var i=0;i<tags.length;i++){tag.push(tags[i].name);}#
+            <p>#=tag.join(", ")#</p>
+        </div>
+    </script>
 {% endblock %}

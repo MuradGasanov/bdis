@@ -1310,7 +1310,6 @@ function intellectual_property_detail_init(e) {
             });
     }, "json");
 }
-
 function addExtensionClass(extension) {
     switch (extension) {
         case '.jpg':
