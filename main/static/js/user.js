@@ -20,7 +20,7 @@ var API_BASE_URL = "api/";
             $search_switcher.html(t == t1 ? t2:t1);
         });
 
-        var search_query = $("#search_query").kendoAutoComplete({
+        var search_query = $("#search_query").kendoAutoComplete({ //TODO: перевести сообщения повторной загрузки
             dataSource: {
 //                serverFiltering: true,
                 transport: {
@@ -73,8 +73,8 @@ var API_BASE_URL = "api/";
                 },
                 schema: {
                     model: {
-                        id: "subdivision_id",
-                        hasChildren: "has_items",
+                        id: "id",
+                        //hasChildren: "has_items",
                         children: "items"
                     }
                 }
@@ -83,29 +83,48 @@ var API_BASE_URL = "api/";
             template: kendo.template($("#tree_item_template").html())
         }).data("kendoTreeView");
 
-        var result = $("#result").kendoListView({
-            dataSource: {
-                type: "json",
-                transport: {
-                    read: {
-                        url: BASE_URL +  "api/intellectual_property/read/",
-                        dataType: "json",
-                        type: "POST"
-                    }
-                },
-                schema: {
-                    model: {
-                        id: "intellectual_property_id",
-                        fields: {
-                            name: {type: "string" },
-                            doc_type: {},
-                            direction: {},
-                            authors: {},
-                            tags: {}
-                        }
-                    }
+        var result_data_source = new kendo.data.DataSource({
+            type: "json",
+            pageSize: 20,
+            transport: {
+                read: {
+                    url: BASE_URL +  "api/intellectual_property/read/",
+                    dataType: "json",
+                    type: "POST"
                 }
             },
+            schema: {
+                model: {
+                    id: "intellectual_property_id",
+                    fields: {
+                        name: {type: "string" },
+                        doc_type: {},
+                        direction: {},
+                        authors: {},
+                        tags: {}
+                    }
+                }
+            }
+        });
+
+        $("#pager").kendoPager({
+            dataSource: result_data_source,
+            messages: {
+                display: "{0} - {1} из {2}",
+                empty: "Нет данных для отображения",
+                first: "Первая страница",
+                itemsPerPage: "записей на странице",
+                last: "Последняя страница",
+                next: "Следующая страница",
+                of: "из {0}",
+                page: "Страница",
+                previous: "Предыдущая страница",
+                refresh: "Обновить"
+            }
+        });
+
+        var result = $("#result").kendoListView({
+            dataSource: result_data_source,
             template: kendo.template($("#result_item_template").html())
         }).data("kendoGrid");
 

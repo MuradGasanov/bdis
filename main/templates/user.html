@@ -24,30 +24,32 @@
         </div>
         <div id="search_switcher"></div>
         <div id="search_by_author" >
-            <div id="search_tree"></div>
+            <div id="search_tree" style="overflow-x: hidden;"></div>
         </div>
     </div>
     <div class="section result_section">
         <div id="result"></div>
+        <div id="pager" class="k-pager-wrap"></div>
     </div>
     <script type="text/x-kendo-tmpl" id="tree_item_template">
         #if (item.type == "subdivision") {#
             <span >
                 # item.expanded = true; #
-                <span data-id="#=item.subdivision_id#" data-type="#=item.type#" title="#=item.name#" class="">
+                <span data-id="#=item.id#" data-type="#=item.type#" title="#=item.name#" class="">
                     <i class="fa fa-building-o"> </i> #=item.name#
                 </span>
             </span>
         #} else if (item.type == "department") {#
             <span >
-                <span data-id="#=item.department_id#" data-type="#=item.type#" title="#=item.name#" class="">
+                <span data-id="#=item.id#" data-type="#=item.type#" title="#=item.name#" class="">
                     <i class="fa fa-users"> </i> #=item.name#
                 </span>
             </span>
         #} else {#
             <span >
-                <span data-id="#=item.author_id#" data-type="#=item.type#" title="#=[item.surname,item.name,item.patronymic].join(' ')#" class="">
-                    <i class="fa fa-user"> </i> #=[item.surname,item.name,item.patronymic].join(' ')#
+                # fio = [item.surname,item.name,item.patronymic].join(' ') #
+                <span data-id="#=item.id#" data-type="#=item.type#" title="#=fio#" class="">
+                    <i class="fa fa-user"> </i> #=fio#
                 </span>
             </span>
         #} #

@@ -11,7 +11,7 @@ class Subdivision(models.Model):
 
 class Department(models.Model):
     department_id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=45, null=True)
+    name = models.CharField(max_length=100, null=True)
     tel = models.CharField(max_length=30, null=False)
     mail = models.CharField(max_length=45, null=False)
     subdivision = models.ForeignKey(Subdivision, null=False)

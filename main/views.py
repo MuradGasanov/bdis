@@ -14,6 +14,13 @@ from itertools import chain
 
 def estr(s):
         return '' if s is None else str(s.encode('utf-8'))
+
+
+def index(lst, key, value):
+    for i, dic in enumerate(lst):
+        if dic[key] == value:
+            return i
+    return -1
 ########################################################################################################################
 
 
@@ -676,6 +683,9 @@ class Files():
 
     @staticmethod
     def upload(request):
+        """
+        Привязывание файла к ИС
+        """
         item = json.loads(request.POST.get("item"))
         intellectual_property = models.IntellectualProperty.\
             objects.get(intellectual_property_id=int(item["intellectual_property_id"]))
@@ -691,6 +701,9 @@ class Files():
 
     @staticmethod
     def get_list(request):
+        """
+        Получить список файлов ИС
+        """
         item = json.loads(request.POST.get("item"))
         files = list(
             models.Files.objects.all().
@@ -704,6 +717,9 @@ class Files():
 
     @staticmethod
     def delete(request):
+        """
+        Удаление файла
+        """
         item = json.loads(request.POST.get("item"))
         for f in item:
             models.Files.objects.get(name=f["name"], size=f["size"], extension=f["extension"]).delete()
@@ -717,23 +733,84 @@ class Search():
 
     @staticmethod
     def tree_data_source(request):
-        items = list(
-            models.Subdivision.objects.all().values("subdivision_id", "name")
-        )
-        for subdivision in items:
-            subdivision["type"] = "subdivision"
-            subdivision["items"] = list(
-                models.Department.objects.filter(subdivision=subdivision["subdivision_id"]).
-                values("department_id", "name")
-            )
-            subdivision["has_items"] = True if len(subdivision["items"]) else False
-            for department in subdivision["items"]:
-                department["type"] = "department"
-                department["items"] = list(
-                    models.Authors.objects.filter(department=department["department_id"]).
-                    values("author_id", "surname", "name", "patronymic")
-                )
-                department["has_items"] = True if len(department["items"]) else False
+        """
+        Данные для отображения в дереве
+        """
+        author_subdivisions = list(
+            models.Authors.objects.exclude(department__isnull=True)
+            .values("author_id", "name", "surname", "patronymic",
+                    "department", "department__name",
+                    "department__subdivision", "department__subdivision__name"))
+        authors = list(
+            models.Authors.objects.filter(department__isnull=True)
+            .values("author_id", "name", "surname", "patronymic",))
+        for author in authors:
+            author.update({
+                "type": "author",
+                "id": author["author_id"]
+            })
+        items = []
+        if author_subdivisions:
+            a = author_subdivisions.pop()
+            items.append({"type": "subdivision",
+                          "id": a["department__subdivision"],
+                          "name": a["department__subdivision__name"],
+                          "items": [{"type": "department",
+                                     "id": a["department"],
+                                     "name": a["department__name"],
+                                     "items": [{"type": "author",
+                                                "id": a["author_id"],
+                                                "name": a["name"],
+                                                "surname": a["surname"],
+                                                "patronymic": a["patronymic"]
+                                               }]
+                                    }
+                          ]
+            })
+            for a in author_subdivisions:
+                subdivision = index(items, "id", a["department__subdivision"])
+                if subdivision != -1:
+                    department = index(items[subdivision]["items"], "id", a["department"])
+                    if department != -1:
+                        items[subdivision]["items"][department]["items"].append(
+                            {"type": "author",
+                             "id": a["author_id"],
+                             "name": a["name"],
+                             "surname": a["surname"],
+                             "patronymic": a["patronymic"]
+                            }
+                        )
+                    else:
+                        items[subdivision]["items"].append(
+                            {"type": "department",
+                             "id": a["department"],
+                             "name": a["department__name"],
+                             "items": [{"type": "author",
+                                        "id": a["author_id"],
+                                        "name": a["name"],
+                                        "surname": a["surname"],
+                                        "patronymic": a["patronymic"]
+                                       }
+                             ]
+                            }
+                        )
+                else:
+                    items.append({"type": "subdivision",
+                                  "id": a["department__subdivision"],
+                                  "name": a["department__subdivision__name"],
+                                  "items": [{"type": "department",
+                                             "id": a["department"],
+                                             "name": a["department__name"],
+                                             "items": [{"type": "author",
+                                                        "id": a["author_id"],
+                                                        "name": a["name"],
+                                                        "surname": a["surname"],
+                                                        "patronymic": a["patronymic"]
+                                                       }]
+                                            }
+                                  ]
+                    })
+        items += authors
         if items:
             return HttpResponse(json.dumps(items), content_type="application/json")
         else:
@@ -741,6 +818,9 @@ class Search():
 
     @staticmethod
     def search_data_source(request):
+        """
+        Подсказки для поиска
+        """
         # f = json.loads(request.POST.get("filter"))
         # f = f.upper()
         # items = list(
@@ -787,6 +867,9 @@ class Search():
 
     @staticmethod
     def search(request):
+        """
+        Поиск по ИС
+        """
         search_param = json.loads(request.POST.get("item"))
         doc_type = int(search_param["doc_type"])
         if doc_type:
