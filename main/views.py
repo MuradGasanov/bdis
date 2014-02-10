@@ -8,6 +8,8 @@ import main.models as models
 from datetime import *
 import json
 import os.path
+from django.db.models import Q
+from itertools import chain
 
 
 def estr(s):
@@ -23,7 +25,7 @@ def home_page(request):
     if request.user.is_superuser:
         return render_to_response("admin.html")
     else:
-        return render_to_response("main.html")
+        return render_to_response("user.html")
 ########################################################################################################################
 
 
@@ -709,12 +711,12 @@ class Files():
 ########################################################################################################################
 
 
-class Tree():
+class Search():
     def __init__(self):
         pass
 
     @staticmethod
-    def read(request):
+    def tree_data_source(request):
         items = list(
             models.Subdivision.objects.all().values("subdivision_id", "name")
         )
@@ -736,23 +738,84 @@ class Tree():
             return HttpResponse(json.dumps(items), content_type="application/json")
         else:
             return HttpResponse(json.dumps(""), content_type="application/json")
+
+    @staticmethod
+    def search_data_source(request):
+        # f = json.loads(request.POST.get("filter"))
+        # f = f.upper()
+        # items = list(
+        #     models.IntellectualProperty.objects.all().filter(name__icontains=f).
+        #     values("intellectual_property_id", "name")
+        # )
+        # authors = list(
+        #     models.Authors.objects.all().filter(
+        #         Q(surname__icontains=f) | Q(name__icontains=f) | Q(patronymic__icontains=f)).
+        #     values("author_id", "name", "surname", "patronymic")
+        # )
+        # items += [{"author_id": a["author_id"],
+        #            "name": "%s %s %s" % (estr(a["surname"]), estr(a["name"]), estr(a["patronymic"]))}
+        #
+        #           for a in authors]
+        # items += list(
+        #     models.Tags.objects.all().filter(name__icontains=f).
+        #     values("tag_id", "name")
+        # )
+        # items += list(
+        #     models.Directions.objects.all().filter(name__icontains=f).
+        #     values("direction_id", "name")
+        # )
+        items = list(
+            models.IntellectualProperty.objects.all().
+            values("intellectual_property_id", "name")
+        )
+        # authors = list(
+        #     models.Authors.objects.all().
+        #     values("author_id", "name", "surname", "patronymic")
+        # )
+        # items += [{"author_id": a["author_id"],
+        #            "name": "%s %s %s" % (estr(a["surname"]), estr(a["name"]), estr(a["patronymic"]))}
+        #           for a in authors]
+        items += list(
+            models.Tags.objects.all().
+            values("tag_id", "name")
+        )
+        items += list(
+            models.Directions.objects.all().
+            values("direction_id", "name")
+        )
+        return HttpResponse(json.dumps(items), content_type="application/json")
+
+    @staticmethod
+    def search(request):
+        search_param = json.loads(request.POST.get("item"))
+        doc_type = int(search_param["doc_type"])
+        if doc_type:
+            items = models.IntellectualProperty.objects.filter(doc_typ=doc_type)
+        else:
+            items = models.IntellectualProperty.objects.all()
+
+        items_startswith = items.filter(
+            reduce(lambda x, y: x | y, [Q(name__istartswith=word) for word in search_param["query"]]))
+        items_contains = items.filter(
+            reduce(lambda x, y: x | y, [Q(name__icontains=word) for word in search_param["query"]]))
+        direction = items.filter(
+            reduce(lambda x, y: x | y, [Q(direction__name__startswith=word) for word in search_param["query"]]))
+        direction = list(direction.values("name"))
+
+        direction = items.filter(
+            reduce(lambda x, y: x | y, [Q(direction__name__contains=word) for word in search_param["query"]]))
+        direction = list(direction.values("name"))
+
+        items = list(items_startswith.values("name"))
+        items_contains = list(items_contains.values("name"))
+        for i in items_contains:
+            if i not in items:
+                items.append(i)
+        #items = set(chain(items_startswith, items_contains))
+        #items = list(items)
+        return HttpResponse(json.dumps(items), content_type="application/json")
 ########################################################################################################################
 
 
-def search_data_source(request):
-    items = list(
-        models.IntellectualProperty.objects.all().
-        values("intellectual_property_id", "name")
-    )
-    authors = list(
-        models.Authors.objects.all().
-        values("author_id", "name", "surname", "patronymic")
-    )
-    items += [{"author_id": a["author_id"], "name": "%s %s %s" % (a["surname"], a["surname"], a["surname"])}
-              for a in authors]
-    items += list(
-        models.Tags.objects.all().
-        values("tag_id", "name")
-    )
-    return HttpResponse(json.dumps(items), content_type="application/json")
+
 

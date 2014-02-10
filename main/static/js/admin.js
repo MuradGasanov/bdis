@@ -1069,7 +1069,8 @@ var API_BASE_URL = "api/";
             var result = [];
             $.each(tags, function(i, tag){
                 tag = $.trim(tag);
-                if ($.inArray(tag, result) == -1) result.push(tag);
+                if (tag.length > 0)
+                    if ($.inArray(tag, result) == -1) result.push(tag);
             });
             return result;
         }

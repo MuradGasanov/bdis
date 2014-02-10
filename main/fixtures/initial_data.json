@@ -64,13 +64,25 @@
     {   "pk": 4, "model": "main.Directions",
         "fields": { "name": "Направление 4" }
     },
+    {   "pk": 1, "model": "main.Tags",
+        "fields": { "name": "тэг 1" }
+    },
+    {   "pk": 2, "model": "main.Tags",
+        "fields": { "name": "тэг 2" }
+    },
+    {   "pk": 3, "model": "main.Tags",
+        "fields": { "name": "тэг 3" }
+    },
+    {   "pk": 4, "model": "main.Tags",
+        "fields": { "name": "тэг 4" }
+    },
     {   "pk": 1, "model": "main.IntellectualProperty",
-        "fields": { "name": "IntellectualProperty1", "doc_type": 1, "direction": 1, "authors": [1] }
+        "fields": { "name": "IntellectualProperty1", "doc_type": 1, "direction": 1, "authors": [1], "tags": [1, 2, 3]}
     },
     {   "pk": 2, "model": "main.IntellectualProperty",
-        "fields": { "name": "IntellectualProperty2", "doc_type": 2, "direction": 2, "authors": [1, 2] }
+        "fields": { "name": "IntellectualProperty2", "doc_type": 2, "direction": 2, "authors": [1, 2], "tags": [1, 2, 3]}
     },
     {   "pk": 3, "model": "main.IntellectualProperty",
-        "fields": { "name": "IntellectualProperty3", "doc_type": 3, "direction": 3, "authors": [1, 2] }
+        "fields": { "name": "IntellectualProperty3", "doc_type": 3, "direction": 3, "authors": [1, 2], "tags": [1, 2, 3]}
     }
 ]
