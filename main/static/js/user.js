@@ -80,7 +80,19 @@ var API_BASE_URL = "api/";
                 }
             }),
             dataTextField: "name",
-            template: kendo.template($("#tree_item_template").html())
+            template: kendo.template($("#tree_item_template").html()),
+            select: function(e) {
+                var data_item = $(e.node).find("span.tree-item")[0]
+                data_item = $(data_item);
+                var send = {
+                    id: data_item.data("id"),
+                    type: data_item.data("type")
+                }
+                $.post(BASE_URL+API_BASE_URL+"search_by_author/", {item: JSON.stringify(send)},
+                function(r) {
+                    console.log(r)
+                }, "json");
+            }
         }).data("kendoTreeView");
 
         var result_data_source = new kendo.data.DataSource({

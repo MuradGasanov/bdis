@@ -53,5 +53,6 @@ urlpatterns = patterns('main.views',
 
                        url(r'^'+API_BASE_URL+'tree_data_source/$', Search.tree_data_source),
                        url(r'^'+API_BASE_URL+'search_data_source/$', Search.search_data_source),
-                       url(r'^'+API_BASE_URL+'search/$', Search.search)
+                       url(r'^'+API_BASE_URL+'search/$', Search.search),
+                       url(r'^'+API_BASE_URL+'search_by_author/$', Search.search_by_author)
                        )

@@ -35,20 +35,20 @@
         #if (item.type == "subdivision") {#
             <span >
                 # item.expanded = true; #
-                <span data-id="#=item.id#" data-type="#=item.type#" title="#=item.name#" class="">
+                <span data-id="#=item.id#" data-type="#=item.type#" title="#=item.name#" class="tree-item">
                     <i class="fa fa-building-o"> </i> #=item.name#
                 </span>
             </span>
         #} else if (item.type == "department") {#
             <span >
-                <span data-id="#=item.id#" data-type="#=item.type#" title="#=item.name#" class="">
+                <span data-id="#=item.id#" data-type="#=item.type#" title="#=item.name#" class="tree-item">
                     <i class="fa fa-users"> </i> #=item.name#
                 </span>
             </span>
         #} else {#
             <span >
                 # fio = [item.surname,item.name,item.patronymic].join(' ') #
-                <span data-id="#=item.id#" data-type="#=item.type#" title="#=fio#" class="">
+                <span data-id="#=item.id#" data-type="#=item.type#" title="#=fio#" class="tree-item">
                     <i class="fa fa-user"> </i> #=fio#
                 </span>
             </span>

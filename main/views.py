@@ -896,6 +896,26 @@ class Search():
         #items = set(chain(items_startswith, items_contains))
         #items = list(items)
         return HttpResponse(json.dumps(""), content_type="application/json")
+
+    @staticmethod
+    def search_by_author(request):
+        """
+        Поиск по ИС по автору универу и факультету
+        """
+        search_param = json.loads(request.POST.get("item"))
+        id = search_param["id"]
+        if search_param["type"] == "subdivision":
+            authors = models.Authors.objects.filter(department__subdivision=id)
+        elif search_param["type"] == "department":
+            authors = models.Authors.objects.filter(department=id)
+        elif search_param["type"] == "author":
+            authors = [models.Authors.objects.get(author_id=id)]
+        else:
+            authors = []
+
+        items = models.IntellectualProperty.objects.filter(authors__in=authors).distinct()
+        items = list(items.values("name"))
+        return HttpResponse(json.dumps(""), content_type="application/json")
 ########################################################################################################################
 
 
