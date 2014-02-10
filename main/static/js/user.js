@@ -109,7 +109,8 @@ var API_BASE_URL = "api/";
             template: kendo.template($("#result_item_template").html())
         }).data("kendoGrid");
 
-        $("#search").click(function() {
+        var $search =  $("#search");
+        $search.click(function() {
             var query = search_query.value();
             if (query.length = 0) return false; //TODO: дефолтный результат поиска
             query = query.replace(/,/g, ''); //удалить все ,
@@ -128,5 +129,13 @@ var API_BASE_URL = "api/";
                 }, "json");
             return false;
         });
+
+        $("body").on("click", ".tag", function() {
+            var tag = $(this).text();
+            search_query.value(tag);
+            doc_type.value("");
+            $search.click();
+            return false;
+        })
     });
 })(jQuery)

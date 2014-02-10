@@ -1061,7 +1061,7 @@ var API_BASE_URL = "api/";
             intellectual_property_wibdow.close();
         }
 
-        function tag_spliter(tags) {
+        function tag_splitter(tags) {
             tags = $.trim(tags);
             while (tags[0] == ",") tags = tags.substr(1);
             while (tags[tags.length - 1] == ",") tags = tags.substr(0, tags.length - 1);
@@ -1081,7 +1081,8 @@ var API_BASE_URL = "api/";
             if (!doc_type) {doc_type = ""}
             var direction = intellectual_property_model.get("direction");
             if (!direction) {direction = ""}
-            var  tags = tag_spliter(intellectual_property_model.get("tags"));
+            var  tags = intellectual_property_model.get("tags");
+            if (tags.length > 0) {  tags = tag_splitter(tags); } else { tags = [] }
             var send = {
                 intellectual_property_id: intellectual_property_model.get("intellectual_property_id"),
                 name: intellectual_property_model.get("name"),

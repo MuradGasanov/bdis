@@ -794,26 +794,25 @@ class Search():
         else:
             items = models.IntellectualProperty.objects.all()
 
-        items_startswith = items.filter(
-            reduce(lambda x, y: x | y, [Q(name__istartswith=word) for word in search_param["query"]]))
+        query = search_param["query"]
+
         items_contains = items.filter(
-            reduce(lambda x, y: x | y, [Q(name__icontains=word) for word in search_param["query"]]))
-        direction = items.filter(
-            reduce(lambda x, y: x | y, [Q(direction__name__startswith=word) for word in search_param["query"]]))
-        direction = list(direction.values("name"))
+            reduce(lambda x, y: x | y, [Q(name__icontains=word) for word in query]))
 
-        direction = items.filter(
-            reduce(lambda x, y: x | y, [Q(direction__name__contains=word) for word in search_param["query"]]))
-        direction = list(direction.values("name"))
+        direction_contains = items.filter(
+            reduce(lambda x, y: x | y, [Q(direction__name__icontains=word) for word in query]))
 
-        items = list(items_startswith.values("name"))
+        tags = models.Tags.objects.filter(
+            reduce(lambda x, y: x | y, [Q(name__icontains=word) for word in query]))
+        tags_contains = items.filter(tags__in=tags).distinct()
+
         items_contains = list(items_contains.values("name"))
-        for i in items_contains:
-            if i not in items:
-                items.append(i)
+        direction = list(direction_contains.values("name"))
+        tags_contains = list(tags_contains.values("name"))
+
         #items = set(chain(items_startswith, items_contains))
         #items = list(items)
-        return HttpResponse(json.dumps(items), content_type="application/json")
+        return HttpResponse(json.dumps(""), content_type="application/json")
 ########################################################################################################################
 
 
