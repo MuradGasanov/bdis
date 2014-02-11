@@ -930,7 +930,7 @@ var API_BASE_URL = "api/";
         var authors_multiselect = $("#authors_multiselect").kendoMultiSelect({
             placeholder: "Выберите авторов...",
             dataTextField: "name",
-            itemTemplate: '<span class="k-state-default"><h3>#:data.name#</h3>#if(data.department!=null){ #<p><i>#:data.department#</i></p># } #</span>',
+            itemTemplate: '<span class="k-state-default"><b>#:data.name#</b>#if(data.department!=null){ #<p><i>#:data.department#</i></p># } #</span>',
             dataValueField: "author_id",
             dataSource: {
                 type: "json",
