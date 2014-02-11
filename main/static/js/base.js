@@ -64,5 +64,17 @@ function noty_message(text, timeout, type) {
 }
 
 function noty_error(text) {
-    return noty_message(text, 4500, NOTY_ERROR)
+    return noty_message(text, 1000, NOTY_ERROR)
+}
+
+function noty_seach_log(text, type) {
+    text = typeof text !== 'undefined' ? text : "Поиск...";
+    type = typeof type !== 'undefined' ? type : NOTY_INFORMATION;
+    return noty({
+        text: text,
+        type: type,
+        dismissQueue: false,
+        layout: 'topCenter',
+        theme: 'defaultTheme'
+    });
 }

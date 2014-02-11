@@ -3,13 +3,15 @@
 from django.shortcuts import render_to_response, HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseForbidden
-from main.additionally.public import *
 import main.models as models
 from datetime import *
 import json
-import os.path
+import os
+import zipfile
+import StringIO
 from django.db.models import Q
 from itertools import chain
+from django.conf import settings
 
 
 def estr(s):
@@ -724,6 +726,35 @@ class Files():
         for f in item:
             models.Files.objects.get(name=f["name"], size=f["size"], extension=f["extension"]).delete()
         return HttpResponse(json.dumps({}), content_type="application/json")
+
+    @staticmethod
+    def download(request):
+        """
+        Создание архива и его выгрузка
+        """
+        item = json.loads(request.POST.get("item"))
+        intellectual_properties = models.IntellectualProperty.objects.filter(
+            intellectual_property_id__in=item["files"])
+        items = list(intellectual_properties.values("intellectual_property_id", "name"))
+        for item in items:
+            files = models.Files.objects.filter(
+                intellectual_property=item["intellectual_property_id"]).values_list("file")
+            files = map(lambda f: os.path.join(os.path.dirname(__file__), 'media/', f[0]).replace('\\','/'), files)
+            item["files"] = files
+
+        zip_filename = "archive.zip"
+        s = StringIO.StringIO()
+        zf = zipfile.ZipFile(s, "w")
+        for item in items:
+            for file_path in item["files"]:
+                f_dir, f_name = os.path.split(file_path)
+                zip_path = os.path.join(item["name"], f_name)
+                zf.write(file_path, zip_path)
+        zf.close()
+        response = HttpResponse(s.getvalue(), mimetype="application/x-zip-compressed")
+        response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
+        pass
+        return response
 ########################################################################################################################
 
 
@@ -753,9 +784,11 @@ class Search():
         if author_subdivisions:
             a = author_subdivisions.pop()
             items.append({"type": "subdivision",
+                          "expanded": True,
                           "id": a["department__subdivision"],
                           "name": a["department__subdivision__name"],
                           "items": [{"type": "department",
+                                     "expanded": True,
                                      "id": a["department"],
                                      "name": a["department__name"],
                                      "items": [{"type": "author",
@@ -783,6 +816,7 @@ class Search():
                     else:
                         items[subdivision]["items"].append(
                             {"type": "department",
+                             "expanded": True,
                              "id": a["department"],
                              "name": a["department__name"],
                              "items": [{"type": "author",
@@ -796,9 +830,11 @@ class Search():
                         )
                 else:
                     items.append({"type": "subdivision",
+                                  "expanded": True,
                                   "id": a["department__subdivision"],
                                   "name": a["department__subdivision__name"],
                                   "items": [{"type": "department",
+                                             "expanded": True,
                                              "id": a["department"],
                                              "name": a["department__name"],
                                              "items": [{"type": "author",
@@ -873,7 +909,7 @@ class Search():
         search_param = json.loads(request.POST.get("item"))
         doc_type = int(search_param["doc_type"])
         if doc_type:
-            items = models.IntellectualProperty.objects.filter(doc_typ=doc_type)
+            items = models.IntellectualProperty.objects.filter(doc_type=doc_type)
         else:
             items = models.IntellectualProperty.objects.all()
 
@@ -889,13 +925,52 @@ class Search():
             reduce(lambda x, y: x | y, [Q(name__icontains=word) for word in query]))
         tags_contains = items.filter(tags__in=tags).distinct()
 
-        items_contains = list(items_contains.values("name"))
-        direction = list(direction_contains.values("name"))
-        tags_contains = list(tags_contains.values("name"))
+        intellectual_properties = list(set(chain(items_contains, direction_contains, tags_contains)))
 
-        #items = set(chain(items_startswith, items_contains))
-        #items = list(items)
-        return HttpResponse(json.dumps(""), content_type="application/json")
+        result = []
+        for item in intellectual_properties:
+            new_item = {
+                "intellectual_property_id": item.intellectual_property_id,
+                "name": item.name}
+            try:
+                files = models.Files.objects.filter(intellectual_property=item.intellectual_property_id)
+                new_item["has_files"] = True if files else False
+            except models.Files.DoesNotExist:
+                new_item["has_files"] = False
+            try:
+                doc_type = models.DocumentTypes.objects.get(doc_type_id=item.doc_type_id)
+                new_item["doc_type"] = {"doc_type_id": doc_type.doc_type_id if doc_type else "",
+                                        "name": doc_type.name if doc_type else ""}
+            except models.DocumentTypes.DoesNotExist:
+                new_item["doc_type"] = {"doc_type_id": "", "name": ""}
+            try:
+                direction = models.Directions.objects.get(direction_id=item.direction_id)
+                new_item["direction"] = {"direction_id": direction.direction_id if direction else "",
+                                         "name": direction.name if direction else ""}
+            except models.Directions.DoesNotExist:
+                new_item["direction"] = {"direction_id": "", "name": ""}
+            authors = list(
+                models.Authors.objects.
+                filter(intellectualproperty=item.intellectual_property_id).
+                values("author_id", "name", "surname", "patronymic")
+            )
+            new_item["authors"] = [{"author_id": a["author_id"],
+                                    "name": "%s %s %s" % (estr(a["surname"]), estr(a["name"]), estr(a["patronymic"]))}
+                                   for a in authors]
+            tags = list(
+                models.Tags.objects.all().
+                filter(intellectualproperty=item.intellectual_property_id).
+                values("tag_id", "name")
+            )
+            new_item["tags"] = [{"tag_id": t["tag_id"],
+                                 "name": t["name"]}
+                                for t in tags]
+            result.append(new_item)
+
+        if result:
+            return HttpResponse(json.dumps(result), content_type="application/json")
+        else:
+            return HttpResponse(json.dumps(""), content_type="application/json")
 
     @staticmethod
     def search_by_author(request):
@@ -903,19 +978,60 @@ class Search():
         Поиск по ИС по автору универу и факультету
         """
         search_param = json.loads(request.POST.get("item"))
-        id = search_param["id"]
+        search_id = search_param["id"]
         if search_param["type"] == "subdivision":
-            authors = models.Authors.objects.filter(department__subdivision=id)
+            authors = models.Authors.objects.filter(department__subdivision=search_id)
         elif search_param["type"] == "department":
-            authors = models.Authors.objects.filter(department=id)
+            authors = models.Authors.objects.filter(department=search_id)
         elif search_param["type"] == "author":
-            authors = [models.Authors.objects.get(author_id=id)]
+            authors = [models.Authors.objects.get(author_id=search_id)]
         else:
             authors = []
 
-        items = models.IntellectualProperty.objects.filter(authors__in=authors).distinct()
-        items = list(items.values("name"))
-        return HttpResponse(json.dumps(""), content_type="application/json")
+        intellectual_properties = list(
+            models.IntellectualProperty.objects.filter(authors__in=authors)
+            .distinct()
+            .values("intellectual_property_id", "name", "doc_type", "direction")
+        )
+        for item in intellectual_properties:
+            try:
+                files = models.Files.objects.filter(intellectual_property=item["intellectual_property_id"])
+                item["has_files"] = True if files else False
+            except models.Files.DoesNotExist:
+                item["has_files"] = False
+            try:
+                doc_type = models.DocumentTypes.objects.get(doc_type_id=item["doc_type"])
+                item["doc_type"] = {"doc_type_id": doc_type.doc_type_id if doc_type else "",
+                                    "name": doc_type.name if doc_type else ""}
+            except models.DocumentTypes.DoesNotExist:
+                item["doc_type"] = {"doc_type_id": "", "name": ""}
+            try:
+                direction = models.Directions.objects.get(direction_id=item["direction"])
+                item["direction"] = {"direction_id": direction.direction_id if direction else "",
+                                     "name": direction.name if direction else ""}
+            except models.Directions.DoesNotExist:
+                item["direction"] = {"direction_id": "", "name": ""}
+            authors = list(
+                models.Authors.objects.
+                filter(intellectualproperty=int(item["intellectual_property_id"])).
+                values("author_id", "name", "surname", "patronymic")
+            )
+            item["authors"] = [{"author_id": a["author_id"],
+                                "name": "%s %s %s" % (estr(a["surname"]), estr(a["name"]), estr(a["patronymic"]))}
+                               for a in authors]
+            tags = list(
+                models.Tags.objects.all().
+                filter(intellectualproperty=int(item["intellectual_property_id"])).
+                values("tag_id", "name")
+            )
+            item["tags"] = [{"tag_id": t["tag_id"],
+                             "name": t["name"]}
+                            for t in tags]
+
+        if intellectual_properties:
+            return HttpResponse(json.dumps(intellectual_properties), content_type="application/json")
+        else:
+            return HttpResponse(json.dumps(""), content_type="application/json")
 ########################################################################################################################
 
 

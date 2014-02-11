@@ -7,6 +7,10 @@ var API_BASE_URL = "api/";
 (function ($) {
     $(document).ready(function (e) {
 
+        var $body = $("body");
+
+        var download_list = [], //список с id ИС для загрузки ли добавления в каталог
+            $download = $("#download").addClass("k-state-disabled");
         var t1 = 'Поиск по авторам <i class="fa fa-caret-up"></i>',
             t2 = 'Поиск <i class="fa fa-caret-down"></i>',
             $search_switcher = $("#search_switcher").addClass("margin_top").html(t1),
@@ -88,9 +92,12 @@ var API_BASE_URL = "api/";
                     id: data_item.data("id"),
                     type: data_item.data("type")
                 }
+                $.noty.closeAll();
+                var n = noty_seach_log();
                 $.post(BASE_URL+API_BASE_URL+"search_by_author/", {item: JSON.stringify(send)},
                 function(r) {
-                    console.log(r)
+                    n.close();
+                    search_result_render(r)
                 }, "json");
             }
         }).data("kendoTreeView");
@@ -104,25 +111,13 @@ var API_BASE_URL = "api/";
                     dataType: "json",
                     type: "POST"
                 }
-            },
-            schema: {
-                model: {
-                    id: "intellectual_property_id",
-                    fields: {
-                        name: {type: "string" },
-                        doc_type: {},
-                        direction: {},
-                        authors: {},
-                        tags: {}
-                    }
-                }
             }
         });
 
-        $("#pager").kendoPager({
-            dataSource: result_data_source,
+        var pager = $("#pager").kendoPager({
+            dataSource: [], //result_data_source,
             messages: {
-                display: "{0} - {1} из {2}",
+                display: "Записей в списке: {2}",
                 empty: "Нет данных для отображения",
                 first: "Первая страница",
                 itemsPerPage: "записей на странице",
@@ -133,12 +128,12 @@ var API_BASE_URL = "api/";
                 previous: "Предыдущая страница",
                 refresh: "Обновить"
             }
-        });
+        }).data("kendoPager");
 
         var result = $("#result").kendoListView({
-            dataSource: result_data_source,
+            dataSource: [], //result_data_source,
             template: kendo.template($("#result_item_template").html())
-        }).data("kendoGrid");
+        }).data("kendoListView");
 
         var $search =  $("#search");
         $search.click(function() {
@@ -154,18 +149,84 @@ var API_BASE_URL = "api/";
                 query: query,
                 doc_type: dt
             };
+            $.noty.closeAll();
+            var n = noty_seach_log();
             $.post(BASE_URL+API_BASE_URL+"search/", {item: JSON.stringify(data)},
                 function(r) {
-                    console.log(r)
+                    n.close();
+                    search_result_render(r);
                 }, "json");
             return false;
         });
+        $search.click();
 
-        $("body").on("click", ".tag", function() {
+        $body.on("click", ".tag", function() {
             var tag = $(this).text();
             search_query.value(tag);
             doc_type.value("");
             $search.click();
+            return false;
+        });
+
+        function search_result_render(data) {
+            if (data.length > 0) {
+                download_list = [];
+                $download.addClass("k-state-disabled");
+                var dataSource = new kendo.data.DataSource({
+                  data: data
+                });
+                pager.setDataSource(dataSource);
+                result.setDataSource(dataSource);
+            } else {
+                noty_error("Ваш запрос не дал результатов")
+            }
+        }
+
+        $body.on("click", ".k-button.select-item", function(e) {
+            var $this = $(this);
+            var id = $this.data("id");
+//            var current_intellectual_property = $this.parents(".intellectual_property_item.section")[0];
+//            $(current_intellectual_property).toggleClass("selected");
+            var index = download_list.indexOf(id);
+            if (index == -1) {
+                download_list.push(id);
+                $this.text("Отмена");
+                if ($download.hasClass("k-state-disabled")) {$download.removeClass("k-state-disabled");}
+                $this.addClass("k-state-selected");
+            } else {
+                download_list.splice(index, 1);
+                if (download_list.length == 0) {$download.addClass("k-state-disabled");}
+                $this.text("Выбрать");
+                $this.removeClass("k-state-selected");
+            }
+            return false;
+        });
+
+        $download.click(function(e) {
+            if ($download.hasClass("k-state-disabled")) return false;
+            var send = {
+                files: download_list
+            };
+            $.noty.closeAll();
+            var n = noty_seach_log("Подготвка в загрузке...");
+            $.fileDownload(BASE_URL+API_BASE_URL+"file/download/", {
+                httpMethod: "POST",
+                data: {item: JSON.stringify(send)},
+                successCallback: function (url) {
+                    n.close();
+                    console.log(url);
+                },
+                failCallback: function (responseHtml, url) {
+                    alert("Ошибка загрузки файла");
+                    console.log(responseHtml, url);
+                }
+            });
+//            $.fileDownload(BASE_URL+API_BASE_URL+"file/download/", {httpMethod: "POST", data: {item: JSON.stringify(send)}}).done(function() {alert("asd")}).fail(function() {alert("fail")})
+//            $.post(BASE_URL+API_BASE_URL+"file/download/", {item: JSON.stringify(send)},
+//            function(data) {
+//                n.close();
+//            }, "json" );
+//            console.log(download_list);
             return false;
         })
     });

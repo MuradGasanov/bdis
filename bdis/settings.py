@@ -1,5 +1,7 @@
 # Django settings for bdis project.
 
+import os
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -117,7 +119,6 @@ ROOT_URLCONF = 'bdis.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'bdis.wsgi.application'
 
-import os
 TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), '..', '/main/templates').replace('\\','/'),)
 
 INSTALLED_APPS = (

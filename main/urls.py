@@ -50,6 +50,7 @@ urlpatterns = patterns('main.views',
                        url(r'^'+API_BASE_URL+'file/upload/$', Files.upload),
                        url(r'^'+API_BASE_URL+'file/get_list/$', Files.get_list),
                        url(r'^'+API_BASE_URL+'file/delete/$', Files.delete),
+                       url(r'^'+API_BASE_URL+'file/download/$', Files.download),
 
                        url(r'^'+API_BASE_URL+'tree_data_source/$', Search.tree_data_source),
                        url(r'^'+API_BASE_URL+'search_data_source/$', Search.search_data_source),

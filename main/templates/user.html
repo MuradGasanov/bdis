@@ -9,6 +9,7 @@
     <script src="{% static "js/kendo/cultures/kendo.culture.ru-RU.min.js" %}"></script>
     <script src="{% static "js/user.js" %}"></script>
     <script src="{% static "js/noty/layouts/center.js" %}"></script>
+    <script src="{% static "js/file_donload/jquery.fileDownload.js" %}"></script>
 {% endblock %}
 {% block header %}
     <a class="logout k-button" href="/logout"><i class="fa fa-sign-out"></i> Выход</a>
@@ -28,13 +29,15 @@
         </div>
     </div>
     <div class="section result_section">
+        <div class="header_buttons">
+            <span id="download" class="k-button">Загрузить</span>
+        </div>
         <div id="result"></div>
         <div id="pager" class="k-pager-wrap"></div>
     </div>
     <script type="text/x-kendo-tmpl" id="tree_item_template">
         #if (item.type == "subdivision") {#
             <span >
-                # item.expanded = true; #
                 <span data-id="#=item.id#" data-type="#=item.type#" title="#=item.name#" class="tree-item">
                     <i class="fa fa-building-o"> </i> #=item.name#
                 </span>
@@ -56,11 +59,18 @@
     </script>
 
     <script type="text/x-kendo-template" id="result_item_template">
-        <div class="intellectual_property_item section" data-id="#=intellectual_property_id#">
-            <span class="header">#=name# (#=doc_type.name#)</span>
+        <div class="intellectual_property_item section" >
+            <div class="fright">
+            # if (has_files) { #
+                <span class="k-button select-item" data-id="#=intellectual_property_id#">Выбрать</span>
+            # } else  { #
+                <span class="k-button k-state-disabled" data-id="#=intellectual_property_id#" title="Нет прикрепленных файлов">Выбрать</span>
+            # } #
+            </div>
+            <div><span class="item_header">#=name# (#=doc_type.name#)</span>
             <p>Направление: #=direction.name#</p>
-            #for(var i=0;i<authors.length;i++)  { #  <span> #=authors[i].name#,</span> # }#
-            <p> #for(var i=0;i<tags.length;i++)  { #  <span class="tag"> #=tags[i].name#</span> # }#</p>
+            #for(var i=0;i<authors.length;i++)  { #  <span class="author"> #=authors[i].name#,</span> # }#
+            <p> #for(var i=0;i<tags.length;i++)  { #  <span class="tag">#=tags[i].name#</span> # }#</p></div>
         </div>
     </script>
 {% endblock %}
