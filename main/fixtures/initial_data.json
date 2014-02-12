@@ -65,16 +65,16 @@
         "fields": { "name": "Направление 4" }
     },
     {   "pk": 1, "model": "main.Tags",
-        "fields": { "name": "тэг 1" }
+        "fields": { "name": "тэг1" }
     },
     {   "pk": 2, "model": "main.Tags",
-        "fields": { "name": "тэг 2" }
+        "fields": { "name": "тэг2" }
     },
     {   "pk": 3, "model": "main.Tags",
-        "fields": { "name": "тэг 3" }
+        "fields": { "name": "тэг3" }
     },
     {   "pk": 4, "model": "main.Tags",
-        "fields": { "name": "тэг 4" }
+        "fields": { "name": "тэг4" }
     },
     {   "pk": 1, "model": "main.IntellectualProperty",
         "fields": { "name": "IntellectualProperty1", "doc_type": 1, "direction": 1, "authors": [1], "tags": [1, 2, 3]}

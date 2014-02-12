@@ -35,9 +35,7 @@ li.k-file div.file-wrapper { position: relative; height: 65px; }
 .k-file-success .k-progress { background-color: #ddffd0; }
 .k-file-success { color: #28760b; }
 
-
 .k-widget.k-tooltip.k-tooltip-validation.k-invalid-msg { margin-top: 3px}
-
 
 .k-edit-form-container .k-edit-label { width: 20% !important; }
 .k-edit-form-container .k-edit-field { width: 73% !important; }

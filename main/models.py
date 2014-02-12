@@ -54,6 +54,12 @@ class IntellectualProperty(models.Model):
     tags = models.ManyToManyField(Tags, null=True)
 
 
+class DownloadDir(models.Model):
+    download_dir_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=200, null=False)
+    intellectual_property = models.ManyToManyField(IntellectualProperty, null=False)
+
+
 def get_upload_folder(instance, filename):
     return os.path.join(
         "%d" % instance.intellectual_property.intellectual_property_id, filename)

@@ -10,7 +10,8 @@ var API_BASE_URL = "api/";
         var $body = $("body");
 
         var download_list = [], //список с id ИС для загрузки ли добавления в каталог
-            $download = $("#download").addClass("k-state-disabled");
+            $download = $("#download").addClass("k-state-disabled"),
+            $add_directory = $("#add_directory").addClass("k-state-disabled");
         var t1 = 'Поиск по авторам <i class="fa fa-caret-up"></i>',
             t2 = 'Поиск <i class="fa fa-caret-down"></i>',
             $search_switcher = $("#search_switcher").addClass("margin_top").html(t1),
@@ -138,11 +139,14 @@ var API_BASE_URL = "api/";
         var $search =  $("#search");
         $search.click(function() {
             var query = search_query.value();
-            if (query.length = 0) return false; //TODO: дефолтный результат поиска
-            query = query.replace(/,/g, ''); //удалить все ,
-            query = query.replace(/\s+/g, ' '); //пробелы
-            query = $.trim(query);
-            query = query.split(" ");
+            if (query.length != 0) {
+                query = query.replace(/,/g, ''); //удалить все ,
+                query = query.replace(/\s+/g, ' '); //пробелы
+                query = $.trim(query);
+                query = query.split(" ");
+            } else {
+                query = [""];
+            }
             var dt = doc_type.value();
             if (dt) { dt = parseInt(dt) } else { dt = 0 }
             var data = {
@@ -172,6 +176,7 @@ var API_BASE_URL = "api/";
             if (data.length > 0) {
                 download_list = [];
                 $download.addClass("k-state-disabled");
+                $add_directory.addClass("k-state-disabled");
                 var dataSource = new kendo.data.DataSource({
                   data: data
                 });
@@ -191,11 +196,17 @@ var API_BASE_URL = "api/";
             if (index == -1) {
                 download_list.push(id);
                 $this.text("Отмена");
-                if ($download.hasClass("k-state-disabled")) {$download.removeClass("k-state-disabled");}
+                if ($download.hasClass("k-state-disabled")) {
+                    $download.removeClass("k-state-disabled");
+                    $add_directory.removeClass("k-state-disabled");
+                }
                 $this.addClass("k-state-selected");
             } else {
                 download_list.splice(index, 1);
-                if (download_list.length == 0) {$download.addClass("k-state-disabled");}
+                if (download_list.length == 0) {
+                    $download.addClass("k-state-disabled");
+                    $add_directory.addClass("k-state-disabled");
+                }
                 $this.text("Выбрать");
                 $this.removeClass("k-state-selected");
             }
@@ -209,6 +220,7 @@ var API_BASE_URL = "api/";
             };
             $.noty.closeAll();
             var n = noty_seach_log("Подготвка в загрузке...");
+            setTimeout(function() { n.close() }, 1500);
             $.fileDownload(BASE_URL+API_BASE_URL+"file/download/", {
                 httpMethod: "POST",
                 data: {item: JSON.stringify(send)},
@@ -217,6 +229,7 @@ var API_BASE_URL = "api/";
                     console.log(url);
                 },
                 failCallback: function (responseHtml, url) {
+                    n.close();
                     alert("Ошибка загрузки файла");
                     console.log(responseHtml, url);
                 }
@@ -228,6 +241,69 @@ var API_BASE_URL = "api/";
 //            }, "json" );
 //            console.log(download_list);
             return false;
-        })
+        });
+
+        var $change_directory = $("#change_directory"),
+
+            directory_window = $("#change_directory_window").kendoWindow({
+                resizable: false, actions: [/*здесь скрываются кнопки*/],
+                animation: { close: { effects: "", duration: 350 },
+                    open: { effects: "", duration: 350 } },
+                modal: true, width: 500, visible: false
+            }).data("kendoWindow"),
+
+            directory_model = kendo.observable({
+                id: 0,
+                name: ""
+            });
+
+        window.directory_window = directory_window;
+
+        kendo.bind($change_directory, directory_model);
+        var directory_validator = $change_directory.kendoValidator({
+            rules: {
+                required: function(input) {
+                    if (input.is("[required]")) {
+                        input.val($.trim(input.val())); //удалить обертывающиепробелы
+                        return input.val() !== "";
+                    } else return true;
+                }
+            },
+            messages: {
+                required: "Поле не может быть пустым"
+            }
+        }).data("kendoValidator");
+
+        $("#directory_cancel").click(function() {
+            directory_window.close();
+            return false;
+        });
+
+        $("#directory_save").click(function() {
+            if (!directory_validator.validate()) return false;
+            var send = {
+                id: directory_model.get("id"),
+                name: directory_model.get("name"),
+                intellectual_properties_id: download_list
+            };
+            $.post(BASE_URL + API_BASE_URL + "directory/create/", {item: JSON.stringify(send) },
+            function(response) {
+                console.log(response);
+                kendo.fx(directory_window.wrapper)
+                    .transfer($("#catalogs_page"))
+                    .play()
+                    .then(function() { directory_window.close() })
+            });
+            return false;
+        });
+
+        $add_directory.click(function() {
+            if ($add_directory.hasClass("k-state-disabled")) return false;
+            $(".k-widget.k-tooltip.k-tooltip-validation.k-invalid-msg").hide();
+            directory_window.center().open();
+            return false;
+        });
+
+
     });
 })(jQuery)

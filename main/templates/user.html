@@ -12,9 +12,14 @@
     <script src="{% static "js/file_donload/jquery.fileDownload.js" %}"></script>
 {% endblock %}
 {% block header %}
-    <a class="logout k-button" href="/logout"><i class="fa fa-sign-out"></i> Выход</a>
+    <div id="header_buttons">
+        <span class="logout fright k-button" href="/logout"><i class="fa fa-sign-out"></i> Выход</span>
+        <span class="k-button" href="#"><i class="fa fa-search"></i> Поиск</span>
+        <span id="catalogs_page" class="k-button" href="#"><i class="fa fa-folder-o"></i> Каталоги</span>
+    </div>
 {% endblock %}
 {% block content %}
+
     <div class="section search_section">
         <div id="search_by_word">
             <form id="search_textbox">
@@ -29,12 +34,40 @@
         </div>
     </div>
     <div class="section result_section">
-        <div class="header_buttons">
-            <span id="download" class="k-button">Загрузить</span>
+        <div class="result_header_buttons">
+            <span id="download" class="k-button"><i class="fa fa-download"></i>Скачать</span>
+            <span id="add_directory" class="k-button">
+{#                <span class="fa-stack">#}
+{#                <i class="fa fa-folder-o fa-stack-1x"></i>#}
+{#                <i class="fa fa-plus fa-stack-1x text-danger"></i></span>#}
+                <i class="fa fa-plus-square-o"></i>
+                Добавить в каталог</span>
         </div>
         <div id="result"></div>
         <div id="pager" class="k-pager-wrap"></div>
     </div>
+
+    <div id="change_directory_window" style="display: none">
+        <div id="change_directory" class="k-edit-form-container" style="width: inherit;">
+            <div class="k-edit-label">
+                <label>Название<span class="required">*</span>:</label>
+            </div>
+            <div class="k-edit-field">
+                <input type="text" class="k-textbox" name="name" required placeholder="Название" style="width: 100%"
+                       data-bind="value: name"/>
+            </div>
+            <input type="hidden" id="is_directory_edit" value="false">
+            <div class="k-edit-buttons k-state-default">
+                <a class="k-button k-button-icontext k-grid-update" id="directory_save" href="#">
+                    <span class="k-icon k-update"></span>Сохранить
+                </a>
+                <a class="k-button k-button-icontext k-grid-cancel" id="directory_cancel" href="#">
+                    <span class="k-icon k-cancel"></span>Отмена
+                </a>
+            </div>
+        </div>
+    </div>
+
     <script type="text/x-kendo-tmpl" id="tree_item_template">
         #if (item.type == "subdivision") {#
             <span >

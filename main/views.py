@@ -15,7 +15,7 @@ from django.conf import settings
 
 
 def estr(s):
-        return '' if s is None else str(s.encode('utf-8'))
+    return '' if s is None else str(s.encode('utf-8'))
 
 
 def index(lst, key, value):
@@ -36,12 +36,6 @@ def home_page(request):
     else:
         return render_to_response("user.html")
 ########################################################################################################################
-
-
-def temp(request):
-    for i in range(1, 4500):
-        models.Tags.objects.create(name="tag %i" % i)
-    return HttpResponse("Ok")
 
 
 def log_in(request):
@@ -510,10 +504,10 @@ class IntellectualProperty():
             name=item["name"],
             doc_type=doc_type,
             direction=direction)
-        for author in authors:
+        for author in authors: #FIXME: добавить без цикла
             new_intellectual_property.authors.add(author)
 
-        for tag in tags:
+        for tag in tags: #FIXME: добавить без цикла
             new_intellectual_property.tags.add(tag)
 
         doc_type = {
@@ -1035,5 +1029,56 @@ class Search():
 ########################################################################################################################
 
 
+class Directory():
+    def __init__(self):
+        pass
 
+    # @staticmethod
+    # def read(request):
+    #     """
+    #     вывод списка
+    #     """
+    #     tags = list(
+    #         models.Tags.objects.all().
+    #         values("tag_id", "name")
+    #     )
+    #     if tags:
+    #         return HttpResponse(json.dumps(tags), content_type="application/json")
+    #     else:
+    #         return HttpResponse(json.dumps(""), content_type="application/json")
 
+    # @staticmethod
+    # def destroy(request):
+    #     """
+    #     удаление
+    #     """
+    #     item = json.loads(request.POST.get("item"))
+    #     models.Tags.objects.get(tag_id=int(item["tag_id"])).delete()
+    #     return HttpResponse(json.dumps({}), content_type="application/json")
+
+    @staticmethod
+    def create(request):
+        """
+        добавление
+        """
+        item = json.loads(request.POST.get("item"))
+        #intellectual_property = models.IntellectualProperty.objects.filter(
+        #    intellectual_property_id__in=item["intellectual_properties_id"])
+        new_directory = models.DownloadDir.objects.create(name=item["name"])
+        new_directory.intellectual_property.add(*item["intellectual_properties_id"])
+        return HttpResponse(json.dumps({"download_dir_id": new_directory.download_dir_id,
+                                        "name": new_directory.name}),
+                            content_type="application/json")
+
+    # @staticmethod
+    # def update(request):
+    #     """
+    #     редактирование
+    #     """
+    #     item = json.loads(request.POST.get("item"))
+    #     tag = models.Tags.objects.get(tag_id=int(item["tag_id"]))
+    #     tag.name = item["name"]
+    #     tag.save()
+    #     return HttpResponse(json.dumps({"tag_id": tag.tag_id,
+    #                                     "name": tag.name}), content_type="application/json")
+########################################################################################################################

@@ -6,7 +6,7 @@ var API_BASE_URL = "api/";
 
 (function ($) {
     $(document).ready(function (e) {
-        var GRID_HEIGHT = $(window).height() - $("header#main_header").height() - $("footer#main_footer").height() - 65;
+        var GRID_HEIGHT = $(window).height() - $("header#main_header").height() - $("footer#main_footer").height() - 70;
         var window_option = {
             resizable: false,
             actions: [],
@@ -28,7 +28,6 @@ var API_BASE_URL = "api/";
                 required: "Поле не может быть пустым"
             }
         };
-        var log_message;
         $("#tab_strip").kendoTabStrip({
             animation: {
                 open: {

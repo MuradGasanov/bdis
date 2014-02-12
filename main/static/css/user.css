@@ -79,11 +79,12 @@
 }
 .margin_top { margin-top: 10px; }
 .margin_bottom { margin-bottom: 10px; }
+#header_buttons span.k-button { margin: 7px 2px 7px;}
+#header_buttons span.logout { margin: 7px !important; }
+.result_header_buttons { margin-bottom: 10px; }
 
-.fright { float: right; }
-.fleft { float: left; }
-.clearfix { clear: both }
+.k-widget.k-tooltip.k-tooltip-validation.k-invalid-msg { margin-top: 3px}
 
-.header_buttons {
-    margin-bottom: 10px;
-}
+.k-edit-form-container .k-edit-label { width: 20% !important; }
+.k-edit-form-container .k-edit-field { width: 73% !important; }
+.k-edit-form-container .k-edit-buttons { position: static; }
