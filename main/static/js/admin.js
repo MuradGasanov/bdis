@@ -1100,6 +1100,13 @@ var API_BASE_URL = "api/";
             return false;
         });
 ///////////////////////////////////////  \\ИНТЕЛЛЕКТУАЛ. СОБСТВЕННОСТЬ
+
+        $("#logout").click(function() {
+            noty_confirm("Выйти?", function() {
+                window.location = "/logout/"
+            });
+            return false;
+        });
     });
 })(jQuery);
 ///////////////////////////////////////  ОТДЕЛЫ

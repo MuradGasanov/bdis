@@ -403,5 +403,12 @@ var API_BASE_URL = "api/";
             return false;
         });
 
+        $("#logout").click(function() {
+            noty_confirm("Выйти?", function() {
+                window.location = "/logout/"
+            });
+            return false;
+        });
+
     });
 })(jQuery)

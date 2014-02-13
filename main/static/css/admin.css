@@ -45,3 +45,5 @@ li.k-file div.file-wrapper { position: relative; height: 65px; }
 
 #change_intellectual_property .k-edit-field #authors_multiselect { width: 501px; display: inline-block}
 #change_intellectual_property .k-edit-field .k-button.add_author {position: absolute; line-height: 1.8em; }
+
+span.logout { margin: 7px !important; }
