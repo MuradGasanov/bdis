@@ -14,8 +14,6 @@
 {% block header %}
     <div id="header_buttons">
         <span class="logout fright k-button" href="/logout"><i class="fa fa-sign-out"></i> Выход</span>
-        <span class="k-button" href="#"><i class="fa fa-search"></i> Поиск</span>
-        <span id="catalogs_page" class="k-button" href="#"><i class="fa fa-folder-o"></i> Каталоги</span>
     </div>
 {% endblock %}
 {% block content %}
@@ -35,7 +33,8 @@
     </div>
     <div class="section result_section">
         <div class="result_header_buttons">
-            <span id="download" class="k-button"><i class="fa fa-download"></i>Скачать</span>
+            <span id="show_directory_grid" class="k-button fright" title="Открыть"  href="#"><i class="fa fa-folder-o"></i> Каталоги</span>
+            <span id="download" title="Скачать выбранные ИС" class="k-button"><i class="fa fa-download"></i> Скачать</span>
             <span id="add_directory" class="k-button">
 {#                <span class="fa-stack">#}
 {#                <i class="fa fa-folder-o fa-stack-1x"></i>#}
@@ -55,6 +54,7 @@
             <div class="k-edit-field">
                 <input type="text" class="k-textbox" name="name" required placeholder="Название" style="width: 100%"
                        data-bind="value: name"/>
+                <span class="k-invalid-msg" data-for="name"></span>
             </div>
             <input type="hidden" id="is_directory_edit" value="false">
             <div class="k-edit-buttons k-state-default">
@@ -63,6 +63,17 @@
                 </a>
                 <a class="k-button k-button-icontext k-grid-cancel" id="directory_cancel" href="#">
                     <span class="k-icon k-cancel"></span>Отмена
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="directory_window" style="display: none">
+        <div class="k-edit-form-container" style="width: inherit;">
+            <div id="download_directory"></div>
+            <div class="k-edit-buttons k-state-default">
+                <a class="k-button k-button-icontext k-grid-cancel" id="download_directory_close" href="#">
+                    <span class="k-icon k-cancel"></span>Закрыть
                 </a>
             </div>
         </div>
@@ -94,9 +105,13 @@
     <script type="text/x-kendo-template" id="result_item_template">
         <div class="intellectual_property_item section" >
             <div class="fright">
-            # if (has_files) { #
-                <span class="k-button select-item" data-id="#=intellectual_property_id#">Выбрать</span>
-            # } else  { #
+            # if (has_files) {
+                if (data.in_download_list) { #
+                       <span class="k-button select-item k-state-selected" data-id="#=intellectual_property_id#">Отмена</span>
+                   # } else { #
+                       <span class="k-button select-item" data-id="#=intellectual_property_id#">Выбрать</span>
+                   # }
+            } else  { #
                 <span class="k-button k-state-disabled" data-id="#=intellectual_property_id#" title="Нет прикрепленных файлов">Выбрать</span>
             # } #
             </div>

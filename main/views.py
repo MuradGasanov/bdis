@@ -732,7 +732,7 @@ class Files():
         items = list(intellectual_properties.values("intellectual_property_id", "name"))
         for item in items:
             files = models.Files.objects.filter(
-                intellectual_property=item["intellectual_property_id"]).values_list("file")
+                intellectual_property=item["intellectual_property_id"]).values_list("file") #FIXME: брать путь из settings
             files = map(lambda f: os.path.join(os.path.dirname(__file__), 'media/', f[0]).replace('\\','/'), files)
             item["files"] = files
 
@@ -1033,28 +1033,32 @@ class Directory():
     def __init__(self):
         pass
 
-    # @staticmethod
-    # def read(request):
-    #     """
-    #     вывод списка
-    #     """
-    #     tags = list(
-    #         models.Tags.objects.all().
-    #         values("tag_id", "name")
-    #     )
-    #     if tags:
-    #         return HttpResponse(json.dumps(tags), content_type="application/json")
-    #     else:
-    #         return HttpResponse(json.dumps(""), content_type="application/json")
+    @staticmethod
+    def read(request):
+        """
+        вывод списка
+        """
+        items = list(
+            models.DownloadDir.objects.all().
+            values("download_dir_id", "name")
+        )
+        map(lambda d: d.update({
+            "intellectual_properties_id": [i[0] for i in models.IntellectualProperty.objects.filter(
+                downloaddir=d["download_dir_id"]
+            ).values_list("intellectual_property_id")]}), items)
+        if items:
+            return HttpResponse(json.dumps(items), content_type="application/json")
+        else:
+            return HttpResponse(json.dumps(""), content_type="application/json")
 
-    # @staticmethod
-    # def destroy(request):
-    #     """
-    #     удаление
-    #     """
-    #     item = json.loads(request.POST.get("item"))
-    #     models.Tags.objects.get(tag_id=int(item["tag_id"])).delete()
-    #     return HttpResponse(json.dumps({}), content_type="application/json")
+    @staticmethod
+    def destroy(request):
+        """
+        удаление
+        """
+        item = json.loads(request.POST.get("item"))
+        models.DownloadDir.objects.get(download_dir_id=int(item["download_dir_id"])).delete()
+        return HttpResponse(json.dumps({}), content_type="application/json")
 
     @staticmethod
     def create(request):
@@ -1066,8 +1070,11 @@ class Directory():
         #    intellectual_property_id__in=item["intellectual_properties_id"])
         new_directory = models.DownloadDir.objects.create(name=item["name"])
         new_directory.intellectual_property.add(*item["intellectual_properties_id"])
+        intellectual_properties_id = [i[0] for i in models.IntellectualProperty.objects.filter(
+            downloaddir=new_directory.download_dir_id).values_list("intellectual_property_id")]
         return HttpResponse(json.dumps({"download_dir_id": new_directory.download_dir_id,
-                                        "name": new_directory.name}),
+                                        "name": new_directory.name,
+                                        "intellectual_properties_id": intellectual_properties_id}),
                             content_type="application/json")
 
     # @staticmethod
