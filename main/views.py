@@ -686,14 +686,19 @@ class Files():
         intellectual_property = models.IntellectualProperty.\
             objects.get(intellectual_property_id=int(item["intellectual_property_id"]))
         f = request.FILES['files']
-        models.Files.objects.create(
+        new_file = models.Files.objects.create(
             file=f,
             name=f.name,
             size=f.size,
             extension=os.path.splitext(f.name)[1],
             intellectual_property=intellectual_property
-        )
-        return HttpResponse(json.dumps({}), content_type="application/json")
+        ) #.values("file_id", "name", "size", "extension")
+        return HttpResponse(json.dumps({
+            "file_id": new_file.file_id,
+            "name": new_file.name,
+            "size": new_file.size,
+            "extension": new_file.extension
+        }), content_type="application/json")
 
     @staticmethod
     def get_list(request):
@@ -704,7 +709,7 @@ class Files():
         files = list(
             models.Files.objects.all().
             filter(intellectual_property=item["intellectual_property_id"]).
-            values("name", "size", "extension")
+            values("file_id", "name", "size", "extension")
         )
         if files:
             return HttpResponse(json.dumps(files), content_type="application/json")
@@ -718,7 +723,7 @@ class Files():
         """
         item = json.loads(request.POST.get("item"))
         for f in item:
-            models.Files.objects.get(name=f["name"], size=f["size"], extension=f["extension"]).delete()
+            models.Files.objects.get(file_id=f["file_id"]).delete()
         return HttpResponse(json.dumps({}), content_type="application/json")
 
     @staticmethod

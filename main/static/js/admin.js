@@ -1291,7 +1291,19 @@ function intellectual_property_detail_init(e) {
                 },
                 template: kendo.template($('#fileTemplate').html()),
                 files: files,
+                success:function (e) {
+                    if (e.operation == "upload") {
+                        var that = this;
+                        $.post(API_BASE_URL + "file/get_list/",
+                            {item: JSON.stringify({intellectual_property_id: intellect_prop_id})},
+                            function(data) {
+                                that.wrapper.find("li.k-file.k-file-success").remove();
+                                that._renderInitialFiles(data);
+                            });
+                    }
+                },
                 select: function(e) {
+//                    console.log("suc ",e);
                 },
                 upload: function (e) {
                     var f = e.files;
