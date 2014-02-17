@@ -48,6 +48,7 @@ class Directions(models.Model):
 class IntellectualProperty(models.Model):
     intellectual_property_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=500, null=False)
+    code = models.CharField(max_length=50, null=False)
     doc_type = models.ForeignKey(DocumentTypes, null=True, on_delete=models.SET_NULL)
     direction = models.ForeignKey(Directions, null=True, on_delete=models.SET_NULL)
     authors = models.ManyToManyField(Authors, null=True)
