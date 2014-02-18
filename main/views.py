@@ -406,7 +406,7 @@ class IntellectualProperty():
         """
         intellectual_properties = list(
             models.IntellectualProperty.objects.all().
-            values("intellectual_property_id", "name",
+            values("intellectual_property_id", "name", "code",
                    "doc_type", "direction")
         )
         for item in intellectual_properties:
@@ -502,12 +502,13 @@ class IntellectualProperty():
 
         new_intellectual_property = models.IntellectualProperty.objects.create(
             name=item["name"],
+            code=item["code"],
             doc_type=doc_type,
             direction=direction)
-        for author in authors: #FIXME: добавить без цикла
+        for author in authors:  # FIXME: добавить без цикла
             new_intellectual_property.authors.add(author)
 
-        for tag in tags: #FIXME: добавить без цикла
+        for tag in tags:  # FIXME: добавить без цикла
             new_intellectual_property.tags.add(tag)
 
         doc_type = {
@@ -583,6 +584,7 @@ class IntellectualProperty():
         intellectual_property = models.IntellectualProperty.\
             objects.get(intellectual_property_id=int(item["intellectual_property_id"]))
         intellectual_property.name = item["name"]
+        intellectual_property.code = item["code"]
         intellectual_property.doc_type = doc_type
         intellectual_property.direction = direction
         intellectual_property.save()
@@ -613,6 +615,7 @@ class IntellectualProperty():
         return HttpResponse(json.dumps({
             "intellectual_property_id": intellectual_property.intellectual_property_id,
             "name": intellectual_property.name,
+            "code": intellectual_property.code,
             "doc_type": doc_type,
             "direction": direction,
             "authors": authors,
@@ -692,7 +695,7 @@ class Files():
             size=f.size,
             extension=os.path.splitext(f.name)[1],
             intellectual_property=intellectual_property
-        ) #.values("file_id", "name", "size", "extension")
+        )  # .values("file_id", "name", "size", "extension")
         return HttpResponse(json.dumps({
             "file_id": new_file.file_id,
             "name": new_file.name,

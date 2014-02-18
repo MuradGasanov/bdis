@@ -811,11 +811,8 @@ var API_BASE_URL = "api/";
                     model: {
                         id: "intellectual_property_id",
                         fields: {
-                            name: {
-                                validation: {
-                                    required: { message: "Поле не может быть пустым" }
-                                }
-                            },
+                            name: { type: "string" },
+                            code: { type: "string" },
                             doc_type: {defaultValue: {doc_type_id: "", name: ""}},
                             direction: {defaultValue: {direction_id: "", name: ""}},
                             authors: {defaultValue: []},
@@ -838,6 +835,7 @@ var API_BASE_URL = "api/";
             detailTemplate: kendo.template($("#intellectual_property_detail_template").html()),
             detailInit: intellectual_property_detail_init,
             columns: [
+                { field: "code", title: "Код"},
                 { field: "name", title: "Наименование"},
                 { field: "doc_type", title: "Тип",
                     template: "#if (doc_type) if ('name' in doc_type) {# #=doc_type.name# # } #"},
@@ -859,10 +857,13 @@ var API_BASE_URL = "api/";
                             $("#is_intellectual_property_edit").val("true");
                             intellectual_property_model.set("intellectual_property_id", dataItem.intellectual_property_id);
                             intellectual_property_model.set("name", "");
+                            intellectual_property_model.set("name", "");
                             intellectual_property_model.set("doc_type", "");
                             intellectual_property_model.set("direction", "");
                             intellectual_property_model.set("tags", "");
                             intellectual_property_model.set("name", dataItem.name);
+                            intellectual_property_model.set("code", dataItem.code);
+                            console.log(dataItem);
                             intellectual_property_model.set("doc_type", dataItem.doc_type.doc_type_id);
                             intellectual_property_model.set("direction", dataItem.direction.direction_id);
                             var authors = [], tags = [], i;
@@ -959,6 +960,7 @@ var API_BASE_URL = "api/";
         var intellectual_property_model = kendo.observable({
             intellectual_property_id: 0,
             name: "",
+            code: "",
 
             doc_types: new kendo.data.DataSource({   type: "json",
                 transport: {
@@ -1015,6 +1017,7 @@ var API_BASE_URL = "api/";
             $("#is_intellectual_property_edit").val("false");
             intellectual_property_model.set("intellectual_property_id", 0);
             intellectual_property_model.set("name", "");
+            intellectual_property_model.set("code", "");
             intellectual_property_model.set("doc_type", "");
             intellectual_property_model.set("direction", "");
             authors_multiselect.dataSource.read();
@@ -1036,6 +1039,7 @@ var API_BASE_URL = "api/";
             var item = data.get(d.intellectual_property_id);
             if (item) {
                 item.name = d.name;
+                item.code = d.code;
                 item.doc_type = d.doc_type;
                 item.direction = d.direction;
                 item.authors = d.authors;
@@ -1044,6 +1048,7 @@ var API_BASE_URL = "api/";
                 item = {
                     intellectual_property_id: d.intellectual_property_id,
                     name: d.name,
+                    code: d.code,
                     doc_type: d.doc_type,
                     direction: d.direction,
                     authors: d.authors,
@@ -1085,6 +1090,7 @@ var API_BASE_URL = "api/";
             var send = {
                 intellectual_property_id: intellectual_property_model.get("intellectual_property_id"),
                 name: intellectual_property_model.get("name"),
+                code: intellectual_property_model.get("code"),
                 doc_type: doc_type,
                 direction: direction,
                 authors: authors_multiselect.value(),
