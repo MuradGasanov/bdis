@@ -3,28 +3,16 @@
 from django.shortcuts import render_to_response, HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseForbidden
-import main.models as models
+from django.db.models import Q
+from django.conf import settings
 from datetime import *
+from itertools import chain
+from additionally.common import *
+import main.models as models
 import json
 import os
 import zipfile
 import StringIO
-from django.db.models import Q
-from itertools import chain
-from django.conf import settings
-
-
-def estr(s):
-    return '' if s is None else str(s.encode('utf-8'))
-
-
-def index(lst, key, value):
-    for i, dic in enumerate(lst):
-        if dic[key] == value:
-            return i
-    return -1
-########################################################################################################################
-
 
 def home_page(request):
     """
@@ -308,38 +296,38 @@ class DocumentTypes():
         else:
             return HttpResponse(json.dumps(""), content_type="application/json")
 
-    @staticmethod
-    def destroy(request):
-        """
-        удаление типа права
-        """
-        item = json.loads(request.POST.get("item"))
-        models.DocumentTypes.objects.get(doc_type_id=int(item["doc_type_id"])).delete()
-        return HttpResponse(json.dumps({}), content_type="application/json")
-
-    @staticmethod
-    def create(request):
-        """
-        добавление типа права
-        """
-        item = json.loads(request.POST.get("item"))
-        new_document_type = models.DocumentTypes.objects.create(name=item["name"])
-        return HttpResponse(json.dumps({"doc_type_id": new_document_type.doc_type_id,
-                                        "name": new_document_type.name}),
-                            content_type="application/json")
-
-    @staticmethod
-    def update(request):
-        """
-        редактирование типа права
-        """
-        item = json.loads(request.POST.get("item"))
-        document_type = models.DocumentTypes.objects.get(doc_type_id=int(item["doc_type_id"]))
-        document_type.name = item["name"]
-        document_type.save()
-        return HttpResponse(json.dumps({"doc_type_id": document_type.doc_type_id,
-                                        "name": document_type.name}),
-                            content_type="application/json")
+    # @staticmethod
+    # def destroy(request):
+    #     """
+    #     удаление типа права
+    #     """
+    #     item = json.loads(request.POST.get("item"))
+    #     models.DocumentTypes.objects.get(doc_type_id=int(item["doc_type_id"])).delete()
+    #     return HttpResponse(json.dumps({}), content_type="application/json")
+    #
+    # @staticmethod
+    # def create(request):
+    #     """
+    #     добавление типа права
+    #     """
+    #     item = json.loads(request.POST.get("item"))
+    #     new_document_type = models.DocumentTypes.objects.create(name=item["name"])
+    #     return HttpResponse(json.dumps({"doc_type_id": new_document_type.doc_type_id,
+    #                                     "name": new_document_type.name}),
+    #                         content_type="application/json")
+    #
+    # @staticmethod
+    # def update(request):
+    #     """
+    #     редактирование типа права
+    #     """
+    #     item = json.loads(request.POST.get("item"))
+    #     document_type = models.DocumentTypes.objects.get(doc_type_id=int(item["doc_type_id"]))
+    #     document_type.name = item["name"]
+    #     document_type.save()
+    #     return HttpResponse(json.dumps({"doc_type_id": document_type.doc_type_id,
+    #                                     "name": document_type.name}),
+    #                         content_type="application/json")
 ########################################################################################################################
 
 
@@ -361,37 +349,37 @@ class Directions():
         else:
             return HttpResponse(json.dumps(""), content_type="application/json")
 
-    @staticmethod
-    def destroy(request):
-        """
-        удаление направлений
-        """
-        item = json.loads(request.POST.get("item"))
-        models.Directions.objects.get(direction_id=int(item["direction_id"])).delete()
-        return HttpResponse(json.dumps({}), content_type="application/json")
-
-    @staticmethod
-    def create(request):
-        """
-        добавление направлений
-        """
-        item = json.loads(request.POST.get("item"))
-        new_direction = models.Directions.objects.create(name=item["name"])
-        return HttpResponse(json.dumps({"direction_id": new_direction.direction_id,
-                                        "name": new_direction.name}),
-                            content_type="application/json")
-
-    @staticmethod
-    def update(request):
-        """
-        редактирование направлений
-        """
-        item = json.loads(request.POST.get("item"))
-        direction = models.Directions.objects.get(direction_id=item["direction_id"])
-        direction.name = item["name"]
-        direction.save()
-        return HttpResponse(json.dumps({"direction_id": direction.direction_id,
-                                        "name": direction.name}), content_type="application/json")
+    # @staticmethod
+    # def destroy(request):
+    #     """
+    #     удаление направлений
+    #     """
+    #     item = json.loads(request.POST.get("item"))
+    #     models.Directions.objects.get(direction_id=int(item["direction_id"])).delete()
+    #     return HttpResponse(json.dumps({}), content_type="application/json")
+    #
+    # @staticmethod
+    # def create(request):
+    #     """
+    #     добавление направлений
+    #     """
+    #     item = json.loads(request.POST.get("item"))
+    #     new_direction = models.Directions.objects.create(name=item["name"])
+    #     return HttpResponse(json.dumps({"direction_id": new_direction.direction_id,
+    #                                     "name": new_direction.name}),
+    #                         content_type="application/json")
+    #
+    # @staticmethod
+    # def update(request):
+    #     """
+    #     редактирование направлений
+    #     """
+    #     item = json.loads(request.POST.get("item"))
+    #     direction = models.Directions.objects.get(direction_id=item["direction_id"])
+    #     direction.name = item["name"]
+    #     direction.save()
+    #     return HttpResponse(json.dumps({"direction_id": direction.direction_id,
+    #                                     "name": direction.name}), content_type="application/json")
 ########################################################################################################################
 
 
@@ -462,39 +450,24 @@ class IntellectualProperty():
         item = json.loads(request.POST.get("item"))
         doc_type = item["doc_type"]
         if type(doc_type) == unicode and len(doc_type) != 0:
-            try:
-                doc_type = models.DocumentTypes.objects.create(name=doc_type)
-            except:
-                doc_type = None
+            doc_type = models.DocumentTypes.objects.create(name=doc_type)
         elif type(doc_type) == int:
-            try:
-                doc_type = models.DocumentTypes.objects.get(doc_type_id=doc_type)
-            except models.DocumentTypes.DoesNotExist:
-                doc_type = None
+            doc_type = try_get(models.DocumentTypes, doc_type_id=doc_type)
         else:
             doc_type = None
 
         direction = item["direction"]
         if type(direction) == unicode and len(direction) != 0:
-            try:
-                direction = models.Directions.objects.create(name=direction)
-            except:
-                direction = None
+            direction = models.Directions.objects.create(name=direction)
         elif type(direction) == int:
-            try:
-                direction = models.Directions.objects.get(direction_id=direction)
-            except models.Directions.DoesNotExist:
-                direction = None
+            direction = try_get(models.Directions, direction_id=direction)
         else:
             direction = None
 
-        authors = [models.Authors.objects.get(author_id=int(a)) for a in item["authors"]]
         tags = []
         for t in item["tags"]:
             try:
-                tag = models.Tags.objects.get(name=t)
-            except models.Tags.DoesNotExist:
-                tag = models.Tags.objects.create(name=t)
+                tag, created = models.Tags.objects.get_or_create(name=t)
             except:
                 tag = None
             if tag:
@@ -505,11 +478,9 @@ class IntellectualProperty():
             code=item["code"],
             doc_type=doc_type,
             direction=direction)
-        for author in authors:  # FIXME: добавить без цикла
-            new_intellectual_property.authors.add(author)
+        new_intellectual_property.authors.add(*item["authors"])
 
-        for tag in tags:  # FIXME: добавить без цикла
-            new_intellectual_property.tags.add(tag)
+        new_intellectual_property.tags.add(*tags)
 
         doc_type = {
             "doc_type_id": doc_type.doc_type_id if doc_type else "",
@@ -520,16 +491,15 @@ class IntellectualProperty():
             "name": direction.name if direction else ""
         }
 
-        authors = \
-            [{"author_id": a.author_id,
-              "name": "%s %s %s" % (estr(a.surname), estr(a.name), estr(a.patronymic))}
-             for a in authors]
-        tags = \
-            [{"tag_id": t.tag_id,
-              "name": t.name}
-             for t in tags]
+        authors = [{"author_id": a.author_id,
+                    "name": "%s %s %s" % (estr(a.surname), estr(a.name), estr(a.patronymic))}
+                   for a in new_intellectual_property.authors.all()]
+        tags = [{"tag_id": t.tag_id,
+                 "name": t.name}
+                for t in new_intellectual_property.tags.all()]
         return HttpResponse(json.dumps({"intellectual_property_id": new_intellectual_property.intellectual_property_id,
                                         "name": new_intellectual_property.name,
+                                        "code": new_intellectual_property.code,
                                         "doc_type": doc_type,
                                         "direction": direction,
                                         "authors": authors,
@@ -541,59 +511,64 @@ class IntellectualProperty():
         редактирование
         """
         item = json.loads(request.POST.get("item"))
+
+        intellectual_property = models.IntellectualProperty.\
+            objects.get(intellectual_property_id=item["intellectual_property_id"])
+
+        current_doc_type = intellectual_property.doc_type
         doc_type = item["doc_type"]
-        if type(doc_type) == int:
-            try:
-                doc_type = models.DocumentTypes.objects.get(doc_type_id=int(doc_type))
-            except models.DocumentTypes.DoesNotExist:
-                doc_type = None
-        elif type(doc_type) == unicode and len(doc_type) != 0:
-            try:
-                doc_type = models.DocumentTypes.objects.create(name=doc_type)
-            except:
-                doc_type = None
+        if type(doc_type) == int:  # doc_type - id записи в таблице
+            doc_type = try_get(models.DocumentTypes, doc_type_id=int(doc_type))
+        elif type(doc_type) == unicode and len(doc_type) != 0:  # doc_type - название нового типа документа
+            doc_type = models.DocumentTypes.objects.create(name=doc_type)
         else:
             doc_type = None
 
+        if current_doc_type and (doc_type != current_doc_type):
+            other_with_current_doc_type = models.IntellectualProperty.objects.exclude(
+                intellectual_property_id=intellectual_property.intellectual_property_id
+            ).filter(
+                doc_type=current_doc_type.doc_type_id
+            )
+            if not other_with_current_doc_type:
+                current_doc_type.delete()
+
+        current_direction = intellectual_property.direction
         direction = item["direction"]
         if type(direction) == int:
-            try:
-                direction = models.Directions.objects.get(direction_id=int(direction))
-            except models.Directions.DoesNotExist:
-                direction = None
+            direction = try_get(models.Directions, direction_id=direction)
         elif type(direction) == unicode and len(direction) != 0:
-            try:
-                direction = models.Directions.objects.create(name=direction)
-            except:
-                direction = None
+            direction = models.Directions.objects.create(name=direction)
         else:
             direction = None
 
-        authors = [models.Authors.objects.get(author_id=int(a)) for a in item["authors"]]
+        if current_direction and (direction != current_direction):
+            other_with_current_direction = models.IntellectualProperty.objects.exclude(
+                intellectual_property_id=intellectual_property.intellectual_property_id
+            ).filter(
+                direction=current_direction.direction_id
+            )
+            if not other_with_current_direction:
+                current_direction.delete()
+
         tags = []
         for t in item["tags"]:
             try:
-                tag = models.Tags.objects.get(name=t)
-            except models.Tags.DoesNotExist:
-                tag = models.Tags.objects.create(name=t)
+                tag, created = models.Tags.objects.get_or_create(name=t)
             except:
                 tag = None
             if tag:
                 tags.append(tag)
 
-        intellectual_property = models.IntellectualProperty.\
-            objects.get(intellectual_property_id=int(item["intellectual_property_id"]))
         intellectual_property.name = item["name"]
         intellectual_property.code = item["code"]
         intellectual_property.doc_type = doc_type
         intellectual_property.direction = direction
         intellectual_property.save()
         intellectual_property.authors.clear()
-        for author in authors:
-            intellectual_property.authors.add(author)
+        intellectual_property.authors.add(*item["authors"])
         intellectual_property.tags.clear()
-        for tag in tags:
-            intellectual_property.tags.add(tag)
+        intellectual_property.tags.add(*tags)
 
         doc_type = {
             "doc_type_id": doc_type.doc_type_id if doc_type else "",
@@ -603,14 +578,12 @@ class IntellectualProperty():
             "direction_id": direction.direction_id if direction else "",
             "name": direction.name if direction else ""
         }
-        authors = \
-            [{"author_id": a.author_id,
-              "name": "%s %s %s" % (estr(a.surname), estr(a.name), estr(a.patronymic))}
-             for a in authors]
-        tags = \
-            [{"tag_id": t.tag_id,
-              "name": t.name}
-             for t in tags]
+        authors = [{"author_id": a.author_id,
+                    "name": "%s %s %s" % (estr(a.surname), estr(a.name), estr(a.patronymic))}
+                   for a in intellectual_property.authors.all()]
+        tags = [{"tag_id": t.tag_id,
+                 "name": t.name}
+                for t in intellectual_property.tags.all()]
 
         return HttpResponse(json.dumps({
             "intellectual_property_id": intellectual_property.intellectual_property_id,
@@ -642,37 +615,37 @@ class Tags():
         else:
             return HttpResponse(json.dumps(""), content_type="application/json")
 
-    @staticmethod
-    def destroy(request):
-        """
-        удаление
-        """
-        item = json.loads(request.POST.get("item"))
-        models.Tags.objects.get(tag_id=int(item["tag_id"])).delete()
-        return HttpResponse(json.dumps({}), content_type="application/json")
-
-    @staticmethod
-    def create(request):
-        """
-        добавление
-        """
-        item = json.loads(request.POST.get("item"))
-        new_tag = models.Tags.objects.create(name=item["name"])
-        return HttpResponse(json.dumps({"tag_id": new_tag.tag_id,
-                                        "name": new_tag.name}),
-                            content_type="application/json")
-
-    @staticmethod
-    def update(request):
-        """
-        редактирование
-        """
-        item = json.loads(request.POST.get("item"))
-        tag = models.Tags.objects.get(tag_id=int(item["tag_id"]))
-        tag.name = item["name"]
-        tag.save()
-        return HttpResponse(json.dumps({"tag_id": tag.tag_id,
-                                        "name": tag.name}), content_type="application/json")
+    # @staticmethod
+    # def destroy(request):
+    #     """
+    #     удаление
+    #     """
+    #     item = json.loads(request.POST.get("item"))
+    #     models.Tags.objects.get(tag_id=int(item["tag_id"])).delete()
+    #     return HttpResponse(json.dumps({}), content_type="application/json")
+    #
+    # @staticmethod
+    # def create(request):
+    #     """
+    #     добавление
+    #     """
+    #     item = json.loads(request.POST.get("item"))
+    #     new_tag = models.Tags.objects.create(name=item["name"])
+    #     return HttpResponse(json.dumps({"tag_id": new_tag.tag_id,
+    #                                     "name": new_tag.name}),
+    #                         content_type="application/json")
+    #
+    # @staticmethod
+    # def update(request):
+    #     """
+    #     редактирование
+    #     """
+    #     item = json.loads(request.POST.get("item"))
+    #     tag = models.Tags.objects.get(tag_id=int(item["tag_id"]))
+    #     tag.name = item["name"]
+    #     tag.save()
+    #     return HttpResponse(json.dumps({"tag_id": tag.tag_id,
+    #                                     "name": tag.name}), content_type="application/json")
 ########################################################################################################################
 
 
