@@ -8,7 +8,6 @@ var API_BASE_URL = "api/";
     $(document).ready(function (e) {
 
         var $body = $("body");
-
         var download_list = [], //список с id ИС для загрузки ли добавления в каталог
             $download = $("#download").addClass("k-state-disabled"),
             $add_directory = $("#add_directory").addClass("k-state-disabled");
@@ -24,8 +23,8 @@ var API_BASE_URL = "api/";
             $search_switcher.toggleClass("margin_top");
             $search_switcher.html(t == t1 ? t2:t1);
         });
-
-        var search_query = $("#search_query").kendoAutoComplete({ //TODO: перевести сообщения повторной загрузки
+////////////////////////////////////// ПОИСК ПО СЛОВАМ
+        var search_query = $("#search_query").kendoAutoComplete({
             dataSource: {
 //                serverFiltering: true,
                 transport: {
@@ -65,8 +64,38 @@ var API_BASE_URL = "api/";
         }).data("kendoDropDownList");
         doc_type.wrapper.css({ display: "block", width: "inherit", "margin-left": "90px"});
 
+        var $search =  $("#search"); //кнопка поиска
+        $search.click(function() {
+            var query = search_query.value();
+            if ((query.length<3) && (query.length > 0)) return false;
+            if (query.length != 0) {
+                query = query.replace(/,/g, ''); //удалить все ,
+                query = query.replace(/\s+/g, ' '); //пробелы
+                query = $.trim(query);
+                query = query.split(" ");
+            } else {
+                query = [""];
+            }
+            var dt = doc_type.value();
+            if (dt) { dt = parseInt(dt) } else { dt = 0 }
+            var data = {
+                query: query,
+                doc_type: dt
+            };
+            $.noty.closeAll();
+            var n = noty_seach_log();
+            $.post(BASE_URL+API_BASE_URL+"search/", {item: JSON.stringify(data)},
+                function(r) {
+                    n.close();
+                    search_result_render(r);
+                }, "json");
+            return false;
+        });
+        $search.click();
+////////////////////////////////////// ПОИСК ПО СЛОВАМ\\
 
-        var search_tree = $("#search_tree").kendoTreeView({
+////////////////////////////////////// ПОИСК ПО АВТОРАМ
+        var search_tree = $("#search_tree").kendoTreeView({ //TODO: перевести сообщения повторной загрузки
             dataSource: new kendo.data.HierarchicalDataSource({
                 type: "json",
                 transport: {
@@ -102,7 +131,20 @@ var API_BASE_URL = "api/";
                 }, "json");
             }
         }).data("kendoTreeView");
+////////////////////////////////////// ПОИСК ПО АВТОРАМ\\
 
+////////////////////////////////////// ПОИСК ПО ТЕГАМ
+        $body.on("click", ".tag", function() {
+            var tag = $(this).text();
+            search_query.value(tag); //["[",tag,"]"].join("") TODO: поиск по тегам с пробелами
+            doc_type.value("");
+            if (!$search_by_word.is(":visible")) $search_switcher.click();
+            $search.click();
+            return false;
+        });
+////////////////////////////////////// ПОИСК ПО ТЕГАМ\\
+
+////////////////////////////////////// ВЫВОД РЕЗУЛЬТАТОВ
         var pager = $("#pager").kendoPager({
             dataSource: [], //result_data_source,
             messages: {
@@ -123,43 +165,6 @@ var API_BASE_URL = "api/";
             dataSource: [], //result_data_source,
             template: kendo.template($("#result_item_template").html())
         }).data("kendoListView");
-
-        var $search =  $("#search");
-        $search.click(function() {
-            var query = search_query.value();
-            if ((query.length<3) && (query.length > 0)) return false;
-            if (query.length != 0) {
-                query = query.replace(/,/g, ''); //удалить все ,
-                query = query.replace(/\s+/g, ' '); //пробелы
-                query = $.trim(query);
-                query = query.split(" ");
-            } else {
-                query = [""];
-            }
-            var dt = doc_type.value();
-            if (dt) { dt = parseInt(dt) } else { dt = 0 }
-            var data = {
-                query: query,
-                doc_type: dt
-            };
-            $.noty.closeAll();
-            var n = noty_seach_log();
-            $.post(BASE_URL+API_BASE_URL+"search/", {item: JSON.stringify(data)},
-                function(r) {
-                    n.close();
-                    search_result_render(r);
-                }, "json");
-            return false;
-        });
-        $search.click();
-
-        $body.on("click", ".tag", function() {
-            var tag = $(this).text();
-            search_query.value(tag);
-            doc_type.value("");
-            $search.click();
-            return false;
-        });
 
         function search_result_render(data) {
             if (data.length > 0) {
@@ -210,7 +215,9 @@ var API_BASE_URL = "api/";
             }
             return false;
         });
+////////////////////////////////////// ВЫВОД РЕЗУЛЬТАТОВ\\
 
+////////////////////////////////////// СКАЧАТЬ
         function download(id_list) {
             var send = {
                 files: id_list
@@ -238,7 +245,10 @@ var API_BASE_URL = "api/";
             download(download_list);
             return false;
         });
+////////////////////////////////////// СКАЧАТЬ\\
 
+
+////////////////////////////////////// КАТАЛОГИ
         var $change_directory = $("#change_directory"),
 
             directory_window = $("#change_directory_window").kendoWindow({
@@ -253,8 +263,6 @@ var API_BASE_URL = "api/";
                 id: 0,
                 name: ""
             });
-
-        window.directory_window = directory_window;
 
         kendo.bind($change_directory, directory_model);
         var directory_validator = $change_directory.kendoValidator({
@@ -298,7 +306,6 @@ var API_BASE_URL = "api/";
 
             $.post(BASE_URL + API_BASE_URL + "directory/create/", {item: JSON.stringify(send) },
             function(response) {
-                console.log(response);
                 var d = download_directory_grid.dataSource;
                 var item = {
                     download_dir_id: response.download_dir_id,
@@ -344,13 +351,11 @@ var API_BASE_URL = "api/";
             dataSource: {
                 type: "json",
                 transport: {
-                    read: {
-                        url: BASE_URL + API_BASE_URL + "directory/read/",
+                    read: { url: BASE_URL + API_BASE_URL + "directory/read/",
                         dataType: "json",
                         type: "POST"
                     },
-                    destroy: {
-                        url: BASE_URL + API_BASE_URL + "directory/destroy/",
+                    destroy: { url: BASE_URL + API_BASE_URL + "directory/destroy/",
                         dataType: "json",
                         type: "POST"
                     },
@@ -362,21 +367,16 @@ var API_BASE_URL = "api/";
                     }
                 },
                 schema: {
-                    model: {
-                        id: "download_dir_id",
-                        fields: {
-                            name: {type: "string"}
-                        }
+                    model: { id: "download_dir_id",
+                        fields: { name: {type: "string"} }
                     }
                 }
             },
             height: 500,
             sortable: true,
-            editable: {
-                mode: "inline",
+            editable: { mode: "inline",
                 confirmation: "Вы уверены, что хотите удалить каталог?",
-                confirmDelete: "Да",
-                cancelDelete: "Нет"
+                confirmDelete: "Да", cancelDelete: "Нет"
             },
             columns: [
                 { field: "name", title: "Название"},
@@ -402,6 +402,7 @@ var API_BASE_URL = "api/";
             $download_directory_window.close();
             return false;
         });
+////////////////////////////////////// КАТАЛОГИ\\
 
         $("#logout").click(function() {
             noty_confirm("Выйти?", function() {
