@@ -44,6 +44,7 @@ li.k-file div.file-wrapper { position: relative; height: 65px; }
 .k-multiselect-wrap li { margin: 1px 0 1px 1px !important; }
 
 #change_intellectual_property .k-edit-field #authors_multiselect { width: 501px; display: inline-block}
-#change_intellectual_property .k-edit-field .k-button.add_author {position: absolute; line-height: 1.8em; }
+#change_intellectual_property .k-edit-field .k-button.add_author { position: absolute; line-height: 1.8em; }
+#change_intellectual_property_window button.k-button.k-upload-selected { display: none }
 
 span.logout { margin: 7px !important; }

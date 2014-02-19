@@ -2,7 +2,21 @@
  * Created by user on 23.01.14.
  */
 
-var API_BASE_URL = "api/";
+var API_BASE_URL = "api/",
+    FILE_UPLOAD_LOC = {
+        cancel: "Отменить",
+        dropFilesHere: "Перетащите файл сюда",
+        headerStatusUploaded: "Выполнено",
+        headerStatusUploading: "Загрузка...",
+        remove: "Удалить",
+        retry: "Повторить",
+        select: "Выбрать файлы для загрузки...",
+        statusFailed: "Ошибка загрузки",
+        statusUploaded: "Загруженно",
+        statusUploading: "Загрузка...",
+        statusWarning: "Внимание",
+        uploadSelectedFiles: "Загрузить"
+    };
 
 (function ($) {
     $(document).ready(function (e) {
@@ -869,26 +883,34 @@ var API_BASE_URL = "api/";
                             $(".k-widget.k-tooltip.k-tooltip-validation.k-invalid-msg").hide();
                             var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
                             $("#is_intellectual_property_edit").val("true");
-                            intellectual_property_model.set("intellectual_property_id", dataItem.intellectual_property_id);
-                            intellectual_property_model.set("name", "");
-                            intellectual_property_model.set("name", "");
-                            intellectual_property_model.set("doc_type", "");
-                            intellectual_property_model.set("direction", "");
-                            intellectual_property_model.set("tags", "");
-                            intellectual_property_model.set("name", dataItem.name);
-                            intellectual_property_model.set("code", dataItem.code);
-                            intellectual_property_model.set("doc_type", dataItem.doc_type.doc_type_id);
-                            intellectual_property_model.set("direction", dataItem.direction.direction_id);
-                            var authors = [], tags = [], i;
-                            for(i=0; i<dataItem.tags.length; i++) {tags += dataItem.tags[i].name + ", ";}
-                            intellectual_property_model.set("tags", tags);
-                            authors_multiselect.dataSource.read();
-                            for (i=0; i<dataItem.authors.length; i++) authors.push(dataItem.authors[i].author_id);
-                            authors_multiselect.value(authors);
+                            n = noty_message(M_LOAD, false);
                             intellectual_property_model.get("doc_types").read();
                             intellectual_property_model.get("directions").read();
                             intellectual_property_model.get("tags_source").read();
-                            intellectual_property_wibdow.center().open();
+                            authors_multiselect.dataSource.read();
+                            $.post(API_BASE_URL + "file/get_list/",
+                                    {item: JSON.stringify({intellectual_property_id: dataItem.intellectual_property_id})},
+                                    function(data) {
+                                        reset_file_uploader();
+                                        $file_uploader._renderInitialFiles(data);
+                                        intellectual_property_model.set("intellectual_property_id", dataItem.intellectual_property_id);
+                                        intellectual_property_model.set("name", "");
+                                        intellectual_property_model.set("name", "");
+                                        intellectual_property_model.set("doc_type", "");
+                                        intellectual_property_model.set("direction", "");
+                                        intellectual_property_model.set("tags", "");
+                                        intellectual_property_model.set("name", dataItem.name);
+                                        intellectual_property_model.set("code", dataItem.code);
+                                        intellectual_property_model.set("doc_type", dataItem.doc_type.doc_type_id);
+                                        intellectual_property_model.set("direction", dataItem.direction.direction_id);
+                                        var authors = [], tags = [], i;
+                                        for(i=0; i<dataItem.tags.length; i++) {tags += dataItem.tags[i].name + ", ";}
+                                        intellectual_property_model.set("tags", tags);
+                                        for (i=0; i<dataItem.authors.length; i++) authors.push(dataItem.authors[i].author_id);
+                                        authors_multiselect.value(authors);
+                                        intellectual_property_wibdow.center().open();
+                                        n.close();
+                                    }, "json");
                         }
                     },
                     { name: "destroy", text: "Удалить" }
@@ -971,6 +993,65 @@ var API_BASE_URL = "api/";
         }).data("kendoMultiSelect");
         authors_multiselect.wrapper.css({width: "501px", display: "inline-block"});
 
+        var $file_uploader = $("#file_uploader").kendoUpload({
+            multiple: true,
+            async: {
+                saveUrl: API_BASE_URL + "file/upload/",
+                saveField: "files",
+                removeUrl: API_BASE_URL + "file/delete/",
+                autoUpload: false
+            },
+            localization: FILE_UPLOAD_LOC,
+            template: kendo.template($('#fileTemplate').html()),
+            files: [],
+            intellect_prop_id: 0,
+            success:function (e) {
+                if (e.operation == "upload") {
+                    intellectual_property_wibdow.close();
+                    var that = this;
+                    $.post(API_BASE_URL + "file/get_list/",
+                        {item: JSON.stringify({intellectual_property_id: this.options.intellect_prop_id})},
+                        function(data) {
+                            that.wrapper.find("ul.k-upload-files.k-reset").remove();
+//                                that.wrapper.find("li.k-file.k-file-success").remove();
+                            that._renderInitialFiles(data);
+                        });
+                }
+            },
+            select: function(e) {
+            },
+            upload: function (e) {
+                var f = e.files;
+                for (var i=0; i<f.length; i++) {
+                    for (var j=i+1; j<f.length; j++) {
+                        if ((f[i].name == f[j].name) &&
+                            (f[i].size == f[j].size) &&
+                            (f[i].extension == f[j].extension)) {
+                            noty_error("Не загружайте одинаковые файлы!");
+                            e.preventDefault();
+                            return;
+                        }
+                    }
+                }
+                console.log(e);
+                e.data = {item: JSON.stringify({intellectual_property_id: this.options.intellect_prop_id})};
+            },
+            remove: function(e) {
+                var files = e.files;
+                e.data = {item: JSON.stringify(files)};
+                if (!confirm("Вы уверены, что хотите удалить "+files[0].name+"?")) {
+                    e.preventDefault();
+                }
+            }
+        }).data("kendoUpload");
+        $file_uploader.wrapper.removeClass("k-upload-empty");
+
+        function reset_file_uploader() {
+            $file_uploader.wrapper.find("strong.k-upload-status.k-upload-status-total").empty();
+            $file_uploader.wrapper.find("ul.k-upload-files.k-reset").remove();
+            $file_uploader._renderInitialFiles([]);
+        }
+
         var intellectual_property_model = kendo.observable({
             intellectual_property_id: 0,
             name: "",
@@ -1040,6 +1121,7 @@ var API_BASE_URL = "api/";
             intellectual_property_model.get("directions").read();
             intellectual_property_model.set("tags", "");
             intellectual_property_model.get("tags_source").read();
+            reset_file_uploader();
             intellectual_property_wibdow.center().open();
         });
 
@@ -1070,6 +1152,8 @@ var API_BASE_URL = "api/";
                 };
                 data.add(item);
             }
+            $file_uploader.options.intellect_prop_id = d.intellectual_property_id;
+            $("#change_intellectual_property_window button.k-button.k-upload-selected").click();
 
 //            $reload_direction.click();
 //            $reload_document_type.click();
@@ -1077,7 +1161,7 @@ var API_BASE_URL = "api/";
 
             n.close();
             intellectual_property.refresh();
-            intellectual_property_wibdow.close();
+//            intellectual_property_wibdow.close();
         }
 
         function tag_splitter(tags) {
@@ -1299,20 +1383,7 @@ function intellectual_property_detail_init(e) {
                     removeUrl: API_BASE_URL + "file/delete/",
                     autoUpload: false
                 },
-                localization: {
-                    cancel: "Отменить",
-                    dropFilesHere: "Перетащите файл сюда",
-                    headerStatusUploaded: "Выполнено",
-                    headerStatusUploading: "Загрузка...",
-                    remove: "Удалить",
-                    retry: "Повторить",
-                    select: "Выбрать файлы для загрузки...",
-                    statusFailed: "Ошибка загрузки",
-                    statusUploaded: "Загруженно",
-                    statusUploading: "Загрузка...",
-                    statusWarning: "Внимание",
-                    uploadSelectedFiles: "Загрузить"
-                },
+                localization: FILE_UPLOAD_LOC,
                 template: kendo.template($('#fileTemplate').html()),
                 files: files,
                 success:function (e) {
@@ -1321,7 +1392,8 @@ function intellectual_property_detail_init(e) {
                         $.post(API_BASE_URL + "file/get_list/",
                             {item: JSON.stringify({intellectual_property_id: intellect_prop_id})},
                             function(data) {
-                                that.wrapper.find("li.k-file.k-file-success").remove();
+                                that.wrapper.find("ul.k-upload-files.k-reset").remove();
+//                                that.wrapper.find("li.k-file.k-file-success").remove();
                                 that._renderInitialFiles(data);
                             });
                     }
