@@ -40,6 +40,9 @@ var API_BASE_URL = "api/";
                 $(e.contentElement).find("div.k-grid-content").css("height", height + "px");
             }
         });
+        var M_SAVE = "Сохранение...",
+            M_LOAD = "Загрузка...",
+            n = noty_message(M_LOAD, false);
 /////////////////////////////////////// ПОДРАЗДЕЛЕНИЯ
         var subdivision = $("#subdivision").kendoGrid({
             dataSource: {
@@ -71,6 +74,7 @@ var API_BASE_URL = "api/";
                     if (e.type == "destroy") {
                         $reload_author.click();
                     }
+                    n.close();
                 }
             },
             toolbar: [
@@ -147,6 +151,7 @@ var API_BASE_URL = "api/";
                 };
                 data.add(item);
             }
+            n.close();
             subdivision.refresh();
             subdivision_window.close();
         }
@@ -158,6 +163,7 @@ var API_BASE_URL = "api/";
                 name: subdivision_model.get("name"),
                 tel: subdivision_model.get("tel")
             };
+            n = noty_message(M_SAVE, false);
             if ($("#is_subdivision_edit").val() === "false") {
                $.post(BASE_URL + API_BASE_URL + "subdivision/create/",
                    {item: JSON.stringify(send) }, check_response_subdivision, "json");
@@ -170,6 +176,7 @@ var API_BASE_URL = "api/";
 
         var $reload_subdivision = $(".reload_subdivision");
         $reload_subdivision.click(function (e) {
+            n = noty_message(M_LOAD, false);
             subdivision.dataSource.read();
             subdivision.refresh();
             return false;
@@ -217,6 +224,7 @@ var API_BASE_URL = "api/";
                     }
                 },
                 requestEnd: function(e) {
+                    n.close();
                     if ((e.type == "update") || (e.type == "destroy")) {
                         $reload_intellectual_property.click();
                     }
@@ -348,6 +356,7 @@ var API_BASE_URL = "api/";
                 data.add(item);
                 if (authors_multiselect) { authors_multiselect.dataSource.read(); }
             }
+            n.close();
             authors.refresh();
             author_window.close();
         }
@@ -366,6 +375,7 @@ var API_BASE_URL = "api/";
                 mail: author_model.get("mail"),
                 department: department
             };
+            n = noty_message(M_SAVE, false);
             if ($("#is_author_edit").val() === "false") {
                $.post(BASE_URL + API_BASE_URL + "authors/create/",
                    {item: JSON.stringify(send) }, check_response_author, "json");
@@ -378,6 +388,7 @@ var API_BASE_URL = "api/";
 
         var $reload_author = $(".reload_author");
         $reload_author.click(function (e) {
+            n = noty_message(M_LOAD, false)
             authors.dataSource.read();
             authors.refresh();
             return false;
@@ -819,6 +830,9 @@ var API_BASE_URL = "api/";
                             tags: {defaultValue: []}
                         }
                     }
+                },
+                requestEnd: function(e) {
+                    n.close();
                 }
             },
             toolbar: [
@@ -863,7 +877,6 @@ var API_BASE_URL = "api/";
                             intellectual_property_model.set("tags", "");
                             intellectual_property_model.set("name", dataItem.name);
                             intellectual_property_model.set("code", dataItem.code);
-                            console.log(dataItem);
                             intellectual_property_model.set("doc_type", dataItem.doc_type.doc_type_id);
                             intellectual_property_model.set("direction", dataItem.direction.direction_id);
                             var authors = [], tags = [], i;
@@ -880,45 +893,46 @@ var API_BASE_URL = "api/";
                     },
                     { name: "destroy", text: "Удалить" }
                 ], width: "250px", attributes: { style: "text-align: center;"} }
-            ],
-            save: function (e) {
-                var new_name = e.model.name;
-                var data = intellectual_property.dataSource.data();
-                var result;
-                if (e.model.intellectual_property_id != "") { ///возможно это редактирование
-                    result = $.grep(data,
-                        function (o) {
-                            if (o.intellectual_property_id != e.model.intellectual_property_id) {
-                                return o.name.toUpperCase() == new_name.toUpperCase();
-                            } else { //проверка, есть ли такие
-                                return false;
-                            }
-                        }
-                    );
-                    if (result.length > 0) {
-                        noty_error("Такое имя уже добавлен");
-                        e.preventDefault();
-                    }
-                } else { //возможно это добавление, (id == "")
-                    result = $.grep(data,
-                        function (o) {
-                            if (o.intellectual_property_id != "") {
-                                return o.name.toUpperCase() == new_name.toUpperCase();
-                            } else { //проверка, есть ли такие
-                                return false;
-                            }
-                        }
-                    );
-                    if (result.length > 0) {
-                        noty_error("Такое имя уже добавлен");
-                        e.preventDefault();
-                    }
-                }
-            }
+            ]
+//            save: function (e) {
+//                var new_name = e.model.name;
+//                var data = intellectual_property.dataSource.data();
+//                var result;
+//                if (e.model.intellectual_property_id != "") { ///возможно это редактирование
+//                    result = $.grep(data,
+//                        function (o) {
+//                            if (o.intellectual_property_id != e.model.intellectual_property_id) {
+//                                return o.name.toUpperCase() == new_name.toUpperCase();
+//                            } else { //проверка, есть ли такие
+//                                return false;
+//                            }
+//                        }
+//                    );
+//                    if (result.length > 0) {
+//                        noty_error("Такое имя уже добавлен");
+//                        e.preventDefault();
+//                    }
+//                } else { //возможно это добавление, (id == "")
+//                    result = $.grep(data,
+//                        function (o) {
+//                            if (o.intellectual_property_id != "") {
+//                                return o.name.toUpperCase() == new_name.toUpperCase();
+//                            } else { //проверка, есть ли такие
+//                                return false;
+//                            }
+//                        }
+//                    );
+//                    if (result.length > 0) {
+//                        noty_error("Такое имя уже добавлен");
+//                        e.preventDefault();
+//                    }
+//                }
+//            }
         }).data("kendoGrid");
 
         var $reload_intellectual_property = $(".reload_intellectual_property");
         $reload_intellectual_property.click(function (e) {
+            n = noty_message(M_LOAD, false);
             intellectual_property.dataSource.read();
             intellectual_property.refresh();
             return false;
@@ -1061,6 +1075,7 @@ var API_BASE_URL = "api/";
 //            $reload_document_type.click();
 //            $reload_tags.click();
 
+            n.close();
             intellectual_property.refresh();
             intellectual_property_wibdow.close();
         }
@@ -1096,6 +1111,7 @@ var API_BASE_URL = "api/";
                 authors: authors_multiselect.value(),
                 tags: tags
             };
+            n = noty_message(M_SAVE, false);
             if ($("#is_intellectual_property_edit").val() === "false") {
                $.post(BASE_URL + API_BASE_URL + "intellectual_property/create/",
                    {item: JSON.stringify(send) }, check_response_intellectual_property, "json");
@@ -1164,6 +1180,7 @@ function subdivision_detail_init(e) {
             }
         },
         requestEnd: function(e) {
+//            n.close();
             if ((e.type == "update") || (e.type == "destroy")) {
                 $(".reload_author").click();
             }
@@ -1252,6 +1269,7 @@ function subdivision_detail_init(e) {
     });
 
     detailRow.find(".add_reload").click(function (e) {
+//        n = noty_message(M_LOAD, false);
         department.dataSource.read();
         department.refresh();
         return false;
