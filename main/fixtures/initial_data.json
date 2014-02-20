@@ -1,4 +1,12 @@
 [
+    {   "pk": 1, "model": "auth.user",
+        "fields": {"username": "admin","first_name": "Administrator","last_name": "creative_solution","is_active": true,"is_superuser": true,"is_staff": false,"last_login": "2014-01-7T23:54:35.458Z","groups": [],
+            "user_permissions": [],
+            "password": "pbkdf2_sha256$10000$0NtIv2jDYAbO$I1MDJgtSUJRRXnERSTR4MxIcwLSXaSTdxox3OAqGRVc=","email": "admin@admin.ru","date_joined": "2014-01-07T20:32:35.458Z"}},
+    {   "pk": 2, "model": "auth.user",
+        "fields": {"username": "user","first_name": "User","last_name": "creative_solution","is_active": true,"is_superuser": false,"is_staff": false,"last_login": "2014-01-7T23:54:35.458Z","groups": [],
+            "user_permissions": [],
+            "password": "pbkdf2_sha256$10000$wJUCsUB6ZDha$5e/UMAJrL4LBIOaYVhqEZSGNI/IHj62KW1jfd4cDPFM=","email": "user@user.ru","date_joined": "2014-01-07T20:32:35.458Z"}},
     {
         "pk": 3,
         "model": "main.authors",
