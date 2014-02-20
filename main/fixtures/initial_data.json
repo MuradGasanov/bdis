@@ -1,88 +1,940 @@
 [
-    {   "pk": 1, "model": "auth.user",
-        "fields": {"username": "admin","first_name": "Administrator","last_name": "creative_solution","is_active": true,"is_superuser": true,"is_staff": false,"last_login": "2014-01-7T23:54:35.458Z","groups": [],
-            "user_permissions": [],
-            "password": "pbkdf2_sha256$10000$0NtIv2jDYAbO$I1MDJgtSUJRRXnERSTR4MxIcwLSXaSTdxox3OAqGRVc=","email": "admin@admin.ru","date_joined": "2014-01-07T20:32:35.458Z"}},
-    {   "pk": 2, "model": "auth.user",
-        "fields": {"username": "user","first_name": "User","last_name": "creative_solution","is_active": true,"is_superuser": false,"is_staff": false,"last_login": "2014-01-7T23:54:35.458Z","groups": [],
-            "user_permissions": [],
-            "password": "pbkdf2_sha256$10000$wJUCsUB6ZDha$5e/UMAJrL4LBIOaYVhqEZSGNI/IHj62KW1jfd4cDPFM=","email": "user@user.ru","date_joined": "2014-01-07T20:32:35.458Z"}},
-    {   "pk": 1, "model": "main.Subdivision",
-        "fields": { "name": "ДГТУ", "tel": "+79031234567" }
+    {
+        "pk": 3,
+        "model": "main.authors",
+        "fields": {
+            "tel": "",
+            "name": "\u0413\u0430\u043d\u0430\u043f\u0438",
+            "department": null,
+            "mail": "",
+            "patronymic": "\u042f\u043d\u0433\u0438\u0435\u0432\u0438\u0447",
+            "surname": "\u0410\u0445\u043c\u0435\u0434\u043e\u0432",
+            "post": ""
+        }
     },
-    {   "pk": 2, "model": "main.Subdivision",
-        "fields": { "name": "ДГУ", "tel": "+79031234567" }
+    {
+        "pk": 5,
+        "model": "main.authors",
+        "fields": {
+            "tel": "",
+            "name": "\u0422",
+            "department": null,
+            "mail": "",
+            "patronymic": "\u0410",
+            "surname": "\u0418\u0441\u043c\u0430\u0438\u043b\u043e\u0432",
+            "post": ""
+        }
     },
-    {   "pk": 5, "model": "main.Subdivision",
-        "fields": { "name": "ДГТУ", "tel": "+79031234567" }
+    {
+        "pk": 6,
+        "model": "main.authors",
+        "fields": {
+            "tel": "",
+            "name": "\u041e",
+            "department": null,
+            "mail": "",
+            "patronymic": "\u0412",
+            "surname": "\u0415\u0432\u0434\u0443\u043b\u043e\u0432",
+            "post": ""
+        }
     },
-    {   "pk": 1, "model": "main.Department",
-        "fields": { "name": "Юридический", "tel": "+79031234567", "subdivision": "1" }
+    {
+        "pk": 7,
+        "model": "main.authors",
+        "fields": {
+            "tel": "",
+            "name": "\u0428",
+            "department": null,
+            "mail": "",
+            "patronymic": "\u0410",
+            "surname": "\u042e\u0441\u0443\u0444\u043e\u0432",
+            "post": ""
+        }
     },
-    {   "pk": 2, "model": "main.Department",
-        "fields": { "name": "Прикладных коммуникаций", "tel": "+79031234567", "subdivision": "1" }
+    {
+        "pk": 8,
+        "model": "main.authors",
+        "fields": {
+            "tel": "",
+            "name": "\u0413",
+            "department": null,
+            "mail": "",
+            "patronymic": "\u0418",
+            "surname": "\u0410\u043c\u0438\u043d\u043e\u0432",
+            "post": ""
+        }
     },
-    {   "pk": 3, "model": "main.Department",
-        "fields": { "name": "Прикладной математики - процессов управления", "tel": "+79031234567", "subdivision": "2" }
+    {
+        "pk": 9,
+        "model": "main.authors",
+        "fields": {
+            "tel": "",
+            "name": "\u0425",
+            "department": null,
+            "mail": "",
+            "patronymic": "\u041c",
+            "surname": "\u0413\u0430\u0434\u0436\u0438\u0435\u0432",
+            "post": ""
+        }
     },
-    {   "pk": 4, "model": "main.Department",
-        "fields": { "name": "Математико-механический", "tel": "+79031234567", "subdivision": "2" }
+    {
+        "pk": 10,
+        "model": "main.authors",
+        "fields": {
+            "tel": "",
+            "name": "\u0428",
+            "department": null,
+            "mail": "",
+            "patronymic": "\u0410",
+            "surname": "\u0421\u0430\u043b\u043c\u0430\u043d\u043e\u0432",
+            "post": ""
+        }
     },
-    {   "pk": 1, "model": "main.Authors",
-        "fields": { "name": "Иван", "surname":"Иванов", "tel": "+79031234567", "department": "1" }
+    {
+        "pk": 11,
+        "model": "main.authors",
+        "fields": {
+            "tel": "",
+            "name": "\u0422",
+            "department": null,
+            "mail": "",
+            "patronymic": "\u042d",
+            "surname": "\u0426\u0435\u0445\u0430\u043d\u0441\u043a\u0430\u044f",
+            "post": ""
+        }
     },
-    {   "pk": 2, "model": "main.Authors",
-        "fields": { "name": "Петр", "surname":"Петров", "tel": "+79031234567", "department": "2" }
+    {
+        "pk": 12,
+        "model": "main.authors",
+        "fields": {
+            "tel": "",
+            "name": "\u0410.-\u0413.",
+            "department": null,
+            "mail": "",
+            "patronymic": "\u0414.",
+            "surname": "\u0410\u043b\u0438\u0435\u0432",
+            "post": ""
+        }
     },
-    {   "pk": 1, "model": "main.DocumentTypes",
-        "fields": { "name": "Статья" }
+    {
+        "pk": 13,
+        "model": "main.authors",
+        "fields": {
+            "tel": "",
+            "name": "\u041c.",
+            "department": null,
+            "mail": "",
+            "patronymic": "\u0418.",
+            "surname": "\u0418\u0441\u043c\u0430\u0438\u043b\u043e\u0432",
+            "post": ""
+        }
     },
-    {   "pk": 2, "model": "main.DocumentTypes",
-        "fields": { "name": "Тезисы" }
+    {
+        "pk": 14,
+        "model": "main.authors",
+        "fields": {
+            "tel": "",
+            "name": "\u041c.",
+            "department": null,
+            "mail": "",
+            "patronymic": "\u0410.-\u0413.",
+            "surname": "\u0410\u043b\u0438\u0435\u0432",
+            "post": ""
+        }
     },
-    {   "pk": 3, "model": "main.DocumentTypes",
-        "fields": { "name": "Методическое пособие" }
+    {
+        "pk": 15,
+        "model": "main.authors",
+        "fields": {
+            "tel": "",
+            "name": "\u041a.",
+            "department": null,
+            "mail": "",
+            "patronymic": "\u0410.",
+            "surname": "\u041c\u0430\u0433\u043e\u043c\u0435\u0434\u043e\u0432",
+            "post": ""
+        }
     },
-    {   "pk": 4, "model": "main.DocumentTypes",
-        "fields": { "name": "Права на средства индивидуализации" }
+    {
+        "pk": 16,
+        "model": "main.authors",
+        "fields": {
+            "tel": "",
+            "name": "\u0410\u0431\u0434\u0435\u043b\u044c\u043a\u0430\u0434\u044b\u0440",
+            "department": null,
+            "mail": "",
+            "patronymic": "",
+            "surname": "\u0417\u0430\u0440\u0430\u0442",
+            "post": ""
+        }
     },
-    {   "pk": 5, "model": "main.DocumentTypes",
-        "fields": { "name": "Право на секреты производства (Ноу-хау)" }
+    {
+        "pk": 17,
+        "model": "main.authors",
+        "fields": {
+            "tel": "",
+            "name": "\u0414.",
+            "department": null,
+            "mail": "",
+            "patronymic": "\u0410.",
+            "surname": "\u0410\u0432\u0435\u0440\u0431\u0443\u0445",
+            "post": ""
+        }
     },
-    {   "pk": 6, "model": "main.DocumentTypes",
-        "fields": { "name": "Охрана новых сортов растений" }
+    {
+        "pk": 18,
+        "model": "main.authors",
+        "fields": {
+            "tel": "",
+            "name": "\u041e.",
+            "department": null,
+            "mail": "",
+            "patronymic": "\u0410.",
+            "surname": "\u0413\u0440\u0438\u043d\u0447\u0443\u043a",
+            "post": ""
+        }
     },
-    {   "pk": 1, "model": "main.Directions",
-        "fields": { "name": "Направление 1" }
+    {
+        "pk": 19,
+        "model": "main.authors",
+        "fields": {
+            "tel": "",
+            "name": "\u0410.",
+            "department": null,
+            "mail": "",
+            "patronymic": "\u0421.",
+            "surname": "\u0421\u0430\u0438\u0434\u043e\u0432",
+            "post": ""
+        }
     },
-    {   "pk": 2, "model": "main.Directions",
-        "fields": { "name": "Направление 2" }
+    {
+        "pk": 20,
+        "model": "main.authors",
+        "fields": {
+            "tel": "",
+            "name": "\u041c.",
+            "department": null,
+            "mail": "",
+            "patronymic": "\u0410.",
+            "surname": "\u0425\u0430\u0437\u0430\u043c\u043e\u0432\u0430",
+            "post": ""
+        }
     },
-    {   "pk": 3, "model": "main.Directions",
-        "fields": { "name": "Направление 3" }
+    {
+        "pk": 1,
+        "model": "main.tags",
+        "fields": {
+            "name": "\u0442\u044d\u04331"
+        }
     },
-    {   "pk": 4, "model": "main.Directions",
-        "fields": { "name": "Направление 4" }
+    {
+        "pk": 2,
+        "model": "main.tags",
+        "fields": {
+            "name": "\u0442\u044d\u04332"
+        }
     },
-    {   "pk": 1, "model": "main.Tags",
-        "fields": { "name": "тэг1" }
+    {
+        "pk": 3,
+        "model": "main.tags",
+        "fields": {
+            "name": "\u0442\u044d\u04333"
+        }
     },
-    {   "pk": 2, "model": "main.Tags",
-        "fields": { "name": "тэг2" }
+    {
+        "pk": 4,
+        "model": "main.tags",
+        "fields": {
+            "name": "\u0442\u044d\u04334"
+        }
     },
-    {   "pk": 3, "model": "main.Tags",
-        "fields": { "name": "тэг3" }
+    {
+        "pk": 5,
+        "model": "main.tags",
+        "fields": {
+            "name": "\u0442\u0435\u0433\u0438\u0448\u0435^^"
+        }
     },
-    {   "pk": 4, "model": "main.Tags",
-        "fields": { "name": "тэг4" }
+    {
+        "pk": 6,
+        "model": "main.tags",
+        "fields": {
+            "name": "taggie"
+        }
     },
-    {   "pk": 1, "model": "main.IntellectualProperty",
-        "fields": { "name": "IntellectualProperty1", "doc_type": 1, "direction": 1, "authors": [1], "tags": [1, 2, 3]}
+    {
+        "pk": 8,
+        "model": "main.documenttypes",
+        "fields": {
+            "name": "\u041f\u0430\u0442\u0435\u043d\u0442"
+        }
     },
-    {   "pk": 2, "model": "main.IntellectualProperty",
-        "fields": { "name": "IntellectualProperty2", "doc_type": 2, "direction": 2, "authors": [1, 2], "tags": [1, 2, 3]}
+    {
+        "pk": 1,
+        "model": "main.directions",
+        "fields": {
+            "name": "\u041d\u0430\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435 1"
+        }
     },
-    {   "pk": 3, "model": "main.IntellectualProperty",
-        "fields": { "name": "IntellectualProperty3", "doc_type": 3, "direction": 3, "authors": [1, 2], "tags": [1, 2, 3]}
+    {
+        "pk": 6,
+        "model": "main.intellectualproperty",
+        "fields": {
+            "doc_type": 8,
+            "direction": null,
+            "code": "RU 85619 U1",
+            "name": "\u0423\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u043e \u0434\u043b\u044f \u043e\u0447\u0438\u0441\u0442\u043a\u0438 \u0442\u0440\u0443\u0431\u043e\u043a \u0442\u0435\u043f\u043b\u043e\u043e\u0431\u043c\u0435\u043d\u043d\u044b\u0445 \u0430\u043f\u0430\u0440\u0430\u0442\u043e\u0432 \u043e\u0442 \u043d\u0430\u043a\u0438\u043f\u0438 \u044d\u043b\u0435\u043a\u0442\u0440\u0438\u0447\u0435\u0441\u043a\u0438\u043c\u0438 \u0438\u043c\u043f\u0443\u043b\u044c\u0441\u043d\u044b\u043c\u0438 \u0440\u0430\u0437\u0440\u044f\u0434\u0430\u043c\u0438",
+            "tags": [],
+            "authors": [3]
+        }
+    },
+    {
+        "pk": 7,
+        "model": "main.intellectualproperty",
+        "fields": {
+            "doc_type": 8,
+            "direction": null,
+            "code": "RU 86505 U1",
+            "name": "\u0423\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u043e \u0434\u043b\u044f \u043e\u0447\u0438\u0441\u0442\u043a\u0438 \u0432\u043d\u0443\u0442\u0440\u0435\u043d\u043d\u0435\u0439 \u043f\u043e\u0432\u0435\u0440\u0445\u043d\u043e\u0441\u0442\u0438 \u0442\u0440\u0443\u0431",
+            "tags": [],
+            "authors": [3]
+        }
+    },
+    {
+        "pk": 8,
+        "model": "main.intellectualproperty",
+        "fields": {
+            "doc_type": 8,
+            "direction": null,
+            "code": "RU 91384 U1",
+            "name": "\u0413\u0435\u043e\u0442\u0435\u0440\u043c\u0430\u043b\u044c\u043d\u0430\u044f \u0443\u0441\u0442\u0430\u043d\u043e\u0432\u043a\u0430",
+            "tags": [],
+            "authors": [3]
+        }
+    },
+    {
+        "pk": 9,
+        "model": "main.intellectualproperty",
+        "fields": {
+            "doc_type": 8,
+            "direction": null,
+            "code": "RU 94561 U1",
+            "name": "\u0423\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u043e \u0434\u043b\u044f \u043e\u0447\u0438\u0441\u0442\u043a\u0438 \u0436\u0438\u0434\u043a\u043e\u0441\u0442\u0435\u0439",
+            "tags": [],
+            "authors": [3]
+        }
+    },
+    {
+        "pk": 10,
+        "model": "main.intellectualproperty",
+        "fields": {
+            "doc_type": 8,
+            "direction": null,
+            "code": "RU 95278 U1",
+            "name": "\u0423\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u0430 \u0434\u043b\u044f \u043e\u0447\u0438\u0441\u0442\u043a\u0438 \u0432\u043d\u0443\u0442\u0440\u0435\u043d\u043d\u0435\u0439 \u043f\u043e\u0432\u0435\u0440\u0445\u043d\u043e\u0441\u0442\u0438 \u0442\u0440\u0443\u0431",
+            "tags": [],
+            "authors": [3]
+        }
+    },
+    {
+        "pk": 11,
+        "model": "main.intellectualproperty",
+        "fields": {
+            "doc_type": 8,
+            "direction": null,
+            "code": "RU 2198419 C1",
+            "name": "\u0423\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u043e \u0434\u043b\u044f \u043e\u0445\u043b\u0430\u0436\u0434\u0435\u043d\u0438\u044f \u044d\u043b\u0435\u043a\u0442\u0440\u043e\u0439\u043d\u043d\u044b\u0445 \u043f\u043b\u0430\u0442",
+            "tags": [],
+            "authors": [5, 6, 7]
+        }
+    },
+    {
+        "pk": 12,
+        "model": "main.intellectualproperty",
+        "fields": {
+            "doc_type": 8,
+            "direction": null,
+            "code": "RU 2199696 C2",
+            "name": "\u041e\u0441\u0432\u0435\u0442\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0439 \u043f\u0440\u0438\u0431\u043e\u0440",
+            "tags": [],
+            "authors": [5, 6, 7, 8]
+        }
+    },
+    {
+        "pk": 13,
+        "model": "main.intellectualproperty",
+        "fields": {
+            "doc_type": 8,
+            "direction": null,
+            "code": "RU 2199777 C2",
+            "name": "\u0423\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u043e \u0434\u043b\u044f \u0442\u0435\u0440\u043c\u043e\u0441\u0442\u0430\u0431\u0438\u043b\u0438\u0437\u0430\u0446\u0438\u0438 \u043d\u0435\u0441\u043a\u043e\u043b\u044c\u043a\u0438\u0445 \u043e\u0431\u044a\u0435\u043a\u0442\u043e\u0432 \u043d\u0430 \u0440\u0430\u0437\u043d\u044b\u0445 \u0442\u0435\u043c\u043f\u0435\u0440\u0430\u0442\u0443\u0440\u043d\u044b\u0445 \u0443\u0440\u043e\u0432\u043d\u044f\u0445",
+            "tags": [],
+            "authors": [5, 6, 7, 9]
+        }
+    },
+    {
+        "pk": 14,
+        "model": "main.intellectualproperty",
+        "fields": {
+            "doc_type": 8,
+            "direction": null,
+            "code": "RU 2203523 C2",
+            "name": "\u0428\u043a\u0430\u0444 \u0434\u043b\u044f \u043e\u0445\u043b\u0430\u0436\u0434\u0435\u043d\u0438\u044f \u0440\u0430\u0434\u0438\u043e\u044d\u043b\u0435\u043a\u0442\u0440\u043e\u043d\u043d\u043e\u0439 \u0430\u043f\u043f\u0430\u0440\u0430\u0443\u0440\u044b",
+            "tags": [],
+            "authors": [5, 7, 10, 11]
+        }
+    },
+    {
+        "pk": 15,
+        "model": "main.intellectualproperty",
+        "fields": {
+            "doc_type": 8,
+            "direction": null,
+            "code": "RU 214151 C2",
+            "name": "\u0423\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u043e \u0434\u043b\u044f \u0438\u0437\u043c\u0435\u0440\u0435\u043d\u0438\u044f \u0441\u0442\u0435\u043f\u0435\u043d\u0438 \u043f\u0440\u043e\u0437\u0440\u0430\u0447\u043d\u043e\u0441\u0442\u0438 \u043e\u043f\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u0445 \u0441\u0440\u0435\u0434 \u0433\u043b\u0430\u0437\u0430",
+            "tags": [],
+            "authors": [5, 8, 9, 12, 13, 14]
+        }
+    },
+    {
+        "pk": 16,
+        "model": "main.intellectualproperty",
+        "fields": {
+            "doc_type": 8,
+            "direction": null,
+            "code": "RU 2215270 C1",
+            "name": "\u041f\u0440\u0435\u0437\u0438\u0446\u0438\u043e\u043d\u043d\u044b\u0439 \u043c\u0430\u043b\u043e\u0433\u0430\u0431\u0430\u0440\u0438\u0442\u043d\u044b\u0439 \u043d\u0443\u043b\u044c-\u0442\u0435\u043c\u043e\u0441\u0442\u0430\u0442",
+            "tags": [],
+            "authors": [5, 6, 7, 8]
+        }
+    },
+    {
+        "pk": 17,
+        "model": "main.intellectualproperty",
+        "fields": {
+            "doc_type": 8,
+            "direction": null,
+            "code": "Ru 2215272 C1",
+            "name": "\u0414\u0430\u0442\u0447\u0438\u043a \u0442\u0435\u043f\u043b\u043e\u0432\u043e\u0433\u043e \u043f\u043e\u0442\u043e\u043a\u0430",
+            "tags": [],
+            "authors": [7]
+        }
+    },
+    {
+        "pk": 18,
+        "model": "main.intellectualproperty",
+        "fields": {
+            "doc_type": 8,
+            "direction": null,
+            "code": "RU 220649 C2",
+            "name": "\u041f\u041e\u043b\u0443\u043f\u0440\u043e\u0432\u043e\u0434\u043d\u0438\u043a\u043e\u0432\u043e\u0435 \u0442\u0435\u0440\u043c\u043e\u044d\u043b\u0435\u043a\u0442\u0438\u0447\u0435\u0441\u043a\u043e\u0435 \u0443\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u043e \u0434\u043b\u044f \u0440\u0435\u0433\u0443\u043b\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u044f \u0442\u0435\u043c\u043f\u0435\u0440\u0430\u0442\u0443\u0440\u044b \u0442\u0440\u0430\u043d\u0441\u0444\u0443\u0437\u0438\u043e\u043d\u043d\u044b\u0445 \u0441\u0440\u0435\u0434\u0441\u0442\u0432",
+            "tags": [],
+            "authors": [5, 7, 8, 15]
+        }
+    },
+    {
+        "pk": 19,
+        "model": "main.intellectualproperty",
+        "fields": {
+            "doc_type": 8,
+            "direction": null,
+            "code": "RU 2225843 \u04211",
+            "name": "\u0422\u0435\u0440\u043c\u043e\u044d\u043b\u0435\u043a\u0442\u0440\u0438\u0447\u0435\u0441\u043a\u0438\u0439 \u043e\u043f\u0440\u0435\u0441\u043d\u0438\u0442\u0435\u043b\u044c",
+            "tags": [],
+            "authors": [5, 6, 7, 8, 16]
+        }
+    },
+    {
+        "pk": 20,
+        "model": "main.intellectualproperty",
+        "fields": {
+            "doc_type": 8,
+            "direction": null,
+            "code": "RU 2233569 \u04212",
+            "name": "\u0423\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u043e \u0434\u043b\u044f \u0442\u0435\u0440\u043c\u043e\u0441\u0442\u0430\u0431\u0438\u043b\u0438\u0437\u0430\u0446\u0438\u0438 \u044d\u043b\u0435\u043c\u0435\u043d\u0442\u043e\u0432 \u0440\u0430\u0434\u0438\u043e\u044d\u043b\u0435\u043a\u0442\u0440\u043e\u043d\u043e\u0439 \u0430\u043f\u043f\u0430\u0440\u0430\u0442\u0443\u0440\u044b \u0441 \u0432\u044b\u0441\u043e\u043a\u0438\u043c \u0443\u0440\u043e\u0432\u043d\u0435\u043c \u0442\u0435\u043f\u043b\u043e\u0432\u044b\u0434\u0435\u043b\u0435\u043d\u0438\u0439",
+            "tags": [],
+            "authors": [5, 6, 7, 8]
+        }
+    },
+    {
+        "pk": 21,
+        "model": "main.intellectualproperty",
+        "fields": {
+            "doc_type": 8,
+            "direction": null,
+            "code": "RU 2234639 \u04212",
+            "name": "\u0411\u043b\u043e\u0447\u043d\u0430\u044f \u0438\u043d\u0436\u0435\u043a\u0446\u0438\u043e\u043d\u043d\u0430\u044f \u0433\u043e\u0440\u0435\u043b\u043a\u0430 \u0441 \u0434\u0438\u0430\u0444\u0440\u0430\u0433\u043c\u043e\u0439",
+            "tags": [],
+            "authors": [6, 17, 18, 19]
+        }
+    },
+    {
+        "pk": 22,
+        "model": "main.intellectualproperty",
+        "fields": {
+            "doc_type": 8,
+            "direction": null,
+            "code": "RU 2234907 C2",
+            "name": "\u0423\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u043e \u0434\u043b\u044f \u0442\u0435\u0440\u043c\u043e\u043f\u0443\u043d\u043a\u0442\u0443\u0440\u044b",
+            "tags": [],
+            "authors": [5, 6]
+        }
+    },
+    {
+        "pk": 23,
+        "model": "main.intellectualproperty",
+        "fields": {
+            "doc_type": 8,
+            "direction": null,
+            "code": "RU 2236034 \u04212",
+            "name": "\u0423\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u043e \u0434\u043b\u044f \u0442\u0435\u0440\u043c\u043e\u0441\u0442\u0430\u0431\u0438\u043b\u0438\u0437\u0430\u0446\u0438\u0438 \u043d\u0435\u0441\u043a\u043e\u043b\u044c\u043a\u0438\u0445 \u043e\u0431\u044a\u0435\u043a\u0442\u043e\u0432 \u043d\u0430 \u0440\u0430\u0437\u043d\u044b\u0445 \u0442\u0435\u043c\u043f\u0435\u0440\u0430\u0442\u0443\u0440\u043d\u044b\u0445 \u0443\u0440\u043e\u0432\u043d\u044f\u0445",
+            "tags": [],
+            "authors": [5, 6, 7, 8]
+        }
+    },
+    {
+        "pk": 24,
+        "model": "main.intellectualproperty",
+        "fields": {
+            "doc_type": 8,
+            "direction": null,
+            "code": "RU 2236096 \u04212",
+            "name": "\u0423\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u043e \u0434\u043b\u044f \u0442\u0435\u0440\u043c\u043e\u0441\u0442\u0430\u0431\u0438\u043b\u0438\u0437\u0430\u0443\u0438\u0438 \u044d\u043b\u0435\u043c\u0435\u043d\u0442\u043e\u0432 \u0440\u0430\u0434\u0438\u043e\u044d\u043b\u0435\u043a\u0442\u0440\u043e\u043d\u043d\u043e\u0439\u0430\u043f\u043f\u0430\u0440\u0430\u0442\u0443\u0440\u044b \u0431\u043e\u043b\u044c\u0448\u043e\u0439 \u043c\u043e\u0449\u043d\u043e\u0441\u0442\u0438",
+            "tags": [],
+            "authors": [5, 6, 7, 8]
+        }
+    },
+    {
+        "pk": 25,
+        "model": "main.intellectualproperty",
+        "fields": {
+            "doc_type": 8,
+            "direction": null,
+            "code": "RU 2236097 \u04212",
+            "name": "\u0423\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u043e \u0434\u043b\u044f \u0442\u0435\u0440\u043c\u043e\u0441\u0442\u0430\u0431\u0438\u043b\u0438\u0437\u0430\u0446\u0438\u0438 \u044d\u043b\u0435\u043c\u0435\u043d\u0442\u043e\u0432 \u0440\u0430\u0434\u0438\u043e\u044d\u043b\u0435\u043a\u0442\u0440\u043e\u043d\u043d\u043e\u0439 \u0430\u043f\u043f\u0430\u0440\u0430\u0442\u0443\u0440\u044b \u0431\u043e\u043b\u044c\u0449\u043e\u0439 \u043c\u043e\u0449\u043d\u043e\u0441\u0442\u0438",
+            "tags": [],
+            "authors": [5, 6, 7, 8]
+        }
+    },
+    {
+        "pk": 26,
+        "model": "main.intellectualproperty",
+        "fields": {
+            "doc_type": 8,
+            "direction": null,
+            "code": "RU 2236098 \u04212",
+            "name": "\u0423\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u043e \u0434\u043b\u044f \u0442\u0435\u0440\u043c\u043e\u0441\u0442\u0430\u0431\u0438\u043b\u0438\u0437\u0430\u0446\u0438\u0438 \u044d\u043b\u0435\u043c\u0435\u043d\u0442\u043e\u0432 \u0440\u0430\u0434\u0438\u044d\u043b\u0435\u043a\u0442\u0440\u043e\u043d\u043d\u043e\u0439 \u0430\u043f\u043f\u0430\u0440\u0430\u0442\u0443\u0440\u044b \u0441 \u0432\u044b\u0441\u043e\u043a\u0438\u043c \u0443\u0440\u043e\u0432\u043d\u0435\u043c \u0442\u0435\u0440\u043c\u043e\u0432\u044b\u0434\u0435\u043b\u0435\u043d\u0438\u0439",
+            "tags": [],
+            "authors": [5, 6, 7, 8]
+        }
+    },
+    {
+        "pk": 27,
+        "model": "main.intellectualproperty",
+        "fields": {
+            "doc_type": 8,
+            "direction": null,
+            "code": "RU 2236100 \u04212",
+            "name": "\u0423\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u043e \u0434\u043b\u044f \u043e\u0445\u043b\u0430\u0436\u0434\u0435\u043d\u0438\u044f \u0442\u0435\u0440\u043c\u043e\u0441\u0442\u0430\u0431\u0438\u043b\u0438\u0437\u0430\u0446\u0438\u0438 \u044d\u043b\u0435\u043c\u0435\u043d\u0442\u043e\u0432 \u0440\u0430\u0434\u0438\u043e\u044d\u043b\u0435\u043a\u0442\u0440\u043e\u043d\u043d\u043e\u0439 \u0430\u043f\u043f\u0430\u0440\u0430\u0442\u0443\u0440\u044b, \u0440\u0430\u0431\u043e\u0442\u0430\u044e\u0449\u0438\u0445 \u043f\u0440\u0438 \u0446\u0438\u043a\u043b\u0438\u0447\u0435\u0441\u043a\u0438\u0445 \u0442\u0435\u043f\u043b\u043e\u0432\u044b\u0445 \u0432\u043e\u0437\u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044f\u0445",
+            "tags": [],
+            "authors": [5, 6, 7, 8]
+        }
+    },
+    {
+        "pk": 28,
+        "model": "main.intellectualproperty",
+        "fields": {
+            "doc_type": 8,
+            "direction": null,
+            "code": "RU 2245693 \u04212",
+            "name": "\u041f\u043e\u043b\u0443\u043f\u0440\u043e\u0432\u043e\u0434\u043d\u0438\u043a\u043e\u0432\u044b\u0435 \u0442\u0435\u0440\u043c\u043e\u044d\u043b\u0435\u043a\u0442\u0440\u0438\u0447\u0435\u0441\u043a\u0438\u0435 \u0443\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u0430 \u0434\u043b\u044f \u043b\u043e\u043a\u0430\u043b\u044c\u043d\u043e\u0433\u043e \u0442\u0435\u043c\u043f\u0435\u0440\u0430\u0442\u0443\u0440\u043d\u043e\u0433\u043e \u0432\u043e\u0437\u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044f \u043d\u0430 \u0441\u0442\u043e\u043f\u0443 \u0447\u0435\u043b\u043e\u0432\u0435\u043a\u0430",
+            "tags": [],
+            "authors": [5, 6, 8, 20]
+        }
+    },
+    {
+        "pk": 29,
+        "model": "main.intellectualproperty",
+        "fields": {
+            "doc_type": 8,
+            "direction": null,
+            "code": "RU 2245694 \u04212",
+            "name": "\u041f\u043e\u043b\u0443\u043f\u0440\u043e\u0432\u043e\u0434\u043d\u0438\u043a\u043e\u0432\u043e\u0435 \u0442\u043c\u043e\u044d\u043b\u0435\u043a\u0442\u0438\u0447\u0435\u0441\u043a\u043e\u0435 \u0443\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u043e \u0434\u043b\u044f \u043b\u043e\u043a\u0430\u043b\u044c\u043d\u043e\u0433\u043e \u0442\u0435\u043c\u043f\u0435\u0440\u0430\u0442\u0443\u0440\u043d\u043e\u0433\u043e \u0432\u043e\u0437\u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044f \u043d\u0430 \u0441\u0442\u043e\u043f\u0443 \u0447\u0435\u043b\u043e\u0432\u0435\u043a\u0430",
+            "tags": [],
+            "authors": [5, 6, 8, 16, 20]
+        }
+    },
+    {
+        "pk": 30,
+        "model": "main.intellectualproperty",
+        "fields": {
+            "doc_type": 8,
+            "direction": null,
+            "code": "RU 2245697 \u04212",
+            "name": "\u0423\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u043e \u0434\u043b\u044f \u043f\u043e\u043b\u0443\u0447\u0435\u043d\u0438\u044f \u0432\u043e\u0434\u044b \u0438\u0437 \u0430\u0442\u043c\u043e\u0441\u0444\u0435\u0440\u043d\u043e\u0433\u043e \u0432\u043e\u0437\u0434\u0443\u0445\u0430",
+            "tags": [],
+            "authors": [5, 6, 7, 8, 16]
+        }
+    },
+    {
+        "pk": 31,
+        "model": "main.intellectualproperty",
+        "fields": {
+            "doc_type": 8,
+            "direction": null,
+            "code": "RU 2246919 \u04212",
+            "name": "\u0423\u0441\u0442\u0440\u043e\u0439\u0441\u0442\u0432\u043e \u0434\u043b\u044f \u043f\u0443\u043b\u044c\u0441\u0438\u0440\u0443\u044e\u0448\u0435\u0433\u043e \u0442\u0435\u043f\u043b\u043e\u0432\u043e\u0433\u043e \u0432\u043e\u0437\u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044f \u043d\u0430 \u043d\u0430\u0437\u043e\u043b\u043e\u0431\u0438\u0430\u043b\u044c\u0433\u0443\u044e \u043e\u0431\u043b\u0430\u0441\u0442\u044c, \u0430\u0434\u0430\u043f\u0442\u0438\u0432\u043e\u043d\u043e\u0435 \u043a \u0440\u0438\u0442\u043c\u0443 \u0434\u044b\u0445\u0430\u043d\u0438\u044e \u043f\u0430\u0446\u0438\u0435\u043d\u0442\u0430",
+            "tags": [],
+            "authors": [5, 6, 7, 8]
+        }
+    },
+    {
+        "pk": 1,
+        "model": "main.downloaddir",
+        "fields": {
+            "intellectual_property": [28, 29],
+            "name": "\u041f\u0430\u0442\u0435\u043d\u0442\u044b \u0425\u0430\u0437\u0430\u043c\u043e\u0432\u0430"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "main.files",
+        "fields": {
+            "file": "6/img195.jpg",
+            "intellectual_property": 6,
+            "name": "img195.jpg",
+            "extension": ".jpg",
+            "size": 1450752.0
+        }
+    },
+    {
+        "pk": 3,
+        "model": "main.files",
+        "fields": {
+            "file": "6/img194.jpg",
+            "intellectual_property": 6,
+            "name": "img194.jpg",
+            "extension": ".jpg",
+            "size": 2547115.0
+        }
+    },
+    {
+        "pk": 4,
+        "model": "main.files",
+        "fields": {
+            "file": "7/img193.jpg",
+            "intellectual_property": 7,
+            "name": "img193.jpg",
+            "extension": ".jpg",
+            "size": 1335201.0
+        }
+    },
+    {
+        "pk": 5,
+        "model": "main.files",
+        "fields": {
+            "file": "7/img192.jpg",
+            "intellectual_property": 7,
+            "name": "img192.jpg",
+            "extension": ".jpg",
+            "size": 2543385.0
+        }
+    },
+    {
+        "pk": 6,
+        "model": "main.files",
+        "fields": {
+            "file": "8/img197.jpg",
+            "intellectual_property": 8,
+            "name": "img197.jpg",
+            "extension": ".jpg",
+            "size": 1345487.0
+        }
+    },
+    {
+        "pk": 7,
+        "model": "main.files",
+        "fields": {
+            "file": "8/img196.jpg",
+            "intellectual_property": 8,
+            "name": "img196.jpg",
+            "extension": ".jpg",
+            "size": 2533219.0
+        }
+    },
+    {
+        "pk": 8,
+        "model": "main.files",
+        "fields": {
+            "file": "9/img199.jpg",
+            "intellectual_property": 9,
+            "name": "img199.jpg",
+            "extension": ".jpg",
+            "size": 1348309.0
+        }
+    },
+    {
+        "pk": 9,
+        "model": "main.files",
+        "fields": {
+            "file": "9/img198.jpg",
+            "intellectual_property": 9,
+            "name": "img198.jpg",
+            "extension": ".jpg",
+            "size": 2402873.0
+        }
+    },
+    {
+        "pk": 10,
+        "model": "main.files",
+        "fields": {
+            "file": "10/img201.jpg",
+            "intellectual_property": 10,
+            "name": "img201.jpg",
+            "extension": ".jpg",
+            "size": 1347220.0
+        }
+    },
+    {
+        "pk": 11,
+        "model": "main.files",
+        "fields": {
+            "file": "10/img200.jpg",
+            "intellectual_property": 10,
+            "name": "img200.jpg",
+            "extension": ".jpg",
+            "size": 2334701.0
+        }
+    },
+    {
+        "pk": 12,
+        "model": "main.files",
+        "fields": {
+            "file": "11/fips.pdf",
+            "intellectual_property": 11,
+            "name": "fips.pdf",
+            "extension": ".pdf",
+            "size": 42706.0
+        }
+    },
+    {
+        "pk": 13,
+        "model": "main.files",
+        "fields": {
+            "file": "12/fips.pdf",
+            "intellectual_property": 12,
+            "name": "fips.pdf",
+            "extension": ".pdf",
+            "size": 42621.0
+        }
+    },
+    {
+        "pk": 14,
+        "model": "main.files",
+        "fields": {
+            "file": "13/fips.pdf",
+            "intellectual_property": 13,
+            "name": "fips.pdf",
+            "extension": ".pdf",
+            "size": 41869.0
+        }
+    },
+    {
+        "pk": 15,
+        "model": "main.files",
+        "fields": {
+            "file": "14/fips.pdf",
+            "intellectual_property": 14,
+            "name": "fips.pdf",
+            "extension": ".pdf",
+            "size": 42104.0
+        }
+    },
+    {
+        "pk": 16,
+        "model": "main.files",
+        "fields": {
+            "file": "15/fips.pdf",
+            "intellectual_property": 15,
+            "name": "fips.pdf",
+            "extension": ".pdf",
+            "size": 41889.0
+        }
+    },
+    {
+        "pk": 17,
+        "model": "main.files",
+        "fields": {
+            "file": "16/fips.pdf",
+            "intellectual_property": 16,
+            "name": "fips.pdf",
+            "extension": ".pdf",
+            "size": 41500.0
+        }
+    },
+    {
+        "pk": 18,
+        "model": "main.files",
+        "fields": {
+            "file": "17/fips.pdf",
+            "intellectual_property": 17,
+            "name": "fips.pdf",
+            "extension": ".pdf",
+            "size": 41382.0
+        }
+    },
+    {
+        "pk": 19,
+        "model": "main.files",
+        "fields": {
+            "file": "18/fips.pdf",
+            "intellectual_property": 18,
+            "name": "fips.pdf",
+            "extension": ".pdf",
+            "size": 40456.0
+        }
+    },
+    {
+        "pk": 20,
+        "model": "main.files",
+        "fields": {
+            "file": "19/fips.pdf",
+            "intellectual_property": 19,
+            "name": "fips.pdf",
+            "extension": ".pdf",
+            "size": 40790.0
+        }
+    },
+    {
+        "pk": 21,
+        "model": "main.files",
+        "fields": {
+            "file": "20/fips.pdf",
+            "intellectual_property": 20,
+            "name": "fips.pdf",
+            "extension": ".pdf",
+            "size": 42451.0
+        }
+    },
+    {
+        "pk": 22,
+        "model": "main.files",
+        "fields": {
+            "file": "21/fips.pdf",
+            "intellectual_property": 21,
+            "name": "fips.pdf",
+            "extension": ".pdf",
+            "size": 41786.0
+        }
+    },
+    {
+        "pk": 23,
+        "model": "main.files",
+        "fields": {
+            "file": "22/fips.pdf",
+            "intellectual_property": 22,
+            "name": "fips.pdf",
+            "extension": ".pdf",
+            "size": 69926.0
+        }
+    },
+    {
+        "pk": 24,
+        "model": "main.files",
+        "fields": {
+            "file": "23/fips.pdf",
+            "intellectual_property": 23,
+            "name": "fips.pdf",
+            "extension": ".pdf",
+            "size": 70048.0
+        }
+    },
+    {
+        "pk": 25,
+        "model": "main.files",
+        "fields": {
+            "file": "24/fips.pdf",
+            "intellectual_property": 24,
+            "name": "fips.pdf",
+            "extension": ".pdf",
+            "size": 69240.0
+        }
+    },
+    {
+        "pk": 26,
+        "model": "main.files",
+        "fields": {
+            "file": "25/fips.pdf",
+            "intellectual_property": 25,
+            "name": "fips.pdf",
+            "extension": ".pdf",
+            "size": 69404.0
+        }
+    },
+    {
+        "pk": 27,
+        "model": "main.files",
+        "fields": {
+            "file": "26/fips.pdf",
+            "intellectual_property": 26,
+            "name": "fips.pdf",
+            "extension": ".pdf",
+            "size": 69909.0
+        }
+    },
+    {
+        "pk": 28,
+        "model": "main.files",
+        "fields": {
+            "file": "27/fips.pdf",
+            "intellectual_property": 27,
+            "name": "fips.pdf",
+            "extension": ".pdf",
+            "size": 69840.0
+        }
+    },
+    {
+        "pk": 29,
+        "model": "main.files",
+        "fields": {
+            "file": "28/fips.pdf",
+            "intellectual_property": 28,
+            "name": "fips.pdf",
+            "extension": ".pdf",
+            "size": 117864.0
+        }
+    },
+    {
+        "pk": 30,
+        "model": "main.files",
+        "fields": {
+            "file": "29/fips.pdf",
+            "intellectual_property": 29,
+            "name": "fips.pdf",
+            "extension": ".pdf",
+            "size": 136171.0
+        }
+    },
+    {
+        "pk": 31,
+        "model": "main.files",
+        "fields": {
+            "file": "30/fips.pdf",
+            "intellectual_property": 30,
+            "name": "fips.pdf",
+            "extension": ".pdf",
+            "size": 403708.0
+        }
+    },
+    {
+        "pk": 32,
+        "model": "main.files",
+        "fields": {
+            "file": "31/fips.pdf",
+            "intellectual_property": 31,
+            "name": "fips.pdf",
+            "extension": ".pdf",
+            "size": 164346.0
+        }
     }
 ]

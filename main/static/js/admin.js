@@ -256,10 +256,10 @@ var API_BASE_URL = "api/",
                 cancelDelete: "Нет"
             },
             columns: [
-                { field: "name", title: "ФИО", template: "#var fio=[surname,name,patronymic].join(' ');# #=fio#"},
+                { field: "name", title: "ФИО", width: "250px", template: "#var fio=[surname,name,patronymic].join(' ');# #=fio#"},
                 { field: "post", title: "Учёные степени и звания", width: "300px", attributes: {title: "#=post#"} },
-                { field: "tel", title: "Телефон", width: "150px", attributes: {title: "#=tel#"} },
-                { field: "mail", title: "Электронный адрес", width: "250px", attributes: {title: "#=mail#"} },
+                { field: "tel", title: "Телефон", attributes: {title: "#=tel#"} },
+                { field: "mail", title: "Электронный адрес", attributes: {title: "#=mail#"} },
                 { field: "department", title: "Подразделение", width: "200px", attributes: {title: ""}, template: "#=department.name#"},
                 { command: [
                     {   text: "Редактировать",
@@ -1033,7 +1033,7 @@ var API_BASE_URL = "api/",
                         }
                     }
                 }
-                console.log(e);
+//                console.log(e);
                 e.data = {item: JSON.stringify({intellectual_property_id: this.options.intellect_prop_id})};
             },
             remove: function(e) {
@@ -1153,7 +1153,10 @@ var API_BASE_URL = "api/",
                 data.add(item);
             }
             $file_uploader.options.intellect_prop_id = d.intellectual_property_id;
-            $("#change_intellectual_property_window button.k-button.k-upload-selected").click();
+            var is_upload = $("#change_intellectual_property_window button.k-button.k-upload-selected").click();
+            if (is_upload.length == 0) {
+                intellectual_property_wibdow.close();
+            }
 
 //            $reload_direction.click();
 //            $reload_document_type.click();
