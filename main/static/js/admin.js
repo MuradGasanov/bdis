@@ -19,6 +19,200 @@ var API_BASE_URL = "api/",
     };
 
 (function ($) {
+    var ui = kendo.ui,
+        MultiSelect = ui.MultiSelect,
+        keys = kendo.keys,
+//        activeElement = kendo._activeElement,
+//        proxy = $.proxy,
+//        LI = "li",
+        SELECT = "select",
+//        ACCEPT = "accept",
+//        FILTER = "filter",
+        NEXT = "nextSibling",
+        PREV = "previousSibling";
+//        ARIA_DISABLED = "aria-disabled",
+//        ARIA_READONLY = "aria-readonly",
+//        HOVERCLASS = "k-state-hover",
+//        STATEDISABLED = "k-state-disabled",
+//        DISABLED = "disabled",
+//        READONLY = "readonly",
+//        ns = ".kendoMultiSelect";
+//        CLICK = "click" + ns,
+//        KEYDOWN = "keydown" + ns,
+//        MOUSEENTER = "mouseenter" + ns,
+//        MOUSELEAVE = "mouseleave" + ns;
+//        HOVEREVENTS = MOUSEENTER + " " + MOUSELEAVE;
+
+    var AuthorMultiSelect = MultiSelect.extend({
+        init: function (element, options) {
+            var that = this;
+            MultiSelect.fn.init.call(that, element, options);
+        },
+        options: {
+            name: 'AuthorMultiSelect'
+        },
+        _keydown: function (e) {
+            var that = this,
+                key = e.keyCode,
+                options = that.options,
+                tag = that._currentTag,
+                current = that._current,
+                hasValue = that.input.val(),
+                isRtl = kendo.support.isRtl(that.wrapper),
+                visible = that.popup.visible();
+
+            if (key === keys.DOWN) {
+                e.preventDefault();
+
+                if (!visible) {
+                    that.open();
+                    return;
+                }
+
+                if (current) {
+                    current = sibling(current[0], NEXT);
+                } else {
+                    current = first(that.ul[0]);
+                }
+
+                if (current) {
+                    that.current($(current));
+                }
+            } else if (key === keys.UP) {
+                if (visible) {
+                    if (current) {
+                        current = sibling(current[0], PREV);
+                    } else {
+                        current = last(that.ul[0]);
+                    }
+
+                    that.current($(current));
+
+                    if (!that._current[0]) {
+                        that.close();
+                    }
+                }
+                e.preventDefault();
+            } else if ((key === keys.LEFT && !isRtl) || (key === keys.RIGHT && isRtl)) {
+                if (!hasValue) {
+                    tag = tag ? tag.prev() : $(that.tagList[0].lastChild);
+                    if (tag[0]) {
+                        that.currentTag(tag);
+                    }
+                }
+            } else if ((key === keys.RIGHT && !isRtl) || (key === keys.LEFT && isRtl)) {
+                if (!hasValue && tag) {
+                    tag = tag.next();
+                    that.currentTag(tag[0] ? tag : null);
+                }
+            } else if (key === keys.ENTER && visible) {
+                if (current) {
+                    if (that.trigger(SELECT, {item: current})) {
+                        that._close();
+                        return;
+                    }
+                    that._select(current);
+                }
+
+                that._change();
+                that._close();
+                e.preventDefault();
+            } else if (key === keys.ENTER) {
+                if (hasValue) {
+                    if (options.addAuthor) {
+                        options.addAuthor(hasValue)
+                    }
+                }
+            } else if (key === keys.ESC) {
+                if (visible) {
+                    e.preventDefault();
+                } else {
+                    that.currentTag(null);
+                }
+
+                that.close();
+            } else if (key === keys.HOME) {
+                if (visible) {
+                    that.current(first(that.ul[0]));
+                } else if (!hasValue) {
+                    tag = that.tagList[0].firstChild;
+
+                    if (tag) {
+                        that.currentTag($(tag));
+                    }
+                }
+            } else if (key === keys.END) {
+                if (visible) {
+                    that.current(last(that.ul[0]));
+                } else if (!hasValue) {
+                    tag = that.tagList[0].lastChild;
+
+                    if (tag) {
+                        that.currentTag($(tag));
+                    }
+                }
+            } else if ((key === keys.DELETE || key === keys.BACKSPACE) && !hasValue) {
+                if (key === keys.BACKSPACE && !tag) {
+                    tag = $(that.tagList[0].lastChild);
+                }
+
+                if (tag && tag[0]) {
+                    that._unselect(tag);
+                    that._change();
+                    that._close();
+                }
+            } else {
+                clearTimeout(that._typing);
+                setTimeout(function () {
+                    that._scale();
+                });
+                that._search();
+            }
+        }
+    });
+
+    function first(ul) {
+        var item = ul.firstChild;
+
+        if (item && item.style.display === "none") {
+            item = sibling(item, NEXT);
+        }
+
+        if (item) {
+            return $(item);
+        }
+
+        return item;
+    }
+
+    function last(ul) {
+        var item = ul.lastChild;
+
+        if (item && item.style.display === "none") {
+            item = sibling(item, PREV);
+        }
+
+        if (item) {
+            return $(item);
+        }
+
+        return item;
+    }
+
+    function sibling(item, direction) {
+        item = item[direction];
+
+        if (item && item.style.display === "none") {
+            item = sibling(item, direction);
+        }
+
+        return item;
+    }
+
+    ui.plugin(AuthorMultiSelect);
+})(jQuery);
+
+(function ($) {
     $(document).ready(function (e) {
         var GRID_HEIGHT = $(window).height() - $("header#main_header").height() - $("footer#main_footer").height() - 70;
         var window_option = {
@@ -31,7 +225,7 @@ var API_BASE_URL = "api/",
             visible: false};
         var validator_option = {
             rules: {
-                required: function(input) {
+                required: function (input) {
                     if (input.is("[required]")) {
                         input.val($.trim(input.val())); //удалить обертывающиепробелы
                         return input.val() !== "";
@@ -84,7 +278,7 @@ var API_BASE_URL = "api/",
                         fields: { name: {type: "string"}, tel: {type: "string"} }
                     }
                 },
-                requestEnd: function(e) {
+                requestEnd: function (e) {
                     if (e.type == "destroy") {
                         $reload_author.click();
                     }
@@ -109,7 +303,7 @@ var API_BASE_URL = "api/",
                 { field: "tel", title: "Телефон", width: "300px", attributes: {title: "#=tel#"} },
                 { command: [
                     {   text: "Редактировать",
-                        click: function(e) {
+                        click: function (e) {
                             $(".k-widget.k-tooltip.k-tooltip-validation.k-invalid-msg").hide();
                             var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
                             $("#is_subdivision_edit").val("true");
@@ -179,8 +373,8 @@ var API_BASE_URL = "api/",
             };
             n = noty_message(M_SAVE, false);
             if ($("#is_subdivision_edit").val() === "false") {
-               $.post(BASE_URL + API_BASE_URL + "subdivision/create/",
-                   {item: JSON.stringify(send) }, check_response_subdivision, "json");
+                $.post(BASE_URL + API_BASE_URL + "subdivision/create/",
+                    {item: JSON.stringify(send) }, check_response_subdivision, "json");
             } else {
                 $.post(BASE_URL + API_BASE_URL + "subdivision/update/",
                     {item: JSON.stringify(send) }, check_response_subdivision, "json");
@@ -237,7 +431,7 @@ var API_BASE_URL = "api/",
                         }
                     }
                 },
-                requestEnd: function(e) {
+                requestEnd: function (e) {
                     n.close();
                     if ((e.type == "update") || (e.type == "destroy")) {
                         $reload_intellectual_property.click();
@@ -256,14 +450,14 @@ var API_BASE_URL = "api/",
                 cancelDelete: "Нет"
             },
             columns: [
-                { field: "name", title: "ФИО", width: "250px", template: "#var fio=[surname,name,patronymic].join(' ');# #=fio#"},
+                { field: "surname", title: "ФИО", width: "250px", template: "#var fio=[surname,name,patronymic].join(' ');# #=fio#"},
                 { field: "post", title: "Учёные степени и звания", width: "300px", attributes: {title: "#=post#"} },
                 { field: "tel", title: "Телефон", attributes: {title: "#=tel#"} },
                 { field: "mail", title: "Электронный адрес", attributes: {title: "#=mail#"} },
                 { field: "department", title: "Подразделение", width: "200px", attributes: {title: ""}, template: "#=department.name#"},
                 { command: [
                     {   text: "Редактировать",
-                        click: function(e) {
+                        click: function (e) {
                             $(".k-widget.k-tooltip.k-tooltip-validation.k-invalid-msg").hide();
                             var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
                             $("#is_author_edit").val("true");
@@ -368,7 +562,9 @@ var API_BASE_URL = "api/",
                     department: d.department
                 };
                 data.add(item);
-                if (authors_multiselect) { authors_multiselect.dataSource.read(); }
+                if (authors_multiselect) {
+                    authors_multiselect.dataSource.read();
+                }
             }
             n.close();
             authors.refresh();
@@ -378,7 +574,9 @@ var API_BASE_URL = "api/",
         $("#author_save").click(function (e) {
             if (!author_validator.validate()) return false;
             var department = author_model.get("department");
-            if (typeof department == "object") {department = department.department_id}
+            if (typeof department == "object") {
+                department = department.department_id
+            }
             var send = {
                 author_id: author_model.get("author_id"),
                 surname: author_model.get("surname"),
@@ -391,8 +589,8 @@ var API_BASE_URL = "api/",
             };
             n = noty_message(M_SAVE, false);
             if ($("#is_author_edit").val() === "false") {
-               $.post(BASE_URL + API_BASE_URL + "authors/create/",
-                   {item: JSON.stringify(send) }, check_response_author, "json");
+                $.post(BASE_URL + API_BASE_URL + "authors/create/",
+                    {item: JSON.stringify(send) }, check_response_author, "json");
             } else {
                 $.post(BASE_URL + API_BASE_URL + "authors/update/",
                     {item: JSON.stringify(send) }, check_response_author, "json");
@@ -845,7 +1043,7 @@ var API_BASE_URL = "api/",
                         }
                     }
                 },
-                requestEnd: function(e) {
+                requestEnd: function (e) {
                     n.close();
                 }
             },
@@ -879,7 +1077,7 @@ var API_BASE_URL = "api/",
                 },
                 { command: [
                     {   text: "Редактировать",
-                        click: function(e) {
+                        click: function (e) {
                             $(".k-widget.k-tooltip.k-tooltip-validation.k-invalid-msg").hide();
                             var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
                             $("#is_intellectual_property_edit").val("true");
@@ -889,28 +1087,30 @@ var API_BASE_URL = "api/",
                             intellectual_property_model.get("tags_source").read();
                             authors_multiselect.dataSource.read();
                             $.post(API_BASE_URL + "file/get_list/",
-                                    {item: JSON.stringify({intellectual_property_id: dataItem.intellectual_property_id})},
-                                    function(data) {
-                                        reset_file_uploader();
-                                        $file_uploader._renderInitialFiles(data);
-                                        intellectual_property_model.set("intellectual_property_id", dataItem.intellectual_property_id);
-                                        intellectual_property_model.set("name", "");
-                                        intellectual_property_model.set("name", "");
-                                        intellectual_property_model.set("doc_type", "");
-                                        intellectual_property_model.set("direction", "");
-                                        intellectual_property_model.set("tags", "");
-                                        intellectual_property_model.set("name", dataItem.name);
-                                        intellectual_property_model.set("code", dataItem.code);
-                                        intellectual_property_model.set("doc_type", dataItem.doc_type.doc_type_id);
-                                        intellectual_property_model.set("direction", dataItem.direction.direction_id);
-                                        var authors = [], tags = [], i;
-                                        for(i=0; i<dataItem.tags.length; i++) {tags += dataItem.tags[i].name + ", ";}
-                                        intellectual_property_model.set("tags", tags);
-                                        for (i=0; i<dataItem.authors.length; i++) authors.push(dataItem.authors[i].author_id);
-                                        authors_multiselect.value(authors);
-                                        intellectual_property_wibdow.center().open();
-                                        n.close();
-                                    }, "json");
+                                {item: JSON.stringify({intellectual_property_id: dataItem.intellectual_property_id})},
+                                function (data) {
+                                    reset_file_uploader();
+                                    $file_uploader._renderInitialFiles(data);
+                                    intellectual_property_model.set("intellectual_property_id", dataItem.intellectual_property_id);
+                                    intellectual_property_model.set("name", "");
+                                    intellectual_property_model.set("name", "");
+                                    intellectual_property_model.set("doc_type", "");
+                                    intellectual_property_model.set("direction", "");
+                                    intellectual_property_model.set("tags", "");
+                                    intellectual_property_model.set("name", dataItem.name);
+                                    intellectual_property_model.set("code", dataItem.code);
+                                    intellectual_property_model.set("doc_type", dataItem.doc_type.doc_type_id);
+                                    intellectual_property_model.set("direction", dataItem.direction.direction_id);
+                                    var authors = [], tags = [], i;
+                                    for (i = 0; i < dataItem.tags.length; i++) {
+                                        tags += dataItem.tags[i].name + ", ";
+                                    }
+                                    intellectual_property_model.set("tags", tags);
+                                    for (i = 0; i < dataItem.authors.length; i++) authors.push(dataItem.authors[i].author_id);
+                                    authors_multiselect.value(authors);
+                                    intellectual_property_wibdow.center().open();
+                                    n.close();
+                                }, "json");
                         }
                     },
                     { name: "destroy", text: "Удалить" }
@@ -963,12 +1163,7 @@ var API_BASE_URL = "api/",
         window_option.width = 750;
         var intellectual_property_wibdow = $("#change_intellectual_property_window").kendoWindow(window_option).data("kendoWindow");
 
-        var authors_multiselect = $("#authors_multiselect").kendoMultiSelect({
-            placeholder: "Выберите авторов...",
-            dataTextField: "name",
-            itemTemplate: '<span class="k-state-default"><b>#:data.name#</b>#if(data.department!=null){ #<p><i>#:data.department#</i></p># } #</span>',
-            dataValueField: "author_id",
-            dataSource: {
+        var authors_multiselect_data_source = new kendo.data.DataSource({
                 type: "json",
                 transport: {
                     read: function (options) {
@@ -989,8 +1184,37 @@ var API_BASE_URL = "api/",
                         });
                     }
                 }
-            }
-        }).data("kendoMultiSelect");
+            }),
+            authors_multiselect = $("#authors_multiselect").kendoAuthorMultiSelect({
+                placeholder: "Выберите авторов...",
+                dataTextField: "name",
+                itemTemplate: '<span class="k-state-default"><b>#:data.name#</b>#if(data.department!=null){ #<p><i>#:data.department#</i></p># } #</span>',
+                dataValueField: "author_id",
+                dataSource: authors_multiselect_data_source,
+                addAuthor: function (newAuthor) {
+                    var that = authors_multiselect;
+                    var fio = $.trim(newAuthor);
+                    fio = fio.replace(/\s+/g, " ").split(" ");
+                    if (fio.length < 2) return false;
+                    var send = {
+                        author_id: 0,
+                        surname: fio[0],
+                        name: fio[1],
+                        patronymic: fio.length == 3 ? fio[2] : "",
+                        post: "", tel: "", mail: "", department: ""
+                    };
+                    n = noty_message(M_LOAD, false);
+                    $.post(BASE_URL + API_BASE_URL + "authors/create/",
+                        {item: JSON.stringify(send) },
+                        function (data) {
+                            n.close();
+                            data.name = [data.surname, data.name, data.patronymic].join(" ");
+                            data.department = "";
+                            that.dataSource.add(data);
+                            that.search(fio.join(" "));
+                        }, "json");
+                }
+            }).data("kendoAuthorMultiSelect");
         authors_multiselect.wrapper.css({width: "501px", display: "inline-block"});
 
         var $file_uploader = $("#file_uploader").kendoUpload({
@@ -1005,25 +1229,25 @@ var API_BASE_URL = "api/",
             template: kendo.template($('#fileTemplate').html()),
             files: [],
             intellect_prop_id: 0,
-            success:function (e) {
+            success: function (e) {
                 if (e.operation == "upload") {
                     intellectual_property_wibdow.close();
                     var that = this;
                     $.post(API_BASE_URL + "file/get_list/",
                         {item: JSON.stringify({intellectual_property_id: this.options.intellect_prop_id})},
-                        function(data) {
+                        function (data) {
                             that.wrapper.find("ul.k-upload-files.k-reset").remove();
 //                                that.wrapper.find("li.k-file.k-file-success").remove();
                             that._renderInitialFiles(data);
                         });
                 }
             },
-            select: function(e) {
+            select: function (e) {
             },
             upload: function (e) {
                 var f = e.files;
-                for (var i=0; i<f.length; i++) {
-                    for (var j=i+1; j<f.length; j++) {
+                for (var i = 0; i < f.length; i++) {
+                    for (var j = i + 1; j < f.length; j++) {
                         if ((f[i].name == f[j].name) &&
                             (f[i].size == f[j].size) &&
                             (f[i].extension == f[j].extension)) {
@@ -1036,10 +1260,10 @@ var API_BASE_URL = "api/",
 //                console.log(e);
                 e.data = {item: JSON.stringify({intellectual_property_id: this.options.intellect_prop_id})};
             },
-            remove: function(e) {
+            remove: function (e) {
                 var files = e.files;
                 e.data = {item: JSON.stringify(files)};
-                if (!confirm("Вы уверены, что хотите удалить "+files[0].name+"?")) {
+                if (!confirm("Вы уверены, что хотите удалить " + files[0].name + "?")) {
                     e.preventDefault();
                 }
             }
@@ -1096,7 +1320,7 @@ var API_BASE_URL = "api/",
 
         var intellectual_property_validator = $("#change_intellectual_property").kendoValidator({
             rules: {
-                required: function(input) {
+                required: function (input) {
                     if (input.is("[required]")) {
                         return $.trim(input.val()) !== "";
                     } else return true;
@@ -1168,12 +1392,13 @@ var API_BASE_URL = "api/",
         }
 
         function tag_splitter(tags) {
+            tags = tags.replace(/\s+/g, ' ');
             tags = $.trim(tags);
             while (tags[0] == ",") tags = tags.substr(1);
             while (tags[tags.length - 1] == ",") tags = tags.substr(0, tags.length - 1);
             tags = tags.split(",");
             var result = [];
-            $.each(tags, function(i, tag){
+            $.each(tags, function (i, tag) {
                 tag = $.trim(tag);
                 if (tag.length > 0)
                     if ($.inArray(tag, result) == -1) result.push(tag);
@@ -1184,11 +1409,19 @@ var API_BASE_URL = "api/",
         $("#intellectual_property_save").click(function (e) {
             if (!intellectual_property_validator.validate()) return false;
             var doc_type = intellectual_property_model.get("doc_type");
-            if (!doc_type) {doc_type = ""}
+            if (!doc_type) {
+                doc_type = ""
+            }
             var direction = intellectual_property_model.get("direction");
-            if (!direction) {direction = ""}
-            var  tags = intellectual_property_model.get("tags");
-            if (tags.length > 0) {  tags = tag_splitter(tags); } else { tags = [] }
+            if (!direction) {
+                direction = ""
+            }
+            var tags = intellectual_property_model.get("tags");
+            if (tags.length > 0) {
+                tags = tag_splitter(tags);
+            } else {
+                tags = []
+            }
             var send = {
                 intellectual_property_id: intellectual_property_model.get("intellectual_property_id"),
                 name: intellectual_property_model.get("name"),
@@ -1200,8 +1433,8 @@ var API_BASE_URL = "api/",
             };
             n = noty_message(M_SAVE, false);
             if ($("#is_intellectual_property_edit").val() === "false") {
-               $.post(BASE_URL + API_BASE_URL + "intellectual_property/create/",
-                   {item: JSON.stringify(send) }, check_response_intellectual_property, "json");
+                $.post(BASE_URL + API_BASE_URL + "intellectual_property/create/",
+                    {item: JSON.stringify(send) }, check_response_intellectual_property, "json");
             } else {
                 $.post(BASE_URL + API_BASE_URL + "intellectual_property/update/",
                     {item: JSON.stringify(send) }, check_response_intellectual_property, "json");
@@ -1210,8 +1443,8 @@ var API_BASE_URL = "api/",
         });
 ///////////////////////////////////////  \\ИНТЕЛЛЕКТУАЛ. СОБСТВЕННОСТЬ
 
-        $("#logout").click(function() {
-            noty_confirm("Выйти?", function() {
+        $("#logout").click(function () {
+            noty_confirm("Выйти?", function () {
                 window.location = "/logout/"
             });
             return false;
@@ -1266,7 +1499,7 @@ function subdivision_detail_init(e) {
                 }, tel: {}, mail: {} }
             }
         },
-        requestEnd: function(e) {
+        requestEnd: function (e) {
 //            n.close();
             if ((e.type == "update") || (e.type == "destroy")) {
                 $(".reload_author").click();
@@ -1377,7 +1610,7 @@ function intellectual_property_detail_init(e) {
 
     $.post(API_BASE_URL + "file/get_list/",
         {item: JSON.stringify({intellectual_property_id: intellect_prop_id})},
-        function(data) {
+        function (data) {
             files = data;
             detailRow.find("#files").kendoUpload({
                 multiple: true,
@@ -1389,25 +1622,25 @@ function intellectual_property_detail_init(e) {
                 localization: FILE_UPLOAD_LOC,
                 template: kendo.template($('#fileTemplate').html()),
                 files: files,
-                success:function (e) {
+                success: function (e) {
                     if (e.operation == "upload") {
                         var that = this;
                         $.post(API_BASE_URL + "file/get_list/",
                             {item: JSON.stringify({intellectual_property_id: intellect_prop_id})},
-                            function(data) {
+                            function (data) {
                                 that.wrapper.find("ul.k-upload-files.k-reset").remove();
 //                                that.wrapper.find("li.k-file.k-file-success").remove();
                                 that._renderInitialFiles(data);
                             });
                     }
                 },
-                select: function(e) {
+                select: function (e) {
 //                    console.log("suc ",e);
                 },
                 upload: function (e) {
                     var f = e.files;
-                    for (var i=0; i<f.length; i++) {
-                        for (var j=i+1; j<f.length; j++) {
+                    for (var i = 0; i < f.length; i++) {
+                        for (var j = i + 1; j < f.length; j++) {
                             if ((f[i].name == f[j].name) &&
                                 (f[i].size == f[j].size) &&
                                 (f[i].extension == f[j].extension)) {
@@ -1419,15 +1652,15 @@ function intellectual_property_detail_init(e) {
                     }
                     e.data = {item: JSON.stringify({intellectual_property_id: intellect_prop_id})};
                 },
-                remove: function(e) {
+                remove: function (e) {
                     var files = e.files;
                     e.data = {item: JSON.stringify(files)};
-                    if (!confirm("Вы уверены, что хотите удалить "+files[0].name+"?")) {
+                    if (!confirm("Вы уверены, что хотите удалить " + files[0].name + "?")) {
                         e.preventDefault();
                     }
                 }
             });
-    }, "json");
+        }, "json");
 }
 function addExtensionClass(extension) {
     switch (extension) {
