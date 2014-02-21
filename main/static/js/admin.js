@@ -519,6 +519,9 @@ var API_BASE_URL = "api/",
         $(".add_author").click(function (e) {
             $(".k-widget.k-tooltip.k-tooltip-validation.k-invalid-msg").hide();
             $("#is_author_edit").val(false);
+            if ($(this).hasClass("for_i_p")) {
+                $("#is_for_i_p").val(true);
+            }
             author_model.set("author_id", 0);
             author_model.set("surname", "");
             author_model.set("name", "");
@@ -562,8 +565,18 @@ var API_BASE_URL = "api/",
                     department: d.department
                 };
                 data.add(item);
+            }
+            if ($("#is_for_i_p").val() == "true") { //Добавить нового автора "из окна"/
+                $("#is_for_i_p").val(false);        /// вызываемого в окне редактирования ИС
                 if (authors_multiselect) {
-                    authors_multiselect.dataSource.read();
+//                    d.name = [d.surname, d.name, d.patronymic].join(" ");
+//                    d.department = d.department.name;
+//                    authors_multiselect_data_source.add(d);
+//                    var current_values = authors_multiselect.value();
+//                    current_values.push(d.author_id);
+//                    console.log(current_values);
+//                    authors_multiselect.value([]);
+//                    authors_multiselect.value(current_values);
                 }
             }
             n.close();
@@ -1184,14 +1197,14 @@ var API_BASE_URL = "api/",
                         });
                     }
                 }
-            }),
-            authors_multiselect = $("#authors_multiselect").kendoAuthorMultiSelect({
+            });
+            window.authors_multiselect = $("#authors_multiselect").kendoAuthorMultiSelect({
                 placeholder: "Выберите авторов...",
                 dataTextField: "name",
-                itemTemplate: '<span class="k-state-default"><b>#:data.name#</b>#if(data.department!=null){ #<p><i>#:data.department#</i></p># } #</span>',
                 dataValueField: "author_id",
+                itemTemplate: '<span class="k-state-default"><b>#:data.name#</b>#if(data.department!=null){ #<p><i>#:data.department#</i></p># } #</span>',
                 dataSource: authors_multiselect_data_source,
-                addAuthor: function (newAuthor) {
+                addAuthor: function (newAuthor) { //Добавить нового автора "из строки"
                     var that = authors_multiselect;
                     var fio = $.trim(newAuthor);
                     fio = fio.replace(/\s+/g, " ").split(" ");

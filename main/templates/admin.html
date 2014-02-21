@@ -99,7 +99,7 @@
             </div>
             <div class="k-edit-field">
                 <div id="authors_multiselect" ></div>
-                <span class="k-button add_author"><span class="k-icon k-i-plus"></span></span>
+                <span class="k-button add_author for_i_p"><span class="k-icon k-i-plus"></span></span>
             </div>
             <div class="k-edit-label">
                 <label>Ключевые слова:</label>
@@ -215,6 +215,7 @@
                         data-bind="value: department, source:departments" ></select>
             </div>
             <input type="hidden" id="is_author_edit" value="false">
+            <input type="hidden" id="is_for_i_p" value="false">
             <div class="k-edit-buttons k-state-active">
                 <a class="k-button k-button-icontext k-grid-update" id="author_save" href="#">
                     <span class="k-icon k-update"></span>Сохранить
