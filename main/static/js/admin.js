@@ -1127,7 +1127,7 @@ var API_BASE_URL = "api/",
                         }
                     },
                     { name: "destroy", text: "Удалить" }
-                ], width: 215, attributes: { style: "text-align: center;"} }
+                ], width: 230, attributes: { style: "text-align: center;"} }
             ]
 //            save: function (e) {
 //                var new_name = e.model.name;

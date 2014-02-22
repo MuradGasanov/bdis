@@ -713,8 +713,11 @@ class Files():
         items = list(intellectual_properties.values("intellectual_property_id", "name"))
         for item in items:
             files = models.Files.objects.filter(
-                intellectual_property=item["intellectual_property_id"]).values_list("file") #FIXME: брать путь из settings
-            files = map(lambda f: os.path.join(os.path.dirname(__file__), 'media/', f[0]).replace('\\','/'), files)
+                intellectual_property=item["intellectual_property_id"]).values_list("file")
+            files = map(
+                lambda f: uni_path(os.path.join(settings.MEDIA_ROOT, f[0])),
+                files
+            )
             item["files"] = files
 
         zip_filename = "archive.zip"

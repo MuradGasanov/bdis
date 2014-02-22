@@ -5,6 +5,11 @@ import os
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+PROJECT_PATH = os.path.abspath(os.path.dirname(__name__))
+
+
+def abs_path(p):
+    return os.path.join(PROJECT_PATH, p).replace('\\','/')
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -62,8 +67,7 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = 'main/media'
-#FIXME: поправить, брать через os.
+MEDIA_ROOT = abs_path('main/media')
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://example.com/media/", "http://media.example.com/"
@@ -73,7 +77,7 @@ MEDIA_URL = '/media/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = abs_path('main/static')
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -120,7 +124,7 @@ ROOT_URLCONF = 'bdis.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'bdis.wsgi.application'
 
-TEMPLATE_DIRS = (os.path.join(os.path.dirname(__file__), '..', '/main/templates').replace('\\','/'),)
+TEMPLATE_DIRS = (abs_path('main/templates'),)
 
 INSTALLED_APPS = (
     'django.contrib.auth',

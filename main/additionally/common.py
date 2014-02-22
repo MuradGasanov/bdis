@@ -23,3 +23,7 @@ def index(lst, key, value):
         if dic[key] == value:
             return i
     return -1
+
+
+def uni_path(path):
+    return path.replace("\\", "/")

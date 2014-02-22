@@ -95,7 +95,7 @@ var API_BASE_URL = "api/";
 ////////////////////////////////////// ПОИСК ПО СЛОВАМ\\
 
 ////////////////////////////////////// ПОИСК ПО АВТОРАМ
-        var search_tree = $("#search_tree").kendoTreeView({ //TODO: перевести сообщения повторной загрузки
+        var search_tree = $("#search_tree").kendoTreeView({
             dataSource: new kendo.data.HierarchicalDataSource({
                 type: "json",
                 transport: {
@@ -129,6 +129,11 @@ var API_BASE_URL = "api/";
                     n.close();
                     search_result_render(r)
                 }, "json");
+            },
+            messages: {
+                retry: "Повторить",
+                requestFailed: "Не удалось загрузить список авторов.",
+                loading: "Загрузка..."
             }
         }).data("kendoTreeView");
 ////////////////////////////////////// ПОИСК ПО АВТОРАМ\\
