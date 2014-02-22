@@ -1074,9 +1074,9 @@ var API_BASE_URL = "api/",
             detailTemplate: kendo.template($("#intellectual_property_detail_template").html()),
             detailInit: intellectual_property_detail_init,
             columns: [
-                { field: "code", title: "Код"},
-                { field: "name", title: "Наименование"},
-                { field: "doc_type", title: "Тип",
+                { field: "code", title: "Код", width: 150},
+                { field: "name", title: "Наименование", width: 300},
+                { field: "doc_type", title: "Тип", width: 150,
                     template: "#if (doc_type) if ('name' in doc_type) {# #=doc_type.name# # } #"},
                 { field: "direction", title: "Направление",
                     template: "#if (direction) if ('name' in direction) {# #=direction.name# # } #"},
@@ -1127,7 +1127,7 @@ var API_BASE_URL = "api/",
                         }
                     },
                     { name: "destroy", text: "Удалить" }
-                ], width: "250px", attributes: { style: "text-align: center;"} }
+                ], width: 215, attributes: { style: "text-align: center;"} }
             ]
 //            save: function (e) {
 //                var new_name = e.model.name;
