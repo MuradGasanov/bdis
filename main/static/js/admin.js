@@ -1078,6 +1078,8 @@ var API_BASE_URL = "api/",
                 { field: "name", title: "Наименование", width: 300},
                 { field: "doc_type", title: "Тип", width: 150,
                     template: "#if (doc_type) if ('name' in doc_type) {# #=doc_type.name# # } #"},
+                { field: "end_date", title: "Срок действия истекает", width: 150,
+                    template: "#if (end_date.length > 0) {# #=kendo.toString(new Date(end_date), 'dd.MM.yyyy')# #} #"},
                 { field: "direction", title: "Направление",
                     template: "#if (direction) if ('name' in direction) {# #=direction.name# # } #"},
                 { field: "authors", title: "Авторы",
@@ -1102,6 +1104,7 @@ var API_BASE_URL = "api/",
                             $.post(API_BASE_URL + "file/get_list/",
                                 {item: JSON.stringify({intellectual_property_id: dataItem.intellectual_property_id})},
                                 function (data) {
+                                    console.log(dataItem);
                                     reset_file_uploader();
                                     $file_uploader._renderInitialFiles(data);
                                     intellectual_property_model.set("intellectual_property_id", dataItem.intellectual_property_id);
@@ -1112,6 +1115,18 @@ var API_BASE_URL = "api/",
                                     intellectual_property_model.set("tags", "");
                                     intellectual_property_model.set("name", dataItem.name);
                                     intellectual_property_model.set("code", dataItem.code);
+                                    if (dataItem.start_date.length > 0)
+                                        intellectual_property_model.set("start_date", new Date(dataItem.start_date));
+                                    else
+                                        intellectual_property_model.set("start_date", new Date(""));
+                                    if (dataItem.public_date.length > 0)
+                                        intellectual_property_model.set("public_date", new Date(dataItem.public_date));
+                                    else
+                                        intellectual_property_model.set("public_date", new Date(""));
+                                    if (dataItem.end_date.length > 0)
+                                        intellectual_property_model.set("end_date", new Date(dataItem.end_date));
+                                    else
+                                        intellectual_property_model.set("end_date", new Date(""));
                                     intellectual_property_model.set("doc_type", dataItem.doc_type.doc_type_id);
                                     intellectual_property_model.set("direction", dataItem.direction.direction_id);
                                     var authors = [], tags = [], i;
@@ -1329,9 +1344,13 @@ var API_BASE_URL = "api/",
             }),
             tags: "",
 
-            start_date: new Date("2010-09-15T23:24:36.169710"),
-            public_date: new Date("2010-09-15T23:24:36.169710"),
-            end_date: new Date("2010-09-15T23:24:36.169710")
+            start_date: "",
+            public_date: "",
+            end_date: "",
+
+            cascade_set_end_date: function(e) {
+
+            }
         });
         kendo.bind($("#change_intellectual_property"), intellectual_property_model);
 
@@ -1356,6 +1375,9 @@ var API_BASE_URL = "api/",
             intellectual_property_model.set("code", "");
             intellectual_property_model.set("doc_type", "");
             intellectual_property_model.set("direction", "");
+            intellectual_property_model.set("start_date", "");
+            intellectual_property_model.set("public_date", "");
+            intellectual_property_model.set("end_date", "");
             authors_multiselect.dataSource.read();
             authors_multiselect.value([]);
             intellectual_property_model.get("doc_types").read();
@@ -1381,6 +1403,9 @@ var API_BASE_URL = "api/",
                 item.direction = d.direction;
                 item.authors = d.authors;
                 item.tags = d.tags;
+                item.start_date = d.start_date;
+                item.public_date = d.public_date;
+                item.end_date = d.end_date;
             } else {
                 item = {
                     intellectual_property_id: d.intellectual_property_id,
@@ -1389,7 +1414,10 @@ var API_BASE_URL = "api/",
                     doc_type: d.doc_type,
                     direction: d.direction,
                     authors: d.authors,
-                    tags: d.tags
+                    tags: d.tags,
+                    start_date: d.start_date,
+                    public_date: d.public_date,
+                    end_date: d.end_date
                 };
                 data.add(item);
             }
@@ -1439,12 +1467,19 @@ var API_BASE_URL = "api/",
             } else {
                 tags = []
             }
+            var start_date = intellectual_property_model.get("start_date"),
+                public_date = intellectual_property_model.get("public_date"),
+                end_date = intellectual_property_model.get("end_date");
+
             var send = {
                 intellectual_property_id: intellectual_property_model.get("intellectual_property_id"),
                 name: intellectual_property_model.get("name"),
                 code: intellectual_property_model.get("code"),
                 doc_type: doc_type,
                 direction: direction,
+                start_date: start_date,
+                public_date: public_date,
+                end_date: end_date,
                 authors: authors_multiselect.value(),
                 tags: tags
             };

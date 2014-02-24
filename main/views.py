@@ -413,6 +413,10 @@ class IntellectualProperty():
                                      "name": direction.name if direction else ""}
             except models.Directions.DoesNotExist:
                 item["direction"] = {"direction_id": "", "name": ""}
+            item["start_date"] = date_to_iso(item["start_date"])
+            item["public_date"] = date_to_iso(item["public_date"])
+            item["end_date"] = date_to_iso(item["end_date"])
+
             authors = list(
                 models.Authors.objects.
                 filter(intellectualproperty=int(item["intellectual_property_id"])).
@@ -479,8 +483,11 @@ class IntellectualProperty():
         new_intellectual_property = models.IntellectualProperty.objects.create(
             name=item["name"],
             code=item["code"],
+            start_date=date_parser(item["start_date"]),
+            public_date=date_parser(item["public_date"]),
+            end_date=date_parser(item["end_date"]),
             doc_type=doc_type,
-            direction=direction)
+            direction=direction,)
         new_intellectual_property.authors.add(*item["authors"])
 
         new_intellectual_property.tags.add(*tags)
@@ -504,6 +511,9 @@ class IntellectualProperty():
                                         "name": new_intellectual_property.name,
                                         "code": new_intellectual_property.code,
                                         "doc_type": doc_type,
+                                        "start_date": date_to_iso(new_intellectual_property.start_date),
+                                        "public_date": date_to_iso(new_intellectual_property.public_date),
+                                        "end_date": date_to_iso(new_intellectual_property.end_date),
                                         "direction": direction,
                                         "authors": authors,
                                         "tags": tags}), content_type="application/json")
@@ -567,6 +577,9 @@ class IntellectualProperty():
         intellectual_property.code = item["code"]
         intellectual_property.doc_type = doc_type
         intellectual_property.direction = direction
+        intellectual_property.start_date = date_parser(item["start_date"])
+        intellectual_property.public_date = date_parser(item["public_date"])
+        intellectual_property.end_date = date_parser(item["end_date"])
         intellectual_property.save()
         intellectual_property.authors.clear()
         intellectual_property.authors.add(*item["authors"])
@@ -592,6 +605,9 @@ class IntellectualProperty():
             "intellectual_property_id": intellectual_property.intellectual_property_id,
             "name": intellectual_property.name,
             "code": intellectual_property.code,
+            "start_date": date_to_iso(intellectual_property.start_date),
+            "public_date": date_to_iso(intellectual_property.public_date),
+            "end_date": date_to_iso(intellectual_property.end_date),
             "doc_type": doc_type,
             "direction": direction,
             "authors": authors,

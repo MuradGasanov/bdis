@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import dateutil.parser
+
 __author__ = 'user'
 
 
@@ -27,3 +29,11 @@ def index(lst, key, value):
 
 def uni_path(path):
     return path.replace("\\", "/")
+
+
+def date_parser(iso_string):
+    return dateutil.parser.parse(iso_string) if iso_string else None
+
+
+def date_to_iso(date):
+    return date.isoformat() if date else ""
