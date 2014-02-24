@@ -1104,7 +1104,6 @@ var API_BASE_URL = "api/",
                             $.post(API_BASE_URL + "file/get_list/",
                                 {item: JSON.stringify({intellectual_property_id: dataItem.intellectual_property_id})},
                                 function (data) {
-                                    console.log(dataItem);
                                     reset_file_uploader();
                                     $file_uploader._renderInitialFiles(data);
                                     intellectual_property_model.set("intellectual_property_id", dataItem.intellectual_property_id);
@@ -1348,8 +1347,11 @@ var API_BASE_URL = "api/",
             public_date: "",
             end_date: "",
 
-            cascade_set_end_date: function(e) {
-
+            cascade_set_end_date: function(e) { //автоматически устанавливает дату оканчания срока действия
+                var that = this,
+                    current_start_date = that.start_date;
+                current_start_date.setFullYear(current_start_date.getFullYear() + 10);
+                that.set("end_date", current_start_date);
             }
         });
         kendo.bind($("#change_intellectual_property"), intellectual_property_model);
@@ -1369,22 +1371,22 @@ var API_BASE_URL = "api/",
 
         $(".add_intellectual_property").click(function (e) {
             $(".k-widget.k-tooltip.k-tooltip-validation.k-invalid-msg").hide();
+            reset_file_uploader();
             $("#is_intellectual_property_edit").val("false");
             intellectual_property_model.set("intellectual_property_id", 0);
             intellectual_property_model.set("name", "");
             intellectual_property_model.set("code", "");
             intellectual_property_model.set("doc_type", "");
             intellectual_property_model.set("direction", "");
-            intellectual_property_model.set("start_date", "");
-            intellectual_property_model.set("public_date", "");
-            intellectual_property_model.set("end_date", "");
+            intellectual_property_model.set("start_date", new Date(""));
+            intellectual_property_model.set("public_date", new Date(""));
+            intellectual_property_model.set("end_date", new Date(""));
             authors_multiselect.dataSource.read();
             authors_multiselect.value([]);
             intellectual_property_model.get("doc_types").read();
             intellectual_property_model.get("directions").read();
             intellectual_property_model.set("tags", "");
             intellectual_property_model.get("tags_source").read();
-            reset_file_uploader();
             intellectual_property_wibdow.center().open();
         });
 
