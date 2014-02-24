@@ -1228,7 +1228,7 @@ var API_BASE_URL = "api/",
                         }, "json");
                 }
             }).data("kendoAuthorMultiSelect");
-        authors_multiselect.wrapper.css({width: "501px", display: "inline-block"});
+        authors_multiselect.wrapper.css({width: "500px", display: "inline-block"});
 
         var $file_uploader = $("#file_uploader").kendoUpload({
             multiple: true,
@@ -1281,7 +1281,7 @@ var API_BASE_URL = "api/",
                 }
             }
         }).data("kendoUpload");
-        $file_uploader.wrapper.removeClass("k-upload-empty");
+        $file_uploader.wrapper.removeClass("k-upload-empty").css("margin", "0 0 .6em");
 
         function reset_file_uploader() {
             $file_uploader.wrapper.find("strong.k-upload-status.k-upload-status-total").empty();
@@ -1327,7 +1327,11 @@ var API_BASE_URL = "api/",
                     }
                 }
             }),
-            tags: ""
+            tags: "",
+
+            start_date: new Date("2010-09-15T23:24:36.169710"),
+            public_date: new Date("2010-09-15T23:24:36.169710"),
+            end_date: new Date("2010-09-15T23:24:36.169710")
         });
         kendo.bind($("#change_intellectual_property"), intellectual_property_model);
 

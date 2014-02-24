@@ -37,13 +37,12 @@ li.k-file div.file-wrapper { position: relative; height: 65px; }
 
 .k-widget.k-tooltip.k-tooltip-validation.k-invalid-msg { margin-top: 3px}
 
-.k-edit-form-container .k-edit-label { width: 20% !important; }
-.k-edit-form-container .k-edit-field { width: 73% !important; }
+.k-edit-form-container .k-edit-label { width: 22% !important; }
+.k-edit-form-container .k-edit-field { width: 73% !important; margin-right: inherit !important; }
 .k-edit-form-container .k-edit-buttons { position: static; }
 
 .k-multiselect-wrap li { margin: 1px 0 1px 1px !important; }
 
-#change_intellectual_property .k-edit-field #authors_multiselect { width: 501px; display: inline-block}
 #change_intellectual_property .k-edit-field .k-button.add_author { position: absolute; line-height: 1.8em; }
 #change_intellectual_property_window button.k-button.k-upload-selected { display: none }
 

@@ -13,6 +13,8 @@ import json
 import os
 import zipfile
 import StringIO
+import datetime
+
 
 def home_page(request):
     """
@@ -395,7 +397,8 @@ class IntellectualProperty():
         intellectual_properties = list(
             models.IntellectualProperty.objects.all().
             values("intellectual_property_id", "name", "code",
-                   "doc_type", "direction")
+                   "doc_type", "direction",
+                   "start_date", "public_date", "end_date")
         )
         for item in intellectual_properties:
             try:
