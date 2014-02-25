@@ -729,7 +729,7 @@ class Files():
         item = json.loads(request.POST.get("item"))
         intellectual_properties = models.IntellectualProperty.objects.filter(
             intellectual_property_id__in=item["files"])
-        items = list(intellectual_properties.values("intellectual_property_id", "name"))
+        items = list(intellectual_properties.values("intellectual_property_id", "code", "name"))
         for item in items:
             files = models.Files.objects.filter(
                 intellectual_property=item["intellectual_property_id"]).values_list("file")
@@ -745,7 +745,9 @@ class Files():
         for item in items:
             for file_path in item["files"]:
                 f_dir, f_name = os.path.split(file_path)
-                zip_path = os.path.join(item["name"], f_name)
+                zip_path = os.path.join(
+                    remove_illegal_chars("%s %s" % (item["code"], item["name"])),
+                    f_name)
                 zf.write(file_path, zip_path)
         zf.close()
         response = HttpResponse(s.getvalue(), mimetype="application/x-zip-compressed")
@@ -928,6 +930,7 @@ class Search():
         for item in intellectual_properties:
             new_item = {
                 "intellectual_property_id": item.intellectual_property_id,
+                "code": item.code,
                 "name": item.name}
             try:
                 files = models.Files.objects.filter(intellectual_property=item.intellectual_property_id)
@@ -988,7 +991,7 @@ class Search():
         intellectual_properties = list(
             models.IntellectualProperty.objects.filter(authors__in=authors)
             .distinct()
-            .values("intellectual_property_id", "name", "doc_type", "direction")
+            .values("intellectual_property_id", "code", "name", "doc_type", "direction")
         )
         for item in intellectual_properties:
             try:

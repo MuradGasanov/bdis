@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import dateutil.parser
+import re
 
-__author__ = 'user'
+
+__author__ = 'Murad Gasanov'
 
 
 def try_get(model, **kwargs):
@@ -37,3 +39,8 @@ def date_parser(iso_string):
 
 def date_to_iso(date):
     return date.isoformat() if date else ""
+
+
+def remove_illegal_chars(name):
+    # Удалить из имени файла все запрешенные символы
+    return re.sub("[<>:/\\|?*\"]|[\0-\31]", "", name)

@@ -4,6 +4,8 @@ from django.db import models
 from django.dispatch import receiver
 import os
 
+__author__ = 'Murad Gasanov'
+
 
 class Subdivision(models.Model):
     subdivision_id = models.AutoField(primary_key=True)

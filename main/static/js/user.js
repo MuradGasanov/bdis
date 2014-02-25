@@ -1,5 +1,5 @@
 /**
- * Created by user on 04.02.14.
+ * Created by Murad Gasanov on 04.02.14.
  */
 
 var API_BASE_URL = "api/";

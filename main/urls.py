@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-__author__ = 'user'
+__author__ = 'Murad Gasanov'
 
 from django.conf.urls import patterns, url
 from main.views import *
