@@ -22,26 +22,9 @@ var API_BASE_URL = "api/",
     var ui = kendo.ui,
         MultiSelect = ui.MultiSelect,
         keys = kendo.keys,
-//        activeElement = kendo._activeElement,
-//        proxy = $.proxy,
-//        LI = "li",
         SELECT = "select",
-//        ACCEPT = "accept",
-//        FILTER = "filter",
         NEXT = "nextSibling",
         PREV = "previousSibling";
-//        ARIA_DISABLED = "aria-disabled",
-//        ARIA_READONLY = "aria-readonly",
-//        HOVERCLASS = "k-state-hover",
-//        STATEDISABLED = "k-state-disabled",
-//        DISABLED = "disabled",
-//        READONLY = "readonly",
-//        ns = ".kendoMultiSelect";
-//        CLICK = "click" + ns,
-//        KEYDOWN = "keydown" + ns,
-//        MOUSEENTER = "mouseenter" + ns,
-//        MOUSELEAVE = "mouseleave" + ns;
-//        HOVEREVENTS = MOUSEENTER + " " + MOUSELEAVE;
 
     var AuthorMultiSelect = MultiSelect.extend({
         init: function (element, options) {
@@ -184,7 +167,6 @@ var API_BASE_URL = "api/",
 
         return item;
     }
-
     function last(ul) {
         var item = ul.lastChild;
 
@@ -198,7 +180,6 @@ var API_BASE_URL = "api/",
 
         return item;
     }
-
     function sibling(item, direction) {
         item = item[direction];
 
@@ -208,7 +189,6 @@ var API_BASE_URL = "api/",
 
         return item;
     }
-
     ui.plugin(AuthorMultiSelect);
 })(jQuery);
 
@@ -1105,27 +1085,25 @@ var API_BASE_URL = "api/",
                                 {item: JSON.stringify({intellectual_property_id: dataItem.intellectual_property_id})},
                                 function (data) {
                                     reset_file_uploader();
+                                    console.log(dataItem);
                                     $file_uploader._renderInitialFiles(data);
                                     intellectual_property_model.set("intellectual_property_id", dataItem.intellectual_property_id);
                                     intellectual_property_model.set("name", "");
-                                    intellectual_property_model.set("name", "");
+                                    intellectual_property_model.set("code", "");
                                     intellectual_property_model.set("doc_type", "");
                                     intellectual_property_model.set("direction", "");
                                     intellectual_property_model.set("tags", "");
                                     intellectual_property_model.set("name", dataItem.name);
                                     intellectual_property_model.set("code", dataItem.code);
-                                    if (dataItem.start_date.length > 0)
+                                    if (dataItem.start_date.length > 0) {
                                         intellectual_property_model.set("start_date", new Date(dataItem.start_date));
-                                    else
-                                        intellectual_property_model.set("start_date", new Date(""));
-                                    if (dataItem.public_date.length > 0)
+                                    } else { intellectual_property_model.set("start_date", new Date("")); }
+                                    if (dataItem.public_date.length > 0) {
                                         intellectual_property_model.set("public_date", new Date(dataItem.public_date));
-                                    else
-                                        intellectual_property_model.set("public_date", new Date(""));
-                                    if (dataItem.end_date.length > 0)
+                                    } else { intellectual_property_model.set("public_date", new Date("")); }
+                                    if (dataItem.end_date.length > 0) {
                                         intellectual_property_model.set("end_date", new Date(dataItem.end_date));
-                                    else
-                                        intellectual_property_model.set("end_date", new Date(""));
+                                    } else { intellectual_property_model.set("end_date", new Date("")); }
                                     intellectual_property_model.set("doc_type", dataItem.doc_type.doc_type_id);
                                     intellectual_property_model.set("direction", dataItem.direction.direction_id);
                                     var authors = [], tags = [], i;
