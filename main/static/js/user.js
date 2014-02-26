@@ -67,12 +67,24 @@ var API_BASE_URL = "api/";
         var $search =  $("#search"); //кнопка поиска
         $search.click(function() {
             var query = search_query.value();
-            if ((query.length<3) && (query.length > 0)) return false;
+            query = $.trim(query);
+            if ((query.length < 3) && (query.length > 0)) return false;
             if (query.length != 0) {
-                query = query.replace(/,/g, ''); //удалить все ,
-                query = query.replace(/\s+/g, ' '); //пробелы
-                query = $.trim(query);
-                query = query.split(" ");
+                if (query.indexOf(",") != -1) {
+                    if (query[query.length - 1] == ",") {
+                        query = query.substring(0, query.length - 1);
+                    }
+                    query = query.split(",");
+                } else {
+                    query = query.split(" ");
+                }
+                $.each(query, function(i, o) {
+                    query[i] = $.trim(query[i]);
+                });
+//                query = query.replace(/,/g, ''); //удалить все ,
+//                query = query.replace(/\s+/g, ' '); //пробелы
+//                query = $.trim(query);
+//                query = query.split(" ");
             } else {
                 query = [""];
             }
@@ -82,6 +94,7 @@ var API_BASE_URL = "api/";
                 query: query,
                 doc_type: dt
             };
+            console.log(data);
             $.noty.closeAll();
             var n = noty_seach_log();
             $.post(BASE_URL+API_BASE_URL+"search/", {item: JSON.stringify(data)},
@@ -141,7 +154,7 @@ var API_BASE_URL = "api/";
 ////////////////////////////////////// ПОИСК ПО ТЕГАМ
         $body.on("click", ".tag", function() {
             var tag = $(this).text();
-            search_query.value(tag); //["[",tag,"]"].join("") TODO: поиск по тегам с пробелами
+            search_query.value([tag,","].join("")); //["[",tag,"]"].join("") TODO: поиск по тегам с пробелами
             doc_type.value("");
             if (!$search_by_word.is(":visible")) $search_switcher.click();
             $search.click();
@@ -254,7 +267,7 @@ var API_BASE_URL = "api/";
 
 
 ////////////////////////////////////// КАТАЛОГИ
-        var $change_directory = $("#change_directory"),
+        var $change_directory = $("#change_directory"),//TODO: имя скачанного архива - имя каталога а не по умолчанию(archive.zip)
 
             directory_window = $("#change_directory_window").kendoWindow({
                 resizable: false, actions: [/*здесь скрываются кнопки*/],

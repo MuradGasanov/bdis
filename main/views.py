@@ -881,8 +881,11 @@ class Search():
         # )
         items = list(
             models.IntellectualProperty.objects.all().
-            values("intellectual_property_id", "name")
-        )
+            values("intellectual_property_id", "name"))
+        items.extend(list(
+            models.IntellectualProperty.objects.
+            extra(select={'name': 'code'}).
+            values("intellectual_property_id", "name")))
         # authors = list(
         #     models.Authors.objects.all().
         #     values("author_id", "name", "surname", "patronymic")
@@ -890,14 +893,12 @@ class Search():
         # items += [{"author_id": a["author_id"],
         #            "name": "%s %s %s" % (estr(a["surname"]), estr(a["name"]), estr(a["patronymic"]))}
         #           for a in authors]
-        items += list(
+        items.extend(list(
             models.Tags.objects.all().
-            values("tag_id", "name")
-        )
-        items += list(
+            values("tag_id", "name")))
+        items.extend(list(
             models.Directions.objects.all().
-            values("direction_id", "name")
-        )
+            values("direction_id", "name")))
         return HttpResponse(json.dumps(items), content_type="application/json")
 
     @staticmethod
@@ -914,8 +915,11 @@ class Search():
 
         query = search_param["query"]
 
-        items_contains = items.filter(
+        items_name_contains = items.filter(
             reduce(lambda x, y: x | y, [Q(name__icontains=word) for word in query]))
+
+        items_code_contains = items.filter(
+            reduce(lambda x, y: x | y, [Q(code__icontains=word) for word in query]))
 
         direction_contains = items.filter(
             reduce(lambda x, y: x | y, [Q(direction__name__icontains=word) for word in query]))
@@ -924,7 +928,8 @@ class Search():
             reduce(lambda x, y: x | y, [Q(name__icontains=word) for word in query]))
         tags_contains = items.filter(tags__in=tags).distinct()
 
-        intellectual_properties = list(set(chain(items_contains, direction_contains, tags_contains)))
+        intellectual_properties = list(set(
+            chain(items_name_contains, items_code_contains, direction_contains, tags_contains)))
 
         result = []
         for item in intellectual_properties:

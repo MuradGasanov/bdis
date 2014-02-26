@@ -458,7 +458,7 @@ var API_BASE_URL = "api/",
                     { name: "destroy", text: "Удалить" }
                 ], width: "250px", attributes: { style: "text-align: center;"} }
             ]
-        }).data("kendoGrid");
+        }).data("kendoGrid"); /// TODO: выводить количество патентов у авторов
 
         window_option.width = 500;
         var author_window = $("#change_author_window").kendoWindow(window_option).data("kendoWindow");
