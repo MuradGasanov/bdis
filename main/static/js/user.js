@@ -233,6 +233,15 @@ var API_BASE_URL = "api/";
             }
             return false;
         });
+
+        $body.on("click", ".k-button.open-item", function(e) {
+            var $this = $(this);
+            var id = $this.data("id");
+            var uid = $($this.parents(".intellectual_property_item.section")[0]).data("uid");
+            var dataItem = result.dataSource.getByUid(uid);
+            console.log(dataItem);
+            return false;
+        });
 ////////////////////////////////////// ВЫВОД РЕЗУЛЬТАТОВ\\
 
 ////////////////////////////////////// СКАЧАТЬ

@@ -57,8 +57,8 @@ footer#main_footer {
 .fright { float: right; }
 .fleft { float: left; }
 .clearfix { clear: both }
-:root *>.k-icon, :root *>.k-sprite, :root *>.k-button-group .k-tool-icon {
-    vertical-align: sub;
-}
+/*:root *>.k-icon, :root *>.k-sprite, :root *>.k-button-group .k-tool-icon {*/
+    /*vertical-align: sub;*/
+/*}*/
 .k-grid tbody .k-button, .k-ie8 .k-grid tbody button.k-button {min-width: inherit}
 .fa { display: inline; }

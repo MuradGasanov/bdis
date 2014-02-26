@@ -197,7 +197,7 @@ var API_BASE_URL = "api/",
         var GRID_HEIGHT = $(window).height() - $("header#main_header").height() - $("footer#main_footer").height() - 70;
         var window_option = {
             resizable: false,
-            actions: [],
+//            actions: [],
             animation: { close: { effects: "", duration: 350 },
                 open: { effects: "", duration: 350 } },
             modal: true,
