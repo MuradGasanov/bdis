@@ -1095,15 +1095,9 @@ var API_BASE_URL = "api/",
                                     intellectual_property_model.set("tags", "");
                                     intellectual_property_model.set("name", dataItem.name);
                                     intellectual_property_model.set("code", dataItem.code);
-                                    if (dataItem.start_date.length > 0) {
-                                        intellectual_property_model.set("start_date", new Date(dataItem.start_date));
-                                    } else { intellectual_property_model.set("start_date", new Date("")); }
-                                    if (dataItem.public_date.length > 0) {
-                                        intellectual_property_model.set("public_date", new Date(dataItem.public_date));
-                                    } else { intellectual_property_model.set("public_date", new Date("")); }
-                                    if (dataItem.end_date.length > 0) {
-                                        intellectual_property_model.set("end_date", new Date(dataItem.end_date));
-                                    } else { intellectual_property_model.set("end_date", new Date("")); }
+                                    intellectual_property_model.set("start_date", date_parser(dataItem.start_date));
+                                    intellectual_property_model.set("public_date", date_parser(dataItem.public_date));
+                                    intellectual_property_model.set("end_date", date_parser(dataItem.end_date));
                                     intellectual_property_model.set("doc_type", dataItem.doc_type.doc_type_id);
                                     intellectual_property_model.set("direction", dataItem.direction.direction_id);
                                     var authors = [], tags = [], i;
@@ -1328,8 +1322,12 @@ var API_BASE_URL = "api/",
             cascade_set_end_date: function(e) { //автоматически устанавливает дату оканчания срока действия
                 var that = this,
                     current_start_date = that.start_date;
-                current_start_date.setFullYear(current_start_date.getFullYear() + 10);
-                that.set("end_date", current_start_date);
+                if (Object.prototype.toString.call(current_start_date) === '[object Date]') {
+                    if (!isNaN(current_start_date.setFullYear())) {
+                        current_start_date.setFullYear(current_start_date.getFullYear() + 10);
+                        that.set("end_date", current_start_date);
+                    }
+                }
             }
         });
         kendo.bind($("#change_intellectual_property"), intellectual_property_model);
@@ -1431,6 +1429,26 @@ var API_BASE_URL = "api/",
             return result;
         }
 
+        function date_converter(date) {
+            if (Object.prototype.toString.call(date) === '[object Date]') {
+                if (!isNaN(date.setFullYear())) {
+                    var y = date.getFullYear(),
+                        m = date.getMonth() + 1,
+                        d = date.getDate();
+                    return [y, m, d ].join("-");
+                }
+            }
+            return "";
+        }
+
+        function date_parser(date) {
+            if (date.length > 0) {
+                return new Date(date);
+            } else {
+                return new Date("");
+            }
+        }
+
         $("#intellectual_property_save").click(function (e) {
             if (!intellectual_property_validator.validate()) return false;
             var doc_type = intellectual_property_model.get("doc_type");
@@ -1447,9 +1465,9 @@ var API_BASE_URL = "api/",
             } else {
                 tags = []
             }
-            var start_date = intellectual_property_model.get("start_date"),
-                public_date = intellectual_property_model.get("public_date"),
-                end_date = intellectual_property_model.get("end_date");
+            var start_date = date_converter(intellectual_property_model.get("start_date")),
+                public_date = date_converter(intellectual_property_model.get("public_date")),
+                end_date = date_converter(intellectual_property_model.get("end_date"));
 
             var send = {
                 intellectual_property_id: intellectual_property_model.get("intellectual_property_id"),

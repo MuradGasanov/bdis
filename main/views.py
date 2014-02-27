@@ -413,9 +413,9 @@ class IntellectualProperty():
                                      "name": direction.name if direction else ""}
             except models.Directions.DoesNotExist:
                 item["direction"] = {"direction_id": "", "name": ""}
-            item["start_date"] = date_to_iso(item["start_date"])
-            item["public_date"] = date_to_iso(item["public_date"])
-            item["end_date"] = date_to_iso(item["end_date"])
+            item["start_date"] = date_converter(item["start_date"])
+            item["public_date"] = date_converter(item["public_date"])
+            item["end_date"] = date_converter(item["end_date"])
 
             authors = list(
                 models.Authors.objects.
@@ -511,9 +511,9 @@ class IntellectualProperty():
                                         "name": new_intellectual_property.name,
                                         "code": new_intellectual_property.code,
                                         "doc_type": doc_type,
-                                        "start_date": date_to_iso(new_intellectual_property.start_date),
-                                        "public_date": date_to_iso(new_intellectual_property.public_date),
-                                        "end_date": date_to_iso(new_intellectual_property.end_date),
+                                        "start_date": date_converter(new_intellectual_property.start_date),
+                                        "public_date": date_converter(new_intellectual_property.public_date),
+                                        "end_date": date_converter(new_intellectual_property.end_date),
                                         "direction": direction,
                                         "authors": authors,
                                         "tags": tags}), content_type="application/json")
@@ -605,9 +605,9 @@ class IntellectualProperty():
             "intellectual_property_id": intellectual_property.intellectual_property_id,
             "name": intellectual_property.name,
             "code": intellectual_property.code,
-            "start_date": date_to_iso(intellectual_property.start_date),
-            "public_date": date_to_iso(intellectual_property.public_date),
-            "end_date": date_to_iso(intellectual_property.end_date),
+            "start_date": date_converter(intellectual_property.start_date),
+            "public_date": date_converter(intellectual_property.public_date),
+            "end_date": date_converter(intellectual_property.end_date),
             "doc_type": doc_type,
             "direction": direction,
             "authors": authors,
@@ -750,7 +750,7 @@ class Files():
                     f_name)
                 zf.write(file_path, zip_path)
         zf.close()
-        response = HttpResponse(s.getvalue(), mimetype="application/x-zip-compressed")
+        response = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
         response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
         pass
         return response

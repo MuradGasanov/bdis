@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import dateutil.parser
+import datetime
 import re
 
 
@@ -33,12 +33,12 @@ def uni_path(path):
     return path.replace("\\", "/")
 
 
-def date_parser(iso_string):
-    return dateutil.parser.parse(iso_string) if iso_string else None
+def date_parser(date_string):
+    return datetime.datetime.strptime(date_string, "%Y-%m-%d") if date_string else None
 
 
-def date_to_iso(date):
-    return date.isoformat() if date else ""
+def date_converter(date):
+    return date.strftime("%Y-%m-%d") if date else ""
 
 
 def remove_illegal_chars(name):
