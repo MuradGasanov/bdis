@@ -1095,9 +1095,9 @@ var API_BASE_URL = "api/",
                                     intellectual_property_model.set("tags", "");
                                     intellectual_property_model.set("name", dataItem.name);
                                     intellectual_property_model.set("code", dataItem.code);
-                                    intellectual_property_model.set("start_date", date_parser(dataItem.start_date));
-                                    intellectual_property_model.set("public_date", date_parser(dataItem.public_date));
-                                    intellectual_property_model.set("end_date", date_parser(dataItem.end_date));
+                                    $start_date.value(date_parser(dataItem.start_date));
+                                    $public_date.value(date_parser(dataItem.public_date));
+                                    $end_date.value(date_parser(dataItem.end_date));
                                     intellectual_property_model.set("doc_type", dataItem.doc_type.doc_type_id);
                                     intellectual_property_model.set("direction", dataItem.direction.direction_id);
                                     var authors = [], tags = [], i;
@@ -1107,7 +1107,7 @@ var API_BASE_URL = "api/",
                                     intellectual_property_model.set("tags", tags);
                                     for (i = 0; i < dataItem.authors.length; i++) authors.push(dataItem.authors[i].author_id);
                                     authors_multiselect.value(authors);
-                                    intellectual_property_wibdow.center().open();
+                                    intellectual_property_window.center().open();
                                     n.close();
                                 }, "json");
                         }
@@ -1160,7 +1160,7 @@ var API_BASE_URL = "api/",
         });
 
         window_option.width = 750;
-        var intellectual_property_wibdow = $("#change_intellectual_property_window").kendoWindow(window_option).data("kendoWindow");
+        var intellectual_property_window = $("#change_intellectual_property_window").kendoWindow(window_option).data("kendoWindow");
 
         var authors_multiselect_data_source = new kendo.data.DataSource({
                 type: "json",
@@ -1184,7 +1184,7 @@ var API_BASE_URL = "api/",
                     }
                 }
             });
-            window.authors_multiselect = $("#authors_multiselect").kendoAuthorMultiSelect({
+        var authors_multiselect = $("#authors_multiselect").kendoAuthorMultiSelect({
                 placeholder: "Выберите авторов...",
                 dataTextField: "name",
                 dataValueField: "author_id",
@@ -1230,7 +1230,7 @@ var API_BASE_URL = "api/",
             intellect_prop_id: 0,
             success: function (e) {
                 if (e.operation == "upload") {
-                    intellectual_property_wibdow.close();
+                    intellectual_property_window.close();
                     var that = this;
                     $.post(API_BASE_URL + "file/get_list/",
                         {item: JSON.stringify({intellectual_property_id: this.options.intellect_prop_id})},
@@ -1275,6 +1275,21 @@ var API_BASE_URL = "api/",
             $file_uploader._renderInitialFiles([]);
         }
 
+        var $end_date = $("#end_date").kendoDatePicker({
+            culture: "ru-RU",
+            parseFormats: ["dd,MM,yyyy"]
+        }).data("kendoDatePicker");
+
+        var $public_date = $("#public_date").kendoDatePicker({
+            culture: "ru-RU",
+            parseFormats: ["dd,MM,yyyy"]
+        }).data("kendoDatePicker");
+
+        var $start_date = $("#start_date").kendoDatePicker({
+            culture: "ru-RU",
+            parseFormats: ["dd,MM,yyyy"]
+        }).data("kendoDatePicker");
+
         var intellectual_property_model = kendo.observable({
             intellectual_property_id: 0,
             name: "",
@@ -1314,10 +1329,6 @@ var API_BASE_URL = "api/",
                 }
             }),
             tags: "",
-
-            start_date: "",
-            public_date: "",
-            end_date: "",
 
             cascade_set_end_date: function(e) { //автоматически устанавливает дату оканчания срока действия
                 var that = this,
@@ -1363,11 +1374,11 @@ var API_BASE_URL = "api/",
             intellectual_property_model.get("directions").read();
             intellectual_property_model.set("tags", "");
             intellectual_property_model.get("tags_source").read();
-            intellectual_property_wibdow.center().open();
+            intellectual_property_window.center().open();
         });
 
         $("#intellectual_property_cancel").click(function (e) {
-            intellectual_property_wibdow.close();
+            intellectual_property_window.close();
             return false;
         });
 
@@ -1402,7 +1413,7 @@ var API_BASE_URL = "api/",
             $file_uploader.options.intellect_prop_id = d.intellectual_property_id;
             var is_upload = $("#change_intellectual_property_window button.k-button.k-upload-selected").click();
             if (is_upload.length == 0) {
-                intellectual_property_wibdow.close();
+                intellectual_property_window.close();
             }
 
 //            $reload_direction.click();
@@ -1411,7 +1422,7 @@ var API_BASE_URL = "api/",
 
             n.close();
             intellectual_property.refresh();
-//            intellectual_property_wibdow.close();
+//            intellectual_property_window.close();
         }
 
         function tag_splitter(tags) {
@@ -1431,7 +1442,7 @@ var API_BASE_URL = "api/",
 
         function date_converter(date) {
             if (Object.prototype.toString.call(date) === '[object Date]') {
-                if (!isNaN(date.setFullYear())) {
+                if (!isNaN(date.getFullYear())) {
                     var y = date.getFullYear(),
                         m = date.getMonth() + 1,
                         d = date.getDate();
@@ -1445,7 +1456,7 @@ var API_BASE_URL = "api/",
             if (date.length > 0) {
                 return new Date(date);
             } else {
-                return new Date("");
+                return "";
             }
         }
 
@@ -1465,9 +1476,9 @@ var API_BASE_URL = "api/",
             } else {
                 tags = []
             }
-            var start_date = date_converter(intellectual_property_model.get("start_date")),
-                public_date = date_converter(intellectual_property_model.get("public_date")),
-                end_date = date_converter(intellectual_property_model.get("end_date"));
+            var start_date = date_converter($start_date.value()),
+                public_date = date_converter($public_date.value()),
+                end_date = date_converter($end_date.value());
 
             var send = {
                 intellectual_property_id: intellectual_property_model.get("intellectual_property_id"),

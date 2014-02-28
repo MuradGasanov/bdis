@@ -32,8 +32,8 @@ li.k-file div.file-wrapper { position: relative; height: 65px; }
 .k-upload-files { line-height: 2.2; }
 .k-upload-action.k-button.k-button-bare { min-width: inherit; }
 .k-button.k-upload-selected { margin: 0 .7em .7em }
-.k-file-success .k-progress { background-color: #ddffd0; }
-.k-file-success { color: #28760b; }
+.k-file-success .k-progress { background-color: #428bca; border-radius: 5px; }
+.k-file-success { color: #ffffff }
 
 .k-widget.k-tooltip.k-tooltip-validation.k-invalid-msg { margin-top: 3px}
 

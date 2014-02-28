@@ -1,6 +1,12 @@
 strong, b {
     font-weight: bold;
 }
+*::selection {
+	background: #fff2a8;
+}
+*::-moz-selection {
+	background: #fff2a8;
+}
 body {
     font-family: 'Segoe UI', Segoe, Tahoma, Helvetica, Arial, sans-serif;
     font-size: 13px;
