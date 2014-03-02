@@ -31,6 +31,9 @@ class Authors(models.Model):
     post = models.CharField(max_length=200, null=True)
     department = models.ForeignKey(Department, null=True, on_delete=models.SET_NULL)
 
+    class Meta:
+        ordering = ["surname"]
+
 
 class Tags(models.Model):
     tag_id = models.AutoField(primary_key=True)

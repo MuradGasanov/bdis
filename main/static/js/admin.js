@@ -1106,6 +1106,7 @@ var API_BASE_URL = "api/",
                                     }
                                     intellectual_property_model.set("tags", tags);
                                     for (i = 0; i < dataItem.authors.length; i++) authors.push(dataItem.authors[i].author_id);
+                                    console.log("authors ",authors);
                                     authors_multiselect.value(authors);
                                     intellectual_property_window.center().open();
                                     n.close();
@@ -1365,9 +1366,9 @@ var API_BASE_URL = "api/",
             intellectual_property_model.set("code", "");
             intellectual_property_model.set("doc_type", "");
             intellectual_property_model.set("direction", "");
-            intellectual_property_model.set("start_date", new Date(""));
-            intellectual_property_model.set("public_date", new Date(""));
-            intellectual_property_model.set("end_date", new Date(""));
+            $start_date.value(new Date(""));
+            $public_date.value(new Date(""));
+            $end_date.value(new Date(""));
             authors_multiselect.dataSource.read();
             authors_multiselect.value([]);
             intellectual_property_model.get("doc_types").read();
