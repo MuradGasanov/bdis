@@ -1107,6 +1107,7 @@ var API_BASE_URL = "api/",
                                     intellectual_property_model.set("tags", tags);
                                     for (i = 0; i < dataItem.authors.length; i++) authors.push(dataItem.authors[i].author_id);
                                     console.log("authors ",authors);
+                                    authors_multiselect.dataSource.filter({});
                                     authors_multiselect.value(authors);
                                     intellectual_property_window.center().open();
                                     n.close();
@@ -1370,6 +1371,7 @@ var API_BASE_URL = "api/",
             $public_date.value(new Date(""));
             $end_date.value(new Date(""));
             authors_multiselect.dataSource.read();
+            authors_multiselect.dataSource.filter({});
             authors_multiselect.value([]);
             intellectual_property_model.get("doc_types").read();
             intellectual_property_model.get("directions").read();
