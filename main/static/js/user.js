@@ -6,6 +6,9 @@ var API_BASE_URL = "api/";
 
 (function ($) {
     $(document).ready(function (e) {
+        var M_SAVE = "Сохранение...",
+            M_LOAD = "Загрузка...",
+            VIEWER_URL = "/static/pdf.js/web/viewer.html";
 
         var $body = $("body");
         var download_list = [], //список с id ИС для загрузки ли добавления в каталог
@@ -104,7 +107,7 @@ var API_BASE_URL = "api/";
                 }, "json");
             return false;
         });
-        $search.click();
+//        $search.click();
 ////////////////////////////////////// ПОИСК ПО СЛОВАМ\\
 
 ////////////////////////////////////// ПОИСК ПО АВТОРАМ
@@ -231,15 +234,6 @@ var API_BASE_URL = "api/";
                     $add_directory.addClass("k-state-disabled");
                 }
             }
-            return false;
-        });
-
-        $body.on("click", ".k-button.open-item", function(e) {
-            var $this = $(this);
-            var id = $this.data("id");
-            var uid = $($this.parents(".intellectual_property_item.section")[0]).data("uid");
-            var dataItem = result.dataSource.getByUid(uid);
-            console.log(dataItem);
             return false;
         });
 ////////////////////////////////////// ВЫВОД РЕЗУЛЬТАТОВ\\
@@ -430,6 +424,48 @@ var API_BASE_URL = "api/";
             return false;
         });
 ////////////////////////////////////// КАТАЛОГИ\\
+
+////////////////////////////////////// СПИСОК ФАЙЛОВ
+        var files_list_window = $("#files_list_window").kendoWindow({
+                resizable: false,
+                animation: { close: { effects: "", duration: 50 },
+                    open: { effects: "", duration: 350 } },
+                modal: true, width: 500, visible: false,
+                minWidth: 0, minHeight: 0
+            }).data("kendoWindow"),
+
+            files_list = $("#files_list").kendoListView({
+                template: kendo.template($("#fileTemplate").html())
+            }).data("kendoListView");
+
+        $("#files_list_close").click(function() {
+            files_list_window.close();
+        });
+
+        $body.on("click", ".k-button.open-item", function(e) {
+            var $this = $(this);
+            var id = $this.data("id");
+            var uid = $($this.parents(".intellectual_property_item.section")[0]).data("uid");
+            var dataItem = result.dataSource.getByUid(uid);
+            var n = noty_message(M_LOAD,false);
+            $.post(API_BASE_URL + "file/get_list/",
+                {item: JSON.stringify({intellectual_property_id: dataItem.intellectual_property_id})},
+                function (data) {
+                    n.close();
+                    files_list.dataSource.data(data);
+                    files_list_window.title(dataItem.name);
+                    files_list_window.center().open();
+                }, "json");
+            return false;
+        });
+
+        $body.on("click", ".file-wrapper", function() {
+            var $this = $(this);
+            if ($this.data("type").toUpperCase() == ".pdf".toUpperCase()) {
+                window.open(["/static/pdf.js/web/viewer.html","?file=/media/",$this.data("file-url")].join(""),"_blank")
+            }
+        });
+////////////////////////////////////// СПИСОК ФАЙЛОВ\\
 
         $("#logout").click(function() {
             noty_confirm("Выйти?", function() {

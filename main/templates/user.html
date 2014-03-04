@@ -79,6 +79,25 @@
         </div>
     </div>
 
+    <div id="files_list_window" style="display: none">
+        <div class="k-edit-form-container" style="width: inherit;">
+            <div id="files_list"></div>
+            <div class="k-edit-buttons k-state-default">
+                <a class="k-button k-button-icontext k-grid-cancel" id="files_list_close" href="#">
+                    <span class="k-icon k-cancel"></span>Закрыть
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script id="fileTemplate" type="text/x-kendo-template">
+        <div class='file-wrapper' data-type='#=extension#' data-file-url='#=file#'>
+            <span class='file-icon #=addExtensionClass(extension)#'></span>
+            <h4 class='file-heading file-name-heading'>Имя: #=name#</h4>
+            <h4 class='file-heading file-size-heading'>Размер: #=Math.round((size/1024)*100)/100# Кбайт</h4>
+        </div>
+    </script>
+
     <script type="text/x-kendo-tmpl" id="tree_item_template">
         #if (item.type == "subdivision") {#
             <span >

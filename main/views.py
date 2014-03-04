@@ -704,7 +704,7 @@ class Files():
         files = list(
             models.Files.objects.all().
             filter(intellectual_property=item["intellectual_property_id"]).
-            values("file_id", "name", "size", "extension")
+            values("file_id", "name", "size", "extension", "file")
         )
         if files:
             return HttpResponse(json.dumps(files), content_type="application/json")

@@ -90,3 +90,46 @@
 .k-edit-form-container .k-edit-label { width: 20% !important; }
 .k-edit-form-container .k-edit-field { width: 73% !important; }
 .k-edit-form-container .k-edit-buttons { position: static; }
+
+.file-icon
+{   display: inline-block;
+    float: left;
+    width: 48px;
+    height: 48px;
+    margin-left: 10px;
+    margin-top: 4.5px;
+}
+.img-file { background-image: url(../img/admin/jpg.png) }
+.doc-file { background-image: url(../img/admin/doc.png) }
+.pdf-file { background-image: url(../img/admin/pdf.png) }
+.xls-file { background-image: url(../img/admin/xls.png) }
+.zip-file { background-image: url(../img/admin/zip.png) }
+.default-file { background-image: url(../img/admin/default.png) }
+.file-heading
+{   font-size: 1.1em;
+    display: block;
+    //width: 450px;
+    margin: 0 0 0 20px;
+    height: 25px;
+    -ms-text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    overflow:hidden;
+    white-space:nowrap;
+}
+.file-name-heading { font-weight: bold; padding-top: 10px;}
+.file-size-heading { font-weight: normal; font-style: italic; }
+div.file-wrapper {
+    position: relative;
+    border-top: 1px solid #e7e7e7;
+    height: 65px;
+    border-radius: 2px;
+    transition: .5s;
+}
+div.file-wrapper:hover {
+    background-color: #428bca;
+    color: #ffffff;
+    cursor: pointer;
+    cursor: hand;
+}
+.k-upload-files { line-height: 2.2; }
