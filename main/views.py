@@ -394,48 +394,82 @@ class IntellectualProperty():
         """
         вывод спсика интеллектуальной собственнсоть
         """
-        intellectual_properties = list(
-            models.IntellectualProperty.objects.all().
-            values("intellectual_property_id", "name", "code",
-                   "doc_type", "direction",
-                   "start_date", "public_date", "end_date")
-        )
-        for item in intellectual_properties:
-            try:
-                doc_type = models.DocumentTypes.objects.get(doc_type_id=item["doc_type"])
-                item["doc_type"] = {"doc_type_id": doc_type.doc_type_id if doc_type else "",
-                                    "name": doc_type.name if doc_type else ""}
-            except models.DocumentTypes.DoesNotExist:
-                item["doc_type"] = {"doc_type_id": "", "name": ""}
-            try:
-                direction = models.Directions.objects.get(direction_id=item["direction"])
-                item["direction"] = {"direction_id": direction.direction_id if direction else "",
-                                     "name": direction.name if direction else ""}
-            except models.Directions.DoesNotExist:
-                item["direction"] = {"direction_id": "", "name": ""}
-            item["start_date"] = date_converter(item["start_date"])
-            item["public_date"] = date_converter(item["public_date"])
-            item["end_date"] = date_converter(item["end_date"])
+        # intellectual_properties = list(
+        #     models.IntellectualProperty.objects.all().
+        #     values("intellectual_property_id", "name", "code",
+        #            "doc_type", "direction",
+        #            "start_date", "public_date", "end_date")
+        # )
+        # for item in intellectual_properties:
+        #     try:
+        #         doc_type = models.DocumentTypes.objects.get(doc_type_id=item["doc_type"])
+        #         item["doc_type"] = {"doc_type_id": doc_type.doc_type_id if doc_type else "",
+        #                             "name": doc_type.name if doc_type else ""}
+        #     except models.DocumentTypes.DoesNotExist:
+        #         item["doc_type"] = {"doc_type_id": "", "name": ""}
+        #     try:
+        #         direction = models.Directions.objects.get(direction_id=item["direction"])
+        #         item["direction"] = {"direction_id": direction.direction_id if direction else "",
+        #                              "name": direction.name if direction else ""}
+        #     except models.Directions.DoesNotExist:
+        #         item["direction"] = {"direction_id": "", "name": ""}
+        #     item["start_date"] = date_converter(item["start_date"])
+        #     item["public_date"] = date_converter(item["public_date"])
+        #     item["end_date"] = date_converter(item["end_date"])
+        #
+        #     authors = list(
+        #         models.Authors.objects.
+        #         filter(intellectualproperty=int(item["intellectual_property_id"])).
+        #         values("author_id", "name", "surname", "patronymic")
+        #     )
+        #     item["authors"] = [{"author_id": a["author_id"],
+        #                         "name": "%s %s %s" % (estr(a["surname"]), estr(a["name"]), estr(a["patronymic"]))}
+        #                        for a in authors]
+        #     tags = list(
+        #         models.Tags.objects.all().
+        #         filter(intellectualproperty=int(item["intellectual_property_id"])).
+        #         values("tag_id", "name")
+        #     )
+        #     item["tags"] = [{"tag_id": t["tag_id"],
+        #                      "name": t["name"]}
+        #                     for t in tags]
+        #
+        # if intellectual_properties:
+        #     return HttpResponse(json.dumps(intellectual_properties), content_type="application/json")
+        # else:
+        #     return HttpResponse(json.dumps(""), content_type="application/json")
 
-            authors = list(
-                models.Authors.objects.
-                filter(intellectualproperty=int(item["intellectual_property_id"])).
-                values("author_id", "name", "surname", "patronymic")
-            )
-            item["authors"] = [{"author_id": a["author_id"],
-                                "name": "%s %s %s" % (estr(a["surname"]), estr(a["name"]), estr(a["patronymic"]))}
-                               for a in authors]
-            tags = list(
-                models.Tags.objects.all().
-                filter(intellectualproperty=int(item["intellectual_property_id"])).
-                values("tag_id", "name")
-            )
-            item["tags"] = [{"tag_id": t["tag_id"],
-                             "name": t["name"]}
-                            for t in tags]
+        # intellectual_properties = list(models.IntellectualProperty.objects.all().values("name", "code"))
+        # if intellectual_properties:
+        #     return HttpResponse(json.dumps(intellectual_properties), content_type="application/json")
+        # else:
+        #     return HttpResponse(json.dumps(""), content_type="application/json")
 
-        if intellectual_properties:
-            return HttpResponse(json.dumps(intellectual_properties), content_type="application/json")
+        intellectual_properties = models.IntellectualProperty.objects.all()
+        items = []
+        for i_p in intellectual_properties:
+            item = dict()
+            item["intellectual_property_id"] = i_p.intellectual_property_id
+            item["code"] = i_p.code
+            item["name"] = i_p.name
+            item["doc_type"] = {"doc_type_id": i_p.doc_type.doc_type_id if i_p.doc_type else "",
+                                "name": i_p.doc_type.name if i_p.doc_type else ""}
+            item["direction"] = {"direction_id": i_p.direction.direction_id if i_p.direction else "",
+                                 "name": i_p.direction.name if i_p.direction else ""}
+            item["start_date"] = date_converter(i_p.start_date)
+            item["public_date"] = date_converter(i_p.public_date)
+            item["end_date"] = date_converter(i_p.end_date)
+
+            item["authors"] = [{"author_id": a.author_id,
+                                "name": "%s %s %s" % (estr(a.surname), estr(a.name), estr(a.patronymic))}
+                               for a in i_p.authors.all()]
+            item["tags"] = [{"tag_id": t.tag_id,
+                             "name": t.name}
+                            for t in i_p.tags.all()]
+            items.append(item)
+
+        if items:
+            return HttpResponse(json.dumps(items), content_type="application/json")
         else:
             return HttpResponse(json.dumps(""), content_type="application/json")
 
