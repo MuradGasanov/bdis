@@ -452,16 +452,16 @@ class IntellectualProperty():
             item["intellectual_property_id"] = i_p.intellectual_property_id
             item["code"] = i_p.code
             item["name"] = i_p.name
-            item["doc_type"] = {"doc_type_id": i_p.doc_type.doc_type_id if i_p.doc_type else "",
-                                "name": i_p.doc_type.name if i_p.doc_type else ""}
-            item["direction"] = {"direction_id": i_p.direction.direction_id if i_p.direction else "",
-                                 "name": i_p.direction.name if i_p.direction else ""}
+            item["doc_type"] = {"doc_type_id": i_p.doc_type.doc_type_id if i_p.doc_type else None,
+                                "name": i_p.doc_type.name if i_p.doc_type else None}
+            item["direction"] = {"direction_id": i_p.direction.direction_id if i_p.direction else None,
+                                 "name": i_p.direction.name if i_p.direction else None}
             item["start_date"] = date_converter(i_p.start_date)
             item["public_date"] = date_converter(i_p.public_date)
             item["end_date"] = date_converter(i_p.end_date)
 
             item["authors"] = [{"author_id": a.author_id,
-                                "name": "%s %s %s" % (estr(a.surname), estr(a.name), estr(a.patronymic))}
+                                "name": str(a)}  # "%s %s %s" % (estr(a.surname), estr(a.name), estr(a.patronymic))}
                                for a in i_p.authors.all()]
             item["tags"] = [{"tag_id": t.tag_id,
                              "name": t.name}

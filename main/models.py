@@ -34,6 +34,9 @@ class Authors(models.Model):
     class Meta:
         ordering = ["surname"]
 
+    def __unicode__(self):
+        return u'%s %s %s' % (self.surname, self.name, self.patronymic)
+
 
 class Tags(models.Model):
     tag_id = models.AutoField(primary_key=True)

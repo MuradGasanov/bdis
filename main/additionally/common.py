@@ -38,7 +38,7 @@ def date_parser(date_string):
 
 
 def date_converter(date):
-    return date.strftime("%Y-%m-%d") if date else ""
+    return date.strftime("%Y-%m-%d") if date else None
 
 
 def remove_illegal_chars(name):
