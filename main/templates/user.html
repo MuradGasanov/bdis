@@ -135,10 +135,20 @@
                 <span class="k-button k-state-disabled" data-id="#=intellectual_property_id#" title="Нет прикрепленных файлов">Выбрать</span>
             # } #
             </div>
-            <div><span class="item_header">#=code# #=name# (#=doc_type.name#)</span>
-            <p>Направление: #=direction.name#</p>
-            #for(var i=0;i<authors.length;i++)  { #  <span class="author"> #=authors[i].name#,</span> # }#
-            <p> #for(var i=0;i<tags.length;i++)  { #  <span class="tag">#=tags[i].name#</span> # }#</p></div>
+            <div><span class="item_header">#=code# "#=name#" #if(doc_type) { # (#=doc_type#) # }#</span>
+            #if(direction){ # <p>Направление: #=direction#</p> # }#
+            <p class="author">Автор(ы): #=authors.join(", ")#</p>
+            <p>
+                <ul>
+                    <li><span class="date_label">Дата начала отсчета срока действия</span>
+                        # if(start_date) { # <span class="date_field">#=kendo.toString(new Date(start_date), 'dd.MM.yyyy')#</span> # } # </li>
+                    <li><span class="date_label">Дата публикации </span>
+                        # if(public_date) { # <span class="date_field">#=kendo.toString(new Date(public_date), 'dd.MM.yyyy')#</span> # } # </li>
+                    <li><span class="date_label">Срок действия патента истекает </span>
+                        # if(end_date) { # <span class="date_field">#=kendo.toString(new Date(end_date), 'dd.MM.yyyy')#</span> # } # </li>
+                </ul>
+            </p>
+            <p> #for(var i=0;i<tags.length;i++)  { #  <span class="tag">#=tags[i]#</span> # }#</p></div>
         </div>
     </script>
 {% endblock %}

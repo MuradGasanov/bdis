@@ -42,6 +42,7 @@
 #search_tree { color: #747474; }
 
 .intellectual_property_item { margin: 3px; }
+.intellectual_property_item p { margin: 5px 0 5px 0; }
 .intellectual_property_item .fright .k-button {margin-bottom: 5px; }
 .item_header {
     font-style: italic;
@@ -133,3 +134,12 @@ div.file-wrapper:hover {
     cursor: hand;
 }
 .k-upload-files { line-height: 2.2; }
+
+.date_label {
+    width: 250px;
+    display: inline-block;
+    text-align: left;
+}
+.date_label:after  { content: ":"  }
+
+.date_field { font-weight: normal; }

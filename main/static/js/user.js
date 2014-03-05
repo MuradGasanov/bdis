@@ -6,9 +6,15 @@ var API_BASE_URL = "api/";
 
 (function ($) {
     $(document).ready(function (e) {
-        var M_SAVE = "Сохранение...",
-            M_LOAD = "Загрузка...",
-            VIEWER_URL = "/static/pdf.js/web/viewer.html";
+        var M_LOAD = "Загрузка...",
+            VIEWER_URL = "/static/pdf.js/web/viewer.html",
+            search_options = {
+                query: "",
+                field: "",
+                doc_type: "",
+                author_id: ""
+            },
+            n = noty_message(M_LOAD, false);
 
         var $body = $("body");
         var download_list = [], //список с id ИС для загрузки ли добавления в каталог
@@ -93,18 +99,13 @@ var API_BASE_URL = "api/";
             }
             var dt = doc_type.value();
             if (dt) { dt = parseInt(dt) } else { dt = 0 }
-            var data = {
-                query: query,
-                doc_type: dt
-            };
-            console.log(data);
+            search_options.query = query;
+            search_options.field = "";
+            search_options.doc_type = dt;
+            console.log(search_options);
             $.noty.closeAll();
-            var n = noty_seach_log();
-            $.post(BASE_URL+API_BASE_URL+"search/", {item: JSON.stringify(data)},
-                function(r) {
-                    n.close();
-                    search_result_render(r);
-                }, "json");
+            n = noty_seach_log();
+            result.dataSource.read();
             return false;
         });
 //        $search.click();
@@ -132,19 +133,14 @@ var API_BASE_URL = "api/";
             dataTextField: "name",
             template: kendo.template($("#tree_item_template").html()),
             select: function(e) {
-                var data_item = $(e.node).find("span.tree-item")[0]
+                var data_item = $(e.node).find("span.tree-item")[0];
                 data_item = $(data_item);
                 var send = {
                     id: data_item.data("id"),
                     type: data_item.data("type")
                 };
                 $.noty.closeAll();
-                var n = noty_seach_log();
-                $.post(BASE_URL+API_BASE_URL+"search_by_author/", {item: JSON.stringify(send)},
-                function(r) {
-                    n.close();
-                    search_result_render(r)
-                }, "json");
+                n = noty_seach_log();
             },
             messages: {
                 retry: "Повторить",
@@ -166,8 +162,42 @@ var API_BASE_URL = "api/";
 ////////////////////////////////////// ПОИСК ПО ТЕГАМ\\
 
 ////////////////////////////////////// ВЫВОД РЕЗУЛЬТАТОВ
+        var search_data_source = new kendo.data.DataSource({
+            type: "json",
+            transport: {
+                read: {
+                    url: BASE_URL+API_BASE_URL+"search/",
+                    dataType: "json",
+                    type: "POST"
+                },
+                parameterMap: function (options, operation) {
+                    console.log(options, operation);
+                    if (operation == "read") {
+                        var o = {
+                            take: options.take,
+                            skip: options.skip,
+                            query: search_options.query,
+                            doc_type: search_options.doc_type,
+                            field: search_options.field
+                        };
+                        return {options: kendo.stringify(o)};
+                    }
+                }
+            },
+            requestEnd: function (e) {
+                console.log("requestEnd");
+                n.close();
+            },
+            pageSize: 15,
+            serverPaging: true,
+            schema: {
+                data: "items",
+                total: "total"
+            }
+        });
+
         var pager = $("#pager").kendoPager({
-            dataSource: [], //result_data_source,
+            dataSource: search_data_source,
             messages: {
                 display: "Записей в списке: {2}",
                 empty: "Нет данных для отображения",
@@ -183,7 +213,7 @@ var API_BASE_URL = "api/";
         }).data("kendoPager");
 
         var result = $("#result").kendoListView({
-            dataSource: [], //result_data_source,
+            dataSource: search_data_source,
             template: kendo.template($("#result_item_template").html())
         }).data("kendoListView");
 
