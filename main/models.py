@@ -65,6 +65,9 @@ class IntellectualProperty(models.Model):
     authors = models.ManyToManyField(Authors, null=True)
     tags = models.ManyToManyField(Tags, null=True)
 
+    class Meta:
+        ordering = ["-intellectual_property_id"]
+
 
 class DownloadDir(models.Model):
     download_dir_id = models.AutoField(primary_key=True)

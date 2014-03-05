@@ -47,3 +47,9 @@ li.k-file div.file-wrapper { position: relative; height: 65px; }
 #change_intellectual_property_window button.k-button.k-upload-selected { display: none }
 
 span.logout { margin: 7px !important; }
+
+.k-grid-filter.k-state-active {
+    border-color: #428bca !important;
+    color: white !important;
+    background-color: #428bca !important;
+}

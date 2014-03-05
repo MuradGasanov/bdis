@@ -224,7 +224,12 @@ var API_BASE_URL = "api/",
             },
             select: function (e) {
                 var height = GRID_HEIGHT;
-                height = height - 63;
+                var $this = $(e.item);
+                if ($this.hasClass("grid-pager")) {
+                    height = height - 34 /*toolbar*/ - 30 /*grid-header*/ - 38 /*pager*/;
+                } else {
+                    height = height - 34 /*toolbar*/ - 30 /*grid-header*/;
+                }
                 $(e.contentElement).find("div.k-grid-content").css("height", height + "px");
             }
         });
@@ -1010,20 +1015,21 @@ var API_BASE_URL = "api/",
                         type: "POST"
                     },
                     parameterMap: function (options, operation) {
+//                        console.log(options, operation);
                         if (operation !== "read" && options) {
-                            if (operation == "create" || operation == "update") {
-                                if (Object.prototype.toString.call(options.doc_type) == "[object Array]") {
-                                    options.doc_type = options.doc_type[0];
-                                }
-                                if (Object.prototype.toString.call(options.direction) == "[object Array]") {
-                                    options.direction = options.direction[0];
-                                }
-                            }
-                            return {item: kendo.stringify(options)};
+                            return {item: kendo.stringify(
+                                {intellectual_property_id: options.intellectual_property_id}
+                            )};
+                        } else if (operation == "read" && options) {
+                            return {options: kendo.stringify(options)};
                         }
                     }
                 },
+                pageSize: 20,
+                serverPaging: true,
                 schema: {
+                    data: "items",
+                    total: "total",
                     model: {
                         id: "intellectual_property_id",
                         fields: {
@@ -1040,11 +1046,35 @@ var API_BASE_URL = "api/",
                     n.close();
                 }
             },
+            pageable: {
+                messages: {
+                    display: "Показано {0}-{1} из {2} записей",
+                    empty: "Нет данных для отображения",
+                    first: "Первая страница",
+                    itemsPerPage: "записей на странице",
+                    last: "Последняя страница",
+                    next: "Следующая страница",
+                    of: "из {0}",
+                    page: "Страница",
+                    previous: "Предыдущая страница",
+                    refresh: "Обновить"
+                }
+            },
             toolbar: [
                 { template: kendo.template($("#intellectual_property_header_template").html()) }
             ],
             height: GRID_HEIGHT,
             sortable: true,
+            filterable: { extra: false,
+                operators: { string: { contains: "Содержат" } },
+                messages: {
+                    info: "Показать записи, которые:",
+                    and: "и",
+                    or: "или",
+                    filter: "Применить",
+                    clear: "Очистить"
+                }
+            },
             editable: {
                 mode: "inline",
                 confirmation: "Вы уверены, что хотите удалить запись?",
@@ -1054,19 +1084,19 @@ var API_BASE_URL = "api/",
             detailTemplate: kendo.template($("#intellectual_property_detail_template").html()),
             detailInit: intellectual_property_detail_init,
             columns: [
-                { field: "code", title: "Код", width: 150},
-                { field: "name", title: "Наименование", width: 300},
-                { field: "doc_type", title: "Тип", width: 150,
+                { field: "code", title: "Код", width: 150, filterable: true},
+                { field: "name", title: "Наименование", width: 300, filterable: true},
+                { field: "doc_type", title: "Тип", width: 150, filterable: false,
                     template: "#if (doc_type) if (doc_type.name) {# #=doc_type.name# # } #"},
-                { field: "end_date", title: "Срок действия истекает", width: 150,
+                { field: "end_date", title: "Срок действия истекает", width: 150, filterable: false,
                     template: "#if (end_date) {# #=kendo.toString(new Date(end_date), 'dd.MM.yyyy')# #} #"},
-                { field: "direction", title: "Направление",
+                { field: "direction", title: "Направление", filterable: false,
                     template: "#if (direction) if (direction.name) {# #=direction.name# # } #"},
-                { field: "authors", title: "Авторы",
+                { field: "authors", title: "Авторы", filterable: false,
                     template: "#var fio=[];for(var i=0;i<authors.length;i++){fio.push(authors[i].name);}#" +
                         "#=fio.join(', ')#"
                 },
-                { field: "tags", title: "Ключевые слова",
+                { field: "tags", title: "Ключевые слова", filterable: false,
                     template: "#var tag=[];for(var i=0;i<tags.length;i++){tag.push(tags[i].name);}#" +
                         " #=tag.join(', ')#"
                 },
@@ -1089,24 +1119,23 @@ var API_BASE_URL = "api/",
                                     $file_uploader._renderInitialFiles(data);
                                     intellectual_property_model.set("intellectual_property_id", dataItem.intellectual_property_id);
                                     intellectual_property_model.set("name", "");
-                                    intellectual_property_model.set("code", "");
-                                    intellectual_property_model.set("doc_type", "");
-                                    intellectual_property_model.set("direction", "");
-                                    intellectual_property_model.set("tags", "");
                                     intellectual_property_model.set("name", dataItem.name);
+                                    intellectual_property_model.set("code", "");
                                     intellectual_property_model.set("code", dataItem.code);
+                                    intellectual_property_model.set("doc_type", "");
+                                    intellectual_property_model.set("doc_type", dataItem.doc_type.doc_type_id);
+                                    intellectual_property_model.set("direction", "");
+                                    intellectual_property_model.set("direction", dataItem.direction.direction_id);
                                     $start_date.value(date_parser(dataItem.start_date));
                                     $public_date.value(date_parser(dataItem.public_date));
                                     $end_date.value(date_parser(dataItem.end_date));
-                                    intellectual_property_model.set("doc_type", dataItem.doc_type.doc_type_id);
-                                    intellectual_property_model.set("direction", dataItem.direction.direction_id);
                                     var authors = [], tags = [], i;
                                     for (i = 0; i < dataItem.tags.length; i++) {
                                         tags += dataItem.tags[i].name + ", ";
                                     }
+                                    intellectual_property_model.set("tags", "");
                                     intellectual_property_model.set("tags", tags);
                                     for (i = 0; i < dataItem.authors.length; i++) authors.push(dataItem.authors[i].author_id);
-                                    console.log("authors ",authors);
                                     authors_multiselect.dataSource.filter({});
                                     authors_multiselect.value(authors);
                                     intellectual_property_window.center().open();
@@ -1190,7 +1219,7 @@ var API_BASE_URL = "api/",
                 placeholder: "Выберите авторов...",
                 dataTextField: "name",
                 dataValueField: "author_id",
-                itemTemplate: '<span class="k-state-default"><b>#:data.name#</b>#if(data.department!=null){ #<p><i>#:data.department#</i></p># } #</span>',
+                itemTemplate: '<span class="k-state-default"><b>#:data.name#</b>#if(data.department){ #<p><i>#:data.department#</i></p># } #</span>',
                 dataSource: authors_multiselect_data_source,
                 addAuthor: function (newAuthor) { //Добавить нового автора "из строки"
                     var that = authors_multiselect;
@@ -1386,33 +1415,33 @@ var API_BASE_URL = "api/",
         });
 
         function check_response_intellectual_property(d) {
-            var data = intellectual_property.dataSource;
-            var item = data.get(d.intellectual_property_id);
-            if (item) {
-                item.name = d.name;
-                item.code = d.code;
-                item.doc_type = d.doc_type;
-                item.direction = d.direction;
-                item.authors = d.authors;
-                item.tags = d.tags;
-                item.start_date = d.start_date;
-                item.public_date = d.public_date;
-                item.end_date = d.end_date;
-            } else {
-                item = {
-                    intellectual_property_id: d.intellectual_property_id,
-                    name: d.name,
-                    code: d.code,
-                    doc_type: d.doc_type,
-                    direction: d.direction,
-                    authors: d.authors,
-                    tags: d.tags,
-                    start_date: d.start_date,
-                    public_date: d.public_date,
-                    end_date: d.end_date
-                };
-                data.add(item);
-            }
+//            var data = intellectual_property.dataSource;
+//            var item = data.get(d.intellectual_property_id);
+//            if (item) {
+//                item.name = d.name;
+//                item.code = d.code;
+//                item.doc_type = d.doc_type;
+//                item.direction = d.direction;
+//                item.authors = d.authors;
+//                item.tags = d.tags;
+//                item.start_date = d.start_date;
+//                item.public_date = d.public_date;
+//                item.end_date = d.end_date;
+//            } else {
+//                item = {
+//                    intellectual_property_id: d.intellectual_property_id,
+//                    name: d.name,
+//                    code: d.code,
+//                    doc_type: d.doc_type,
+//                    direction: d.direction,
+//                    authors: d.authors,
+//                    tags: d.tags,
+//                    start_date: d.start_date,
+//                    public_date: d.public_date,
+//                    end_date: d.end_date
+//                };
+//                data.add(item);
+//            }
             $file_uploader.options.intellect_prop_id = d.intellectual_property_id;
             var is_upload = $("#change_intellectual_property_window button.k-button.k-upload-selected").click();
             if (is_upload.length == 0) {
@@ -1424,7 +1453,8 @@ var API_BASE_URL = "api/",
 //            $reload_tags.click();
 
             n.close();
-            intellectual_property.refresh();
+//            intellectual_property.refresh();
+            intellectual_property.dataSource.read();
 //            intellectual_property_window.close();
         }
 
@@ -1456,7 +1486,7 @@ var API_BASE_URL = "api/",
         }
 
         function date_parser(date) {
-            if (date.length > 0) {
+            if (date) {
                 return new Date(date);
             } else {
                 return "";

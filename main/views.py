@@ -445,7 +445,16 @@ class IntellectualProperty():
         # else:
         #     return HttpResponse(json.dumps(""), content_type="application/json")
 
-        intellectual_properties = models.IntellectualProperty.objects.all()
+        options = None
+        if "options" in request.POST:
+            options = json.loads(request.POST.get("options"))
+        if options:
+            skip = options.get("skip", 0)
+            take = options.get("take", 0)
+            intellectual_properties = models.IntellectualProperty.objects.all()[skip:skip+take]
+        else:
+            intellectual_properties = models.IntellectualProperty.objects.all()
+        total = models.IntellectualProperty.objects.all().count()
         items = []
         for i_p in intellectual_properties:
             item = dict()
@@ -461,7 +470,7 @@ class IntellectualProperty():
             item["end_date"] = date_converter(i_p.end_date)
 
             item["authors"] = [{"author_id": a.author_id,
-                                "name": str(a)}  # "%s %s %s" % (estr(a.surname), estr(a.name), estr(a.patronymic))}
+                                "name": str(a)}
                                for a in i_p.authors.all()]
             item["tags"] = [{"tag_id": t.tag_id,
                              "name": t.name}
@@ -469,7 +478,7 @@ class IntellectualProperty():
             items.append(item)
 
         if items:
-            return HttpResponse(json.dumps(items), content_type="application/json")
+            return HttpResponse(json.dumps({"items": items, "total": total}), content_type="application/json")
         else:
             return HttpResponse(json.dumps(""), content_type="application/json")
 
