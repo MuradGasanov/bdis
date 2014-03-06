@@ -950,24 +950,33 @@ class Search():
         Поиск по ИС
         """
         options = json.loads(request.POST.get("options"))
-        doc_type = options.get("doc_type", "")
+        type = options.get("type", "")
         take = options.get("take", 0)
         skip = options.get("skip", 0)
-        if doc_type:
-            items = models.IntellectualProperty.objects.filter(doc_type=doc_type)
-        else:
-            items = models.IntellectualProperty.objects.all()
 
         query = options.get("query", "")
         field = options.get("field", "")
 
+        if type and field == "":
+            items = models.IntellectualProperty.objects.filter(doc_type=type)
+        else:
+            items = models.IntellectualProperty.objects.all()
+
         if query:
-            if field == "TAGS":
-                tags = models.Tags.objects.filter(
-                    reduce(lambda x, y: x | y, [Q(name__icontains=word) for word in query]))
+            if field == "TAG":
+                tags = models.Tags.objects.filter(name__icontains=query)
                 items = items.filter(tags__in=tags).distinct()
             elif field == "AUTHOR":
-                pass
+                if type == "subdivision":
+                    authors = models.Authors.objects.filter(department__subdivision=query)
+                elif type == "department":
+                    authors = models.Authors.objects.filter(department=query)
+                elif type == "author":
+                    authors = [models.Authors.objects.get(author_id=query)]
+                else:
+                    authors = []
+
+                items = items.filter(authors__in=authors)
             else:
                 items_name_contains = items.filter(
                     reduce(lambda x, y: x | y, [Q(name__icontains=word) for word in query]))

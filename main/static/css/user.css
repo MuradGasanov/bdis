@@ -43,8 +43,9 @@
 
 .intellectual_property_item { margin: 3px; }
 .intellectual_property_item p { margin: 5px 0 5px 0; }
+.intellectual_property_item .item_code { font-weight: bold; }
 .intellectual_property_item .fright .k-button {margin-bottom: 5px; }
-.item_header {
+.intellectual_property_item .item_header {
     font-style: italic;
     font-size: 16px;
 }

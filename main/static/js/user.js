@@ -11,8 +11,12 @@ var API_BASE_URL = "api/";
             search_options = {
                 query: "",
                 field: "",
-                doc_type: "",
-                author_id: ""
+                type: "",
+                clear: function() {
+                    this.query = "";
+                    this.field = "";
+                    this.type = "";
+                }
             },
             n = noty_message(M_LOAD, false);
 
@@ -99,9 +103,9 @@ var API_BASE_URL = "api/";
             }
             var dt = doc_type.value();
             if (dt) { dt = parseInt(dt) } else { dt = 0 }
+            search_options.clear();
             search_options.query = query;
-            search_options.field = "";
-            search_options.doc_type = dt;
+            search_options.type = dt;
             console.log(search_options);
             $.noty.closeAll();
             n = noty_seach_log();
@@ -132,20 +136,22 @@ var API_BASE_URL = "api/";
             }),
             dataTextField: "name",
             template: kendo.template($("#tree_item_template").html()),
-            select: function(e) {
-                var data_item = $(e.node).find("span.tree-item")[0];
-                data_item = $(data_item);
-                var send = {
-                    id: data_item.data("id"),
-                    type: data_item.data("type")
-                };
-                $.noty.closeAll();
-                n = noty_seach_log();
-            },
             messages: {
                 retry: "Повторить",
                 requestFailed: "Не удалось загрузить список авторов.",
                 loading: "Загрузка..."
+            },
+            select: function(e) {
+                var data_item = $(e.node).find("span.tree-item")[0];
+                data_item = $(data_item);
+                search_options.clear();
+                search_options.query = data_item.data("id");
+                search_options.type = data_item.data("type");
+                search_options.field = "AUTHOR";
+                console.log(search_options);
+                $.noty.closeAll();
+                n = noty_seach_log();
+                result.dataSource.read();
             }
         }).data("kendoTreeView");
 ////////////////////////////////////// ПОИСК ПО АВТОРАМ\\
@@ -153,10 +159,16 @@ var API_BASE_URL = "api/";
 ////////////////////////////////////// ПОИСК ПО ТЕГАМ
         $body.on("click", ".tag", function() {
             var tag = $(this).text();
-            search_query.value([tag,","].join("")); //["[",tag,"]"].join("") TODO: поиск по тегам с пробелами
+//            search_query.value([tag,","].join("")); //["[",tag,"]"].join("") TODO: поиск по тегам с пробелами
+            search_options.clear();
+            search_options.query = tag;
+            search_options.field = "TAG";
+            console.log(search_options);
+            n = noty_seach_log();
+            result.dataSource.read();
             doc_type.value("");
+            search_query.value("");
             if (!$search_by_word.is(":visible")) $search_switcher.click();
-            $search.click();
             return false;
         });
 ////////////////////////////////////// ПОИСК ПО ТЕГАМ\\
@@ -177,7 +189,7 @@ var API_BASE_URL = "api/";
                             take: options.take,
                             skip: options.skip,
                             query: search_options.query,
-                            doc_type: search_options.doc_type,
+                            type: search_options.type,
                             field: search_options.field
                         };
                         return {options: kendo.stringify(o)};
@@ -470,6 +482,7 @@ var API_BASE_URL = "api/";
 
         $("#files_list_close").click(function() {
             files_list_window.close();
+            return false;
         });
 
         $body.on("click", ".k-button.open-item", function(e) {
