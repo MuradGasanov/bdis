@@ -53,3 +53,7 @@ span.logout { margin: 7px !important; }
     color: white !important;
     background-color: #428bca !important;
 }
+div.file-wrapper:hover {
+    cursor: pointer;
+    cursor: hand;
+}

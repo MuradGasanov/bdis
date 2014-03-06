@@ -1696,11 +1696,7 @@ function intellectual_property_detail_init(e) {
     var detailRow = e.detailRow;
     var intellect_prop_id = e.data.intellectual_property_id;
 
-    var files = [
-//        { name: "file1.doc", size: 525, extension: ".doc" },
-//        { name: "file2.jpg", size: 600, extension: ".jpg" },
-//        { name: "file3.xls", size: 720, extension: ".xls" }
-    ];
+    var files = [];
 
     $.post(API_BASE_URL + "file/get_list/",
         {item: JSON.stringify({intellectual_property_id: intellect_prop_id})},
@@ -1756,4 +1752,13 @@ function intellectual_property_detail_init(e) {
             });
         }, "json");
 }
+
+$(document).ready(function () {
+    $("body").on("click", ".file-wrapper", function(e) {
+        var $this = $(this);
+        if ($this.data("type").toUpperCase() == ".pdf".toUpperCase()) {
+            window.open(["/static/pdf.js/web/viewer.html?file=/media/",$this.data("file-url")].join(""),"_blank")
+        }
+    });
+});
 ///////////////////////////////////////  \\ФАЙЛЫ
