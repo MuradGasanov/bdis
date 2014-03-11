@@ -2,6 +2,7 @@
 
 from django.db import models
 from django.dispatch import receiver
+from django.contrib.auth.models import User
 import os
 
 __author__ = 'Murad Gasanov'
@@ -11,6 +12,7 @@ class Subdivision(models.Model):
     subdivision_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=300, null=True)
     tel = models.CharField(max_length=100, null=False)
+    user = models.ForeignKey(User, null=True)
 
 
 class Department(models.Model):
@@ -30,6 +32,7 @@ class Authors(models.Model):
     mail = models.CharField(max_length=50, null=True)
     post = models.CharField(max_length=200, null=True)
     department = models.ForeignKey(Department, null=True, on_delete=models.SET_NULL)
+    user = models.ForeignKey(User, null=True)
 
     class Meta:
         ordering = ["surname"]
@@ -64,6 +67,7 @@ class IntellectualProperty(models.Model):
     direction = models.ForeignKey(Directions, null=True, on_delete=models.SET_NULL)
     authors = models.ManyToManyField(Authors, null=True)
     tags = models.ManyToManyField(Tags, null=True)
+    user = models.ForeignKey(User, null=True)
 
     class Meta:
         ordering = ["-intellectual_property_id"]
