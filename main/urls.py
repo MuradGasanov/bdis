@@ -11,6 +11,7 @@ urlpatterns = patterns('main.views',
                        url(r'^$', home_page),
                        url(r'^login/$', log_in),
                        url(r'^logout/$', log_out),
+                       url(r'^users/$', Users.get_page),
 
                        url(r'^'+API_BASE_URL+'subdivision/read/$', Subdivision.read),
                        url(r'^'+API_BASE_URL+'subdivision/destroy/$', Subdivision.destroy),

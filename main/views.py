@@ -1142,3 +1142,14 @@ class Directory():
     #     return HttpResponse(json.dumps({"tag_id": tag.tag_id,
     #                                     "name": tag.name}), content_type="application/json")
 ########################################################################################################################
+
+
+class Users():
+    def __init__(self):
+        pass
+
+
+    @staticmethod
+    def get_page(request):
+        return render_to_response("user_list.html")
+########################################################################################################################
