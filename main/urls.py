@@ -59,5 +59,9 @@ urlpatterns = patterns('main.views',
 
                        url(r'^'+API_BASE_URL+'directory/create/$', Directory.create),
                        url(r'^'+API_BASE_URL+'directory/read/$', Directory.read),
-                       url(r'^'+API_BASE_URL+'directory/destroy/$', Directory.destroy)
+                       url(r'^'+API_BASE_URL+'directory/destroy/$', Directory.destroy),
+
+                       url(r'^users/read/$', Users.read),
+                       url(r'^users/create/$', Users.create),
+                       url(r'^users/destroy/$', Users.destroy),
                        )

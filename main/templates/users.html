@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+{% block title %}Список пользователей{% endblock %}
+{% block style %}
+    <link rel="stylesheet" href="{% static "css/users.css" %}">
+{% endblock %}
+{% block script %}
+    <script src="{% static "js/kendo/kendo.web.min.js" %}"></script>
+    <script src="{% static "js/kendo/cultures/kendo.culture.ru-RU.min.js" %}"></script>
+    <script src="{% static "js/users.js" %}"></script>
+{% endblock %}
+{% block header %}
+    <span id="logout" class="logout fright k-button" ><i class="fa fa-sign-out"></i> Выход</span>
+{% endblock %}
+{% block content %}
+    <div id="user_list"></div>
+
+    <div id="change_users_window" style="display: none">
+        <div id="change_users" class="k-edit-form-container" style="width: inherit;">
+            <div class="k-edit-label">
+                <label>Логин<span class="required">*</span>:</label>
+            </div>
+            <div class="k-edit-field">
+                <input type="text" class="k-textbox" name="username" required placeholder="Логин" style="width: 100%"
+                       data-bind="value: username"/>
+            </div>
+            <div class="k-edit-label">
+                <label>Пароль<span class="required">*</span>:</label>
+            </div>
+            <div class="k-edit-field">
+                <input type="text" class="k-textbox" name="password" required placeholder="Пароль" style="width: 100%"
+                       data-bind="value: password"/>
+            </div>
+            <div class="k-edit-label">
+                <label>Имя:</label>
+            </div>
+            <div class="k-edit-field">
+                <input type="text" class="k-textbox" name="first_name" placeholder="Имя" style="width: 100%"
+                       data-bind="value: first_name"/>
+            </div>
+            <div class="k-edit-label">
+                <label>Почта<span class="required">*</span>:</label>
+            </div>
+            <div class="k-edit-field">
+                <input type="text" class="k-textbox" name="email" required placeholder="Почта" style="width: 100%"
+                       data-bind="value: email"/>
+            </div>
+            <div class="k-edit-label">
+                <label>Администратор:</label>
+            </div>
+            <div class="k-edit-field">
+                <label><input type="checkbox"
+                           data-bind="checked: is_superuser" /></label>
+            </div>
+            <input type="hidden" id="is_user_edit" value="false">
+
+            <div class="k-edit-buttons k-state-default">
+                <a class="k-button k-button-icontext k-grid-update" id="user_save" href="#">
+                    <span class="k-icon k-update"></span>Сохранить
+                </a>
+                <a class="k-button k-button-icontext k-grid-cancel" id="user_cancel" href="#">
+                    <span class="k-icon k-cancel"></span>Отмена
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/x-kendo-template" id="users_header_template">
+        <span class="k-button add_user"><span class="k-icon k-i-plus"></span> Добавить пользователя</span>
+        <span class="k-button reload_users" title="Перезагрузить таблицу"><span class="k-icon k-i-refresh"></span></span>
+    </script>
+{% endblock %}

@@ -9,11 +9,11 @@ from datetime import *
 from itertools import chain
 from additionally.common import *
 import main.models as models
+from django.contrib.auth import models as auth_models
 import json
 import os
 import zipfile
 import StringIO
-import datetime
 
 
 def home_page(request):
@@ -22,9 +22,14 @@ def home_page(request):
     """
 
     if request.user.is_superuser:
-        return render_to_response("admin.html")
+        if request.user.is_staff:
+            return render_to_response("users.html")
+        else:
+            return render_to_response("admin.html")
     else:
-        return render_to_response("user.html")
+        return render_to_response("main.html")
+
+
 ########################################################################################################################
 
 
@@ -55,6 +60,8 @@ def log_in(request):
             return HttpResponse(json.dumps({"error": ["Пользователь заблокирован"]}), content_type="application/json")
     else:
         return HttpResponse(json.dumps({"error": ["Неверный логин и пароль"]}), content_type="application/json")
+
+
 ########################################################################################################################
 
 
@@ -64,6 +71,8 @@ def log_out(request):
     """
     logout(request)
     return HttpResponseRedirect("/")
+
+
 ########################################################################################################################
 
 
@@ -76,7 +85,9 @@ class Subdivision():
         """
         вывод списка подразделений
         """
-        subdivisions = list(models.Subdivision.objects.all().values("subdivision_id", "name", "tel"))
+        subdivisions = list(models.Subdivision.objects
+                            .filter(user=request.user.id)
+                            .values("subdivision_id", "name", "tel"))
         return HttpResponse(json.dumps(subdivisions), content_type="application/json")
 
     @staticmethod
@@ -96,7 +107,8 @@ class Subdivision():
         item = json.loads(request.POST.get("item"))
         new_subdivision = models.Subdivision.objects.create(
             name=item["name"],
-            tel=item["tel"])
+            tel=item["tel"],
+            user=request.user)
         return HttpResponse(json.dumps({"subdivision_id": new_subdivision.subdivision_id,
                                         "name": new_subdivision.name,
                                         "tel": new_subdivision.tel}), content_type="application/json")
@@ -114,6 +126,8 @@ class Subdivision():
         return HttpResponse(json.dumps({"subdivision_id": subdivision.subdivision_id,
                                         "name": subdivision.name,
                                         "tel": subdivision.tel}), content_type="application/json")
+
+
 ########################################################################################################################
 
 
@@ -124,14 +138,14 @@ class Department():
     @staticmethod
     def read(request):
         """
-        вывод списка факудьтетов
+        вывод списка факультетов
         """
         if "subdivision_id" in request.POST:
             subdivision_id = json.loads(request.POST.get("subdivision_id"))
             department = list(
-                models.Department.objects.all().
-                filter(subdivision_id=subdivision_id).
-                values("department_id", "name", "mail", "tel")
+                models.Department.objects.all()
+                .filter(subdivision_id=subdivision_id)
+                .values("department_id", "name", "mail", "tel")
             )
         else:
             department = list(
@@ -180,6 +194,8 @@ class Department():
             tel=item["tel"]
         )
         return HttpResponse(json.dumps({}), content_type="application/json")
+
+
 ########################################################################################################################
 
 
@@ -189,23 +205,52 @@ class Authors():
 
     @staticmethod
     def read(request):
+        # """
+        # вывод списка авторов
+        # """
+        # authors = list(
+        #     models.Authors.objects
+        #     .filter(user=request.user.id)
+        #     .values("author_id",
+        #             "name", "surname", "patronymic",
+        #             "mail", "tel", "post",
+        #             "department", "department__name")
+        # )
+        # for author in authors:
+        #     author["department"] = {
+        #         "department_id": author.pop("department") if author["department"] else "",
+        #         "name": author.pop("department__name") if author["department__name"] else ""
+        #     }
+        # if authors:
+        #     return HttpResponse(json.dumps(authors), content_type="application/json")
+        # else:
+        #     return HttpResponse(json.dumps(""), content_type="application/json")
         """
         вывод списка авторов
         """
         authors = list(
-            models.Authors.objects.all().
-            values("author_id", 
-                   "name", "surname", "patronymic", 
-                   "mail", "tel", "post", 
-                   "department", "department__name")
+            models.Authors.objects
+            .filter(user=request.user.id)
         )
+        items = list()
         for author in authors:
-            author["department"] = {
-                "department_id": author.pop("department") if author["department"] else "",
-                "name": author.pop("department__name") if author["department__name"] else ""
+            item = {
+                "author_id": author.author_id,
+                "name": author.name,
+                "surname": author.surname,
+                "patronymic": author.patronymic,
+                "full_name": str(author),
+                "department": {
+                    "department_id": author.department.department_id if author.department else "",
+                    "name": author.department.name if author.department else ""
+                },
+                "mail": author.mail,
+                "tel": author.tel,
+                "post": author.post,
             }
-        if authors:
-            return HttpResponse(json.dumps(authors), content_type="application/json")
+            items.append(item)
+        if items:
+            return HttpResponse(json.dumps(items), content_type="application/json")
         else:
             return HttpResponse(json.dumps(""), content_type="application/json")
 
@@ -235,11 +280,13 @@ class Authors():
             tel=item["tel"],
             mail=item["mail"],
             post=item["post"],
-            department=department)
+            department=department,
+            user=request.user)
         return HttpResponse(json.dumps({"author_id": new_author.author_id,
                                         "name": new_author.name,
                                         "surname": new_author.surname,
                                         "patronymic": new_author.patronymic,
+                                        "full_name": str(new_author),
                                         "tel": new_author.tel,
                                         "mail": new_author.mail,
                                         "post": new_author.post,
@@ -270,6 +317,7 @@ class Authors():
                                         "name": author.name,
                                         "surname": author.surname,
                                         "patronymic": author.patronymic,
+                                        "full_name": str(author),
                                         "tel": author.tel,
                                         "mail": author.mail,
                                         "post": author.post,
@@ -277,6 +325,8 @@ class Authors():
                                             "department_id": department.department_id if department else "",
                                             "name": department.name if department else ""}}),
                             content_type="application/json")
+
+
 ########################################################################################################################
 
 
@@ -390,6 +440,31 @@ class IntellectualProperty():
         pass
 
     @staticmethod
+    def prepare_response(intellectual_properties):
+        items = []
+
+        for i_p in intellectual_properties:
+            i = dict()
+            i["intellectual_property_id"] = i_p.intellectual_property_id
+            i["code"] = i_p.code
+            i["name"] = i_p.name
+            i["doc_type"] = {"doc_type_id": i_p.doc_type.doc_type_id if i_p.doc_type else None,
+                             "name": i_p.doc_type.name if i_p.doc_type else None}
+            i["direction"] = {"direction_id": i_p.direction.direction_id if i_p.direction else None,
+                              "name": i_p.direction.name if i_p.direction else None}
+            i["start_date"] = date_converter(i_p.start_date)
+            i["public_date"] = date_converter(i_p.public_date)
+            i["end_date"] = date_converter(i_p.end_date)
+            i["authors"] = ", ".join([str(a) for a in i_p.authors.all()])
+            i["authors_id"] = list(i_p.authors.all().values_list("author_id", flat=True))
+            i["tags"] = ", ".join(i_p.tags.all().values_list("name", flat=True))
+            i["tags_id"] = list(i_p.tags.all().values_list("tag_id", flat=True))
+
+            items.append(i)
+
+        return items
+
+    @staticmethod
     def read(request):
         """
         вывод спсика интеллектуальной собственнсоть
@@ -451,32 +526,12 @@ class IntellectualProperty():
         if options:
             skip = options.get("skip", 0)
             take = options.get("take", 0)
-            intellectual_properties = models.IntellectualProperty.objects.all()[skip:skip+take]
+            intellectual_properties = models.IntellectualProperty.objects.filter(user=request.user.id)[skip:skip + take]
         else:
-            intellectual_properties = models.IntellectualProperty.objects.all()
-        total = models.IntellectualProperty.objects.all().count()
-        items = []
-        for i_p in intellectual_properties:
-            item = dict()
-            item["intellectual_property_id"] = i_p.intellectual_property_id
-            item["code"] = i_p.code
-            item["name"] = i_p.name
-            item["doc_type"] = {"doc_type_id": i_p.doc_type.doc_type_id if i_p.doc_type else None,
-                                "name": i_p.doc_type.name if i_p.doc_type else None}
-            item["direction"] = {"direction_id": i_p.direction.direction_id if i_p.direction else None,
-                                 "name": i_p.direction.name if i_p.direction else None}
-            item["start_date"] = date_converter(i_p.start_date)
-            item["public_date"] = date_converter(i_p.public_date)
-            item["end_date"] = date_converter(i_p.end_date)
+            intellectual_properties = models.IntellectualProperty.objects.filter(user=request.user.id)
+        total = models.IntellectualProperty.objects.filter(user=request.user.id).count()
 
-            item["authors"] = [{"author_id": a.author_id,
-                                "name": str(a)}
-                               for a in i_p.authors.all()]
-            item["tags"] = [{"tag_id": t.tag_id,
-                             "name": t.name}
-                            for t in i_p.tags.all()]
-            items.append(item)
-
+        items = IntellectualProperty.prepare_response(intellectual_properties)
         if items:
             return HttpResponse(json.dumps({"items": items, "total": total}), content_type="application/json")
         else:
@@ -530,36 +585,15 @@ class IntellectualProperty():
             public_date=date_parser(item["public_date"]),
             end_date=date_parser(item["end_date"]),
             doc_type=doc_type,
-            direction=direction,)
+            direction=direction,
+            user=request.user)
         new_intellectual_property.authors.add(*item["authors"])
 
         new_intellectual_property.tags.add(*tags)
 
-        doc_type = {
-            "doc_type_id": doc_type.doc_type_id if doc_type else "",
-            "name": doc_type.name if doc_type else ""
-        }
-        direction = {
-            "direction_id": direction.direction_id if direction else "",
-            "name": direction.name if direction else ""
-        }
+        items = IntellectualProperty.prepare_response([new_intellectual_property])
 
-        authors = [{"author_id": a.author_id,
-                    "name": "%s %s %s" % (estr(a.surname), estr(a.name), estr(a.patronymic))}
-                   for a in new_intellectual_property.authors.all()]
-        tags = [{"tag_id": t.tag_id,
-                 "name": t.name}
-                for t in new_intellectual_property.tags.all()]
-        return HttpResponse(json.dumps({"intellectual_property_id": new_intellectual_property.intellectual_property_id,
-                                        "name": new_intellectual_property.name,
-                                        "code": new_intellectual_property.code,
-                                        "doc_type": doc_type,
-                                        "start_date": date_converter(new_intellectual_property.start_date),
-                                        "public_date": date_converter(new_intellectual_property.public_date),
-                                        "end_date": date_converter(new_intellectual_property.end_date),
-                                        "direction": direction,
-                                        "authors": authors,
-                                        "tags": tags}), content_type="application/json")
+        return HttpResponse(json.dumps(items[0]), content_type="application/json")
 
     @staticmethod
     def update(request):
@@ -568,7 +602,7 @@ class IntellectualProperty():
         """
         item = json.loads(request.POST.get("item"))
 
-        intellectual_property = models.IntellectualProperty.\
+        intellectual_property = models.IntellectualProperty. \
             objects.get(intellectual_property_id=item["intellectual_property_id"])
 
         current_doc_type = intellectual_property.doc_type
@@ -629,33 +663,11 @@ class IntellectualProperty():
         intellectual_property.tags.clear()
         intellectual_property.tags.add(*tags)
 
-        doc_type = {
-            "doc_type_id": doc_type.doc_type_id if doc_type else "",
-            "name": doc_type.name if doc_type else ""
-        }
-        direction = {
-            "direction_id": direction.direction_id if direction else "",
-            "name": direction.name if direction else ""
-        }
-        authors = [{"author_id": a.author_id,
-                    "name": "%s %s %s" % (estr(a.surname), estr(a.name), estr(a.patronymic))}
-                   for a in intellectual_property.authors.all()]
-        tags = [{"tag_id": t.tag_id,
-                 "name": t.name}
-                for t in intellectual_property.tags.all()]
+        items = IntellectualProperty.prepare_response([intellectual_property])
 
-        return HttpResponse(json.dumps({
-            "intellectual_property_id": intellectual_property.intellectual_property_id,
-            "name": intellectual_property.name,
-            "code": intellectual_property.code,
-            "start_date": date_converter(intellectual_property.start_date),
-            "public_date": date_converter(intellectual_property.public_date),
-            "end_date": date_converter(intellectual_property.end_date),
-            "doc_type": doc_type,
-            "direction": direction,
-            "authors": authors,
-            "tags": tags
-        }), content_type="application/json")
+        return HttpResponse(json.dumps(items[0]), content_type="application/json")
+
+
 ########################################################################################################################
 
 
@@ -721,7 +733,7 @@ class Files():
         Привязывание файла к ИС
         """
         item = json.loads(request.POST.get("item"))
-        intellectual_property = models.IntellectualProperty.\
+        intellectual_property = models.IntellectualProperty. \
             objects.get(intellectual_property_id=int(item["intellectual_property_id"]))
         f = request.FILES['files']
         new_file = models.Files.objects.create(
@@ -797,6 +809,8 @@ class Files():
         response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
         pass
         return response
+
+
 ########################################################################################################################
 
 
@@ -816,7 +830,7 @@ class Search():
                     "department__subdivision", "department__subdivision__name"))
         authors = list(
             models.Authors.objects.filter(department__isnull=True)
-            .values("author_id", "name", "surname", "patronymic",))
+            .values("author_id", "name", "surname", "patronymic", ))
         for author in authors:
             author.update({
                 "type": "author",
@@ -996,7 +1010,7 @@ class Search():
 
         result = []
         total = len(items)
-        items = items[skip:skip+take]
+        items = items[skip:skip + take]
         for i_p in items:
             item = {
                 "intellectual_property_id": i_p.intellectual_property_id,
@@ -1141,4 +1155,62 @@ class Directory():
     #     tag.save()
     #     return HttpResponse(json.dumps({"tag_id": tag.tag_id,
     #                                     "name": tag.name}), content_type="application/json")
+########################################################################################################################
+
+
+class Users():
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def read(r):
+        items = list(
+            auth_models.User.objects.filter(is_active=True)
+            .values("id", "username", "first_name", "email", "is_superuser")
+        )
+        js = json.dumps(items)
+        return HttpResponse(js, content_type="application/json")
+
+    @staticmethod
+    def create(r):
+        """
+        добавление
+        """
+        item = json.loads(r.POST.get("item"))
+        items = auth_models.User.objects.filter(is_active=True)
+        new_user, created = items.get_or_create(
+            username=item.get("username")
+        )
+        if created:
+            new_user.first_name = item.get("first_name")
+            new_user.email = item.get("email")
+            new_user.is_stuff = False
+            new_user.is_superuser = item.get("is_superuser")
+            new_user.set_password(item.get("password"))
+            new_user.save()
+        else:
+            return HttpResponseForbidden()
+
+        return HttpResponse(json.dumps({"id": new_user.id,
+                                        "first_name": new_user.first_name,
+                                        "username": new_user.username,
+                                        "email": new_user.email,
+                                        "is_superuser": new_user.is_superuser, }),
+                            content_type="application/json")
+
+    @staticmethod
+    def destroy(r):
+        """
+        удаление
+        """
+        item = json.loads(r.POST.get("item"))
+        user = auth_models.User.objects.get(id=int(item.get("id")))
+        if user:
+            user.is_active = False
+            user.username += "_deleted"
+            user.save()
+        else:
+            return HttpResponseForbidden()
+        return HttpResponse(json.dumps({}), content_type="application/json")
+
 ########################################################################################################################

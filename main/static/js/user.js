@@ -224,6 +224,11 @@ var API_BASE_URL = "api/";
             }
         }).data("kendoPager");
 
+        pager.bind("change", function(e) {
+            console.log(e);
+            $("html, body").animate({ scrollTop: "0px" }, "slow");
+        });
+
         var result = $("#result").kendoListView({
             dataSource: search_data_source,
             template: kendo.template($("#result_item_template").html())
@@ -313,7 +318,7 @@ var API_BASE_URL = "api/";
 
 ////////////////////////////////////// КАТАЛОГИ
         var $change_directory = $("#change_directory"),//TODO: имя скачанного архива - имя каталога а не по умолчанию(archive.zip)
-
+        //TODO: кнопка показать неактивна если нет прикрепленных файлов
             directory_window = $("#change_directory_window").kendoWindow({
                 resizable: false, actions: [/*здесь скрываются кнопки*/],
                 animation: { close: { effects: "", duration: 50 },
