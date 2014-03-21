@@ -102,9 +102,7 @@ var API_BASE_URL = "api/",
                 e.preventDefault();
             } else if (key === keys.ENTER) {
                 if (hasValue) {
-                    if (options.addAuthor) {
-                        options.addAuthor(hasValue)
-                    }
+                    that.trigger("addAuthor", hasValue);
                 }
             } else if (key === keys.ESC) {
                 if (visible) {
@@ -409,9 +407,10 @@ var API_BASE_URL = "api/",
                             },
                             surname: { type: "string"},
                             patronymic: { type: "string"},
-                            tel: {type: "string"},
-                            post: {type: "string"},
-                            mail: {type: "string"},
+                            full_name: { type: "string"},
+                            tel: { type: "string"},
+                            post: { type: "string"},
+                            mail: { type: "string"},
                             department: { defaultValue: {department_id: "", name: ""} }
                         }
                     }
@@ -435,7 +434,7 @@ var API_BASE_URL = "api/",
                 cancelDelete: "Нет"
             },
             columns: [
-                { field: "surname", title: "ФИО", width: "250px", template: "#var fio=[surname,name,patronymic].join(' ');# #=fio#"},
+                { field: "full_name", title: "ФИО", width: "250px" },
                 { field: "post", title: "Учёные степени и звания", width: "300px", attributes: {title: "#=post#"} },
                 { field: "tel", title: "Телефон", attributes: {title: "#=tel#"} },
                 { field: "mail", title: "Электронный адрес", attributes: {title: "#=mail#"} },
@@ -453,7 +452,7 @@ var API_BASE_URL = "api/",
                             author_model.set("post", dataItem.post);
                             author_model.set("tel", dataItem.tel);
                             author_model.set("mail", dataItem.mail);
-                            author_subdivision.value("");
+                            author_subdivision.value(false);
                             author_model.get("subdivisions").read();
                             author_model.set("department", dataItem.department);
                             author_model.get("departments").read();
@@ -514,7 +513,7 @@ var API_BASE_URL = "api/",
             author_model.set("post", "");
             author_model.set("tel", "");
             author_model.set("mail", "");
-            author_subdivision.value("");
+            author_subdivision.value(false);
             author_model.get("subdivisions").read();
             author_model.get("departments").read();
             author_model.set("department", "");
@@ -532,6 +531,7 @@ var API_BASE_URL = "api/",
             if (item) { //обновить в таблице
                 item.author_id = d.author_id;
                 item.surname = d.surname;
+                item.full_name = d.full_name;
                 item.name = d.name;
                 item.patronymic = d.patronymic;
                 item.post = d.post;
@@ -543,6 +543,7 @@ var API_BASE_URL = "api/",
                     author_id: d.author_id,
                     surname: d.surname,
                     name: d.name,
+                    full_name: d.full_name,
                     patronymic: d.patronymic,
                     post: d.post,
                     tel: d.tel,
@@ -554,14 +555,10 @@ var API_BASE_URL = "api/",
             if ($("#is_for_i_p").val() == "true") { //Добавить нового автора "из окна"/
                 $("#is_for_i_p").val(false);        /// вызываемого в окне редактирования ИС
                 if (authors_multiselect) {
-//                    d.name = [d.surname, d.name, d.patronymic].join(" ");
-//                    d.department = d.department.name;
-//                    authors_multiselect_data_source.add(d);
-//                    var current_values = authors_multiselect.value();
-//                    current_values.push(d.author_id);
-//                    console.log(current_values);
-//                    authors_multiselect.value([]);
-//                    authors_multiselect.value(current_values);
+                    authors_multiselect.dataSource.add(d);
+                    var current_values = [].concat(authors_multiselect.value());
+                    current_values.push(d.author_id);
+                    authors_multiselect.value(current_values);
                 }
             }
             n.close();
@@ -1037,8 +1034,10 @@ var API_BASE_URL = "api/",
                             code: { type: "string" },
                             doc_type: {defaultValue: {doc_type_id: "", name: ""}},
                             direction: {defaultValue: {direction_id: "", name: ""}},
-                            authors: {defaultValue: []},
-                            tags: {defaultValue: []}
+                            authors: { type: "string" },
+                            authors_id: { defaultValue: [] },
+                            tags: { type: "string" },
+                            tags_id: { defaultValue: [] }
                         }
                     }
                 },
@@ -1092,14 +1091,8 @@ var API_BASE_URL = "api/",
                     template: "#if (end_date) {# #=kendo.toString(new Date(end_date), 'dd.MM.yyyy')# #} #"},
                 { field: "direction", title: "Направление", filterable: false,
                     template: "#if (direction) if (direction.name) {# #=direction.name# # } #"},
-                { field: "authors", title: "Авторы", filterable: false,
-                    template: "#var fio=[];for(var i=0;i<authors.length;i++){fio.push(authors[i].name);}#" +
-                        "#=fio.join(', ')#"
-                },
-                { field: "tags", title: "Ключевые слова", filterable: false,
-                    template: "#var tag=[];for(var i=0;i<tags.length;i++){tag.push(tags[i].name);}#" +
-                        " #=tag.join(', ')#"
-                },
+                { field: "authors", title: "Авторы", filterable: false },
+                { field: "tags", title: "Ключевые слова", filterable: false },
                 { command: [
                     {   text: "Редактировать",
                         click: function (e) {
@@ -1129,15 +1122,10 @@ var API_BASE_URL = "api/",
                                     $start_date.value(date_parser(dataItem.start_date));
                                     $public_date.value(date_parser(dataItem.public_date));
                                     $end_date.value(date_parser(dataItem.end_date));
-                                    var authors = [], tags = [], i;
-                                    for (i = 0; i < dataItem.tags.length; i++) {
-                                        tags += dataItem.tags[i].name + ", ";
-                                    }
                                     intellectual_property_model.set("tags", "");
-                                    intellectual_property_model.set("tags", tags);
-                                    for (i = 0; i < dataItem.authors.length; i++) authors.push(dataItem.authors[i].author_id);
+                                    intellectual_property_model.set("tags", dataItem.tags);
                                     authors_multiselect.dataSource.filter({});
-                                    authors_multiselect.value(authors);
+                                    authors_multiselect.value(dataItem.authors_id);
                                     intellectual_property_window.center().open();
                                     n.close();
                                 }, "json");
@@ -1201,51 +1189,54 @@ var API_BASE_URL = "api/",
                             url: BASE_URL + API_BASE_URL + "authors/read/",
                             dataType: "json",
                             success: function (result) {
-                                var data = [];
-                                for (var i = 0; i < result.length; i++) {
-                                    data.push({
-                                        author_id: result[i].author_id,
-                                        name: [result[i].surname, result[i].name, result[i].patronymic].join(" "),
-                                        department: result[i].department.name
-                                    })
-                                }
-                                options.success(data);
+//                                var data = [];
+//                                for (var i = 0; i < result.length; i++) {
+//                                    data.push({
+//                                        author_id: result[i].author_id,
+//                                        name: [result[i].surname, result[i].name, result[i].patronymic].join(" "),
+//                                        department: result[i].department.name
+//                                    })
+//                                }
+                                options.success(result);
                             }
                         });
                     }
                 }
             });
-        var authors_multiselect = $("#authors_multiselect").kendoAuthorMultiSelect({
+        window.authors_multiselect = $("#authors_multiselect").kendoAuthorMultiSelect({
                 placeholder: "Выберите авторов...",
-                dataTextField: "name",
+                dataTextField: "full_name",
                 dataValueField: "author_id",
-                itemTemplate: '<span class="k-state-default"><b>#:data.name#</b>#if(data.department){ #<p><i>#:data.department#</i></p># } #</span>',
-                dataSource: authors_multiselect_data_source,
-                addAuthor: function (newAuthor) { //Добавить нового автора "из строки"
-                    var that = authors_multiselect;
-                    var fio = $.trim(newAuthor);
-                    fio = fio.replace(/\s+/g, " ").split(" ");
-                    if (fio.length < 2) return false;
-                    var send = {
-                        author_id: 0,
-                        surname: fio[0],
-                        name: fio[1],
-                        patronymic: fio.length == 3 ? fio[2] : "",
-                        post: "", tel: "", mail: "", department: ""
-                    };
-                    n = noty_message(M_LOAD, false);
-                    $.post(BASE_URL + API_BASE_URL + "authors/create/",
-                        {item: JSON.stringify(send) },
-                        function (data) {
-                            n.close();
-                            data.name = [data.surname, data.name, data.patronymic].join(" ");
-                            data.department = "";
-                            that.dataSource.add(data);
-                            that.search(fio.join(" "));
-                        }, "json");
-                }
+                itemTemplate: '<span class="k-state-default"><b>#=full_name#</b>#if(data.department.name){ #<p><i>#=data.department.name#</i></p># } #</span>',
+                dataSource: authors_multiselect_data_source
             }).data("kendoAuthorMultiSelect");
         authors_multiselect.wrapper.css({width: "500px", display: "inline-block"});
+        authors_multiselect.bind("addAuthor", function(newAuthor) { //Добавить нового автора "из строки"
+            var that = this;
+            var fio = $.trim(newAuthor);
+            fio = fio.replace(/\s+/g, " ").split(" ");
+            if (fio.length < 2) return false;
+            var send = {
+                author_id: 0,
+                surname: fio[0],
+                name: fio[1],
+                patronymic: fio.length == 3 ? fio[2] : "",
+                post: "", tel: "", mail: "", department: ""
+            };
+            n = noty_message(M_LOAD, false);
+            $.post(BASE_URL + API_BASE_URL + "authors/create/",
+                { item: JSON.stringify(send) },
+                function (data) {
+                    n.close();
+                    that.dataSource.add(data);
+                    console.log(that == authors_multiselect)
+                    var current_value = [].concat(that.value());
+                    current_value.push(data.author_id);
+                    that.dataSource.filter({});
+                    that.value(current_value);
+                }, "json");
+            return false;
+        });
 
         var $file_uploader = $("#file_uploader").kendoUpload({
             multiple: true,

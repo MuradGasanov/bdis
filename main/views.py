@@ -205,24 +205,52 @@ class Authors():
 
     @staticmethod
     def read(request):
+        # """
+        # вывод списка авторов
+        # """
+        # authors = list(
+        #     models.Authors.objects
+        #     .filter(user=request.user.id)
+        #     .values("author_id",
+        #             "name", "surname", "patronymic",
+        #             "mail", "tel", "post",
+        #             "department", "department__name")
+        # )
+        # for author in authors:
+        #     author["department"] = {
+        #         "department_id": author.pop("department") if author["department"] else "",
+        #         "name": author.pop("department__name") if author["department__name"] else ""
+        #     }
+        # if authors:
+        #     return HttpResponse(json.dumps(authors), content_type="application/json")
+        # else:
+        #     return HttpResponse(json.dumps(""), content_type="application/json")
         """
         вывод списка авторов
         """
         authors = list(
             models.Authors.objects
             .filter(user=request.user.id)
-            .values("author_id",
-                    "name", "surname", "patronymic",
-                    "mail", "tel", "post",
-                    "department", "department__name")
         )
+        items = list()
         for author in authors:
-            author["department"] = {
-                "department_id": author.pop("department") if author["department"] else "",
-                "name": author.pop("department__name") if author["department__name"] else ""
+            item = {
+                "author_id": author.author_id,
+                "name": author.name,
+                "surname": author.surname,
+                "patronymic": author.patronymic,
+                "full_name": str(author),
+                "department": {
+                    "department_id": author.department.department_id if author.department else "",
+                    "name": author.department.name if author.department else ""
+                },
+                "mail": author.mail,
+                "tel": author.tel,
+                "post": author.post,
             }
-        if authors:
-            return HttpResponse(json.dumps(authors), content_type="application/json")
+            items.append(item)
+        if items:
+            return HttpResponse(json.dumps(items), content_type="application/json")
         else:
             return HttpResponse(json.dumps(""), content_type="application/json")
 
@@ -258,6 +286,7 @@ class Authors():
                                         "name": new_author.name,
                                         "surname": new_author.surname,
                                         "patronymic": new_author.patronymic,
+                                        "full_name": str(new_author),
                                         "tel": new_author.tel,
                                         "mail": new_author.mail,
                                         "post": new_author.post,
@@ -288,6 +317,7 @@ class Authors():
                                         "name": author.name,
                                         "surname": author.surname,
                                         "patronymic": author.patronymic,
+                                        "full_name": str(author),
                                         "tel": author.tel,
                                         "mail": author.mail,
                                         "post": author.post,
@@ -410,6 +440,31 @@ class IntellectualProperty():
         pass
 
     @staticmethod
+    def prepare_response(intellectual_properties):
+        items = []
+
+        for i_p in intellectual_properties:
+            i = dict()
+            i["intellectual_property_id"] = i_p.intellectual_property_id
+            i["code"] = i_p.code
+            i["name"] = i_p.name
+            i["doc_type"] = {"doc_type_id": i_p.doc_type.doc_type_id if i_p.doc_type else None,
+                             "name": i_p.doc_type.name if i_p.doc_type else None}
+            i["direction"] = {"direction_id": i_p.direction.direction_id if i_p.direction else None,
+                              "name": i_p.direction.name if i_p.direction else None}
+            i["start_date"] = date_converter(i_p.start_date)
+            i["public_date"] = date_converter(i_p.public_date)
+            i["end_date"] = date_converter(i_p.end_date)
+            i["authors"] = ", ".join([str(a) for a in i_p.authors.all()])
+            i["authors_id"] = list(i_p.authors.all().values_list("author_id", flat=True))
+            i["tags"] = ", ".join(i_p.tags.all().values_list("name", flat=True))
+            i["tags_id"] = list(i_p.tags.all().values_list("tag_id", flat=True))
+
+            items.append(i)
+
+        return items
+
+    @staticmethod
     def read(request):
         """
         вывод спсика интеллектуальной собственнсоть
@@ -475,28 +530,8 @@ class IntellectualProperty():
         else:
             intellectual_properties = models.IntellectualProperty.objects.filter(user=request.user.id)
         total = models.IntellectualProperty.objects.filter(user=request.user.id).count()
-        items = []
-        for i_p in intellectual_properties:
-            item = dict()
-            item["intellectual_property_id"] = i_p.intellectual_property_id
-            item["code"] = i_p.code
-            item["name"] = i_p.name
-            item["doc_type"] = {"doc_type_id": i_p.doc_type.doc_type_id if i_p.doc_type else None,
-                                "name": i_p.doc_type.name if i_p.doc_type else None}
-            item["direction"] = {"direction_id": i_p.direction.direction_id if i_p.direction else None,
-                                 "name": i_p.direction.name if i_p.direction else None}
-            item["start_date"] = date_converter(i_p.start_date)
-            item["public_date"] = date_converter(i_p.public_date)
-            item["end_date"] = date_converter(i_p.end_date)
 
-            item["authors"] = [{"author_id": a.author_id,
-                                "name": str(a)}
-                               for a in i_p.authors.all()]
-            item["tags"] = [{"tag_id": t.tag_id,
-                             "name": t.name}
-                            for t in i_p.tags.all()]
-            items.append(item)
-
+        items = IntellectualProperty.prepare_response(intellectual_properties)
         if items:
             return HttpResponse(json.dumps({"items": items, "total": total}), content_type="application/json")
         else:
@@ -556,31 +591,9 @@ class IntellectualProperty():
 
         new_intellectual_property.tags.add(*tags)
 
-        doc_type = {
-            "doc_type_id": doc_type.doc_type_id if doc_type else "",
-            "name": doc_type.name if doc_type else ""
-        }
-        direction = {
-            "direction_id": direction.direction_id if direction else "",
-            "name": direction.name if direction else ""
-        }
+        items = IntellectualProperty.prepare_response([new_intellectual_property])
 
-        authors = [{"author_id": a.author_id,
-                    "name": "%s %s %s" % (estr(a.surname), estr(a.name), estr(a.patronymic))}
-                   for a in new_intellectual_property.authors.all()]
-        tags = [{"tag_id": t.tag_id,
-                 "name": t.name}
-                for t in new_intellectual_property.tags.all()]
-        return HttpResponse(json.dumps({"intellectual_property_id": new_intellectual_property.intellectual_property_id,
-                                        "name": new_intellectual_property.name,
-                                        "code": new_intellectual_property.code,
-                                        "doc_type": doc_type,
-                                        "start_date": date_converter(new_intellectual_property.start_date),
-                                        "public_date": date_converter(new_intellectual_property.public_date),
-                                        "end_date": date_converter(new_intellectual_property.end_date),
-                                        "direction": direction,
-                                        "authors": authors,
-                                        "tags": tags}), content_type="application/json")
+        return HttpResponse(json.dumps(items[0]), content_type="application/json")
 
     @staticmethod
     def update(request):
@@ -650,33 +663,9 @@ class IntellectualProperty():
         intellectual_property.tags.clear()
         intellectual_property.tags.add(*tags)
 
-        doc_type = {
-            "doc_type_id": doc_type.doc_type_id if doc_type else "",
-            "name": doc_type.name if doc_type else ""
-        }
-        direction = {
-            "direction_id": direction.direction_id if direction else "",
-            "name": direction.name if direction else ""
-        }
-        authors = [{"author_id": a.author_id,
-                    "name": "%s %s %s" % (estr(a.surname), estr(a.name), estr(a.patronymic))}
-                   for a in intellectual_property.authors.all()]
-        tags = [{"tag_id": t.tag_id,
-                 "name": t.name}
-                for t in intellectual_property.tags.all()]
+        items = IntellectualProperty.prepare_response([intellectual_property])
 
-        return HttpResponse(json.dumps({
-            "intellectual_property_id": intellectual_property.intellectual_property_id,
-            "name": intellectual_property.name,
-            "code": intellectual_property.code,
-            "start_date": date_converter(intellectual_property.start_date),
-            "public_date": date_converter(intellectual_property.public_date),
-            "end_date": date_converter(intellectual_property.end_date),
-            "doc_type": doc_type,
-            "direction": direction,
-            "authors": authors,
-            "tags": tags
-        }), content_type="application/json")
+        return HttpResponse(json.dumps(items[0]), content_type="application/json")
 
 
 ########################################################################################################################

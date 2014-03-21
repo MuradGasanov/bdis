@@ -38,7 +38,10 @@ class Authors(models.Model):
         ordering = ["surname"]
 
     def __unicode__(self):
-        return u'%s %s %s' % (self.surname, self.name, self.patronymic)
+        if self.patronymic:
+            return u'%s %s %s' % (self.surname, self.name, self.patronymic)
+        else:
+            return u'%s %s' % (self.surname, self.name)
 
 
 class Tags(models.Model):

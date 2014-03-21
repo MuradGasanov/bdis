@@ -226,10 +226,11 @@
                         data-text-field="name"
                         data-value-field="subdivision_id"
                         data-bind="value: subdivision, source: subdivisions"  ></select>
-                <select data-role="dropdownlist" id="city" data-cascade-from="author_subdivision" name="author_department" style="margin: 3px 0 1px; width: 100%"
+                <select data-role="dropdownlist" id="city" data-cascade-from="author_subdivision" name="author_department"
                         data-option-label="Выберите отдел..."
                         data-text-field="name"
                         data-value-field="department_id"
+                        style="margin: 3px 0 1px; width: 100%"
                         data-bind="value: department, source:departments" ></select>
             </div>
             <input type="hidden" id="is_author_edit" value="false">
