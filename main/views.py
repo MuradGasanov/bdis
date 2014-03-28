@@ -1213,4 +1213,27 @@ class Users():
             return HttpResponseForbidden()
         return HttpResponse(json.dumps({}), content_type="application/json")
 
+    @staticmethod
+    def update(r):
+        """
+        редактирование
+        """
+        item = json.loads(r.POST.get("item"))
+        user = auth_models.User.objects.get(id=int(item.get("id")))
+        if not user:
+            return HttpResponseForbidden()
+        user.first_name = item.get("first_name")
+        user.email = item.get("email")
+        password = item.get("password")
+        if password:
+            user.set_password(password)
+        user.save()
+
+        return HttpResponse(json.dumps({"id": user.id,
+                                        "first_name": user.first_name,
+                                        "username": user.username,
+                                        "email": user.email,
+                                        "is_superuser": user.is_superuser, }),
+                            content_type="application/json")
+
 ########################################################################################################################

@@ -107,8 +107,22 @@ $(document).ready(function () {
 //                        user_window.center().open();
 //                    }
 //                },
+                {   text: "Редактировать",
+                    click: function (e) {
+                        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                        $(".k-widget.k-tooltip.k-tooltip-validation.k-invalid-msg").hide();
+                        user_model.set("id", dataItem.id);
+                        user_model.set("username", dataItem.username);
+                        user_model.set("is_user_edit", true);
+                        user_model.set("password", "");
+                        user_model.set("first_name", dataItem.first_name);
+                        user_model.set("email", dataItem.email);
+                        user_model.set("is_superuser", dataItem.is_superuser);
+                        user_window.center().open();
+                    }
+                },
                 { name: "destroy", text: "Удалить" }
-            ], width: 150, attributes: { style: "text-align: center;"} }
+            ], width: 250, attributes: { style: "text-align: center;"} }
         ]
 //            save: function (e) {
 //                var new_name = e.model.name;
@@ -158,6 +172,7 @@ $(document).ready(function () {
     var user_model = kendo.observable({
         id: 0,
         username: "",
+        is_user_edit: false,
         password: "",
         first_name: "",
         email: "",
@@ -170,18 +185,33 @@ $(document).ready(function () {
             required: function (input) {
                 if (input.is("[required]")) {
                     input.val($.trim(input.val())); //удалить обертывающиепробелы
-                    return input.val() !== ""; //TODO: не чекать пасс при редктировании
+                    if (input.is("[name='password']") && user_model.get("is_user_edit") ) { //не чекать пасс при редактировании
+                        return true;
+                    }
+                    return input.val() !== "";
+                } else return true;
+            },
+            unique_username: function(input) {
+                input.val( $.trim(input.val()) );
+                var val = input.val();
+                if (input.is("[name='username']")) {
+                    var data = user_grid.dataSource.data();
+                    var is_unique = $.grep(data, function(o) {
+                        return o.username == val;
+                    });
+                    return is_unique.length == 0;
                 } else return true;
             }
         },
         messages: {
-            required: "Поле не может быть пустым"
+            required: "Поле не может быть пустым",
+            unique_username: "Такой пользователь уже существует"
         }
     }).data("kendoValidator");
 
     $(".add_user").click(function (e) {
         $(".k-widget.k-tooltip.k-tooltip-validation.k-invalid-msg").hide();
-        $("#is_user_edit").val(false);
+        user_model.set("is_user_edit", false);
         user_model.set("id", 0);
         user_model.set("username", "");
         user_model.set("password", "");
@@ -222,7 +252,7 @@ $(document).ready(function () {
     $("#user_save").click(function (e) {
         if (!user_validator.validate()) return false;
         var send = {
-            id: user_model.get("subdivision_id"),
+            id: user_model.get("id"),
             username: user_model.get("username"),
             password: user_model.get("password"),
             first_name: user_model.get("first_name"),
@@ -230,11 +260,11 @@ $(document).ready(function () {
             is_superuser: user_model.get("is_superuser")
         };
         n = noty_message(M_SAVE, false);
-        if ($("#is_user_edit").val() === "false") {
-            $.post(USERS_URL + "create/",
+        if (user_model.get("is_user_edit")) {
+            $.post(USERS_URL + "update/",
                 {item: JSON.stringify(send) }, check_users_subdivision, "json");
         } else {
-            $.post(USERS_URL + "update/",
+            $.post(USERS_URL + "create/",
                 {item: JSON.stringify(send) }, check_users_subdivision, "json");
         }
         return false;

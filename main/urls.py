@@ -64,4 +64,5 @@ urlpatterns = patterns('main.views',
                        url(r'^users/read/$', Users.read),
                        url(r'^users/create/$', Users.create),
                        url(r'^users/destroy/$', Users.destroy),
+                       url(r'^users/update/$', Users.update),
                        )
