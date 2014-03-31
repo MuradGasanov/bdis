@@ -91,7 +91,7 @@ STATIC_URL = '/static/'  # Do not forget to change the js files too ( users.js:1
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    'main/static/',
+    path(os.path.join(PROJECT_PATH, "main/static")),
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
