@@ -2,7 +2,7 @@
 {% load static from staticfiles %}
 {% block title %}БД интеллектуальной собственности{% endblock %}
 {% block style %}
-    <link rel="stylesheet" href="{% static "css/user.css" %}" >
+    <link rel="stylesheet" href="{% static "css/main.css" %}" >
 {% endblock %}
 {% block script %}
     <script src="{% static "js/kendo/kendo.web.min.js" %}"></script>
@@ -43,7 +43,7 @@
                 Добавить в каталог</span>
         </div>
         <div id="result"></div>
-        <div id="pager" class="k-pager-wrap"></div>
+        <div id="pager" ></div>
     </div>
 
     <div id="change_directory_window" style="display: none">

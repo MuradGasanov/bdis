@@ -144,3 +144,7 @@ div.file-wrapper:hover {
 .date_label:after  { content: ":"  }
 
 .date_field { font-weight: normal; }
+
+#pager.k-pager-wrap {
+    clear: inherit;
+}
