@@ -2,14 +2,20 @@
 # Django settings for bdis project.
 
 import os
+import socket
 
-DEBUG = True
+if socket.gethostname() in ("murad-pc",):
+    DEBUG = True
+else:
+    DEBUG = False
+
 TEMPLATE_DEBUG = DEBUG
 PROJECT_PATH = os.path.abspath(os.path.dirname(__name__))
+PROJECT_PARENT_PATH = os.path.dirname(PROJECT_PATH)
 
 
-def abs_path(p):
-    return os.path.join(PROJECT_PATH, p).replace('\\','/')
+def path(p):
+    return p.replace('\\','/')
 
 ADMINS = (
     ('Murad Gasanov', 'gmn1791@ya.ru'),
@@ -67,7 +73,7 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = abs_path('main/media')
+MEDIA_ROOT = path(os.path.join(PROJECT_PARENT_PATH, "bdis_static/media"))
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://example.com/media/", "http://media.example.com/"
@@ -77,7 +83,7 @@ MEDIA_URL = '/media/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = abs_path('main/static')
+STATIC_ROOT = path(os.path.join(PROJECT_PARENT_PATH, "bdis_static/static"))
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -124,7 +130,7 @@ ROOT_URLCONF = 'bdis.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'bdis.wsgi.application'
 
-TEMPLATE_DIRS = (abs_path('main/templates'),)
+TEMPLATE_DIRS = ('main/templates',)
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -137,6 +143,7 @@ INSTALLED_APPS = (
     #'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'gunicorn',
     'main',
 )
 

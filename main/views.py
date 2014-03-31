@@ -789,7 +789,7 @@ class Files():
             files = models.Files.objects.filter(
                 intellectual_property=item["intellectual_property_id"]).values_list("file")
             files = map(
-                lambda f: uni_path(os.path.join(settings.MEDIA_ROOT, f[0])),
+                lambda f: uni_path(os.path.join(settings.MEDIA_ROOT, f[0])),  # FIXME: how about flat=true ?
                 files
             )
             item["files"] = files
