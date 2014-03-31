@@ -7,7 +7,7 @@
 {% block script %}
     <script src="{% static "js/kendo/kendo.web.min.js" %}"></script>
     <script src="{% static "js/kendo/cultures/kendo.culture.ru-RU.min.js" %}"></script>
-    <script src="{% static "js/user.js" %}"></script>
+    <script src="{% static "js/main.js" %}"></script>
     <script src="{% static "js/noty/layouts/center.js" %}"></script>
     <script src="{% static "js/file_donload/jquery.fileDownload.js" %}"></script>
 {% endblock %}
@@ -151,4 +151,8 @@
             <p> #for(var i=0;i<tags.length;i++)  { #  <span class="tag">#=tags[i]#</span> # }#</p></div>
         </div>
     </script>
+{#    <script src="{% static "js/gremlins.min.js" %}"></script>#}
+{#    <script>#}
+{#        gremlins.createHorde().unleash();#}
+{#    </script>#}
 {% endblock %}

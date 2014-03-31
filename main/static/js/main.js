@@ -7,6 +7,7 @@ var API_BASE_URL = "api/";
 (function ($) {
     $(document).ready(function (e) {
         var M_LOAD = "Загрузка...",
+            SAVE_CHOICE_ON_ITEMS = false,
             VIEWER_URL = "/static/pdf.js/web/viewer.html?file=/media/",
             search_options = {
                 query: "",
@@ -204,6 +205,18 @@ var API_BASE_URL = "api/";
             requestEnd: function (e) {
                 console.log("requestEnd");
                 search_options.is_prev_request_completed = true;
+                console.log(e);
+                if (SAVE_CHOICE_ON_ITEMS) {
+                    for(var i=0; i< e.response.items.length; i++) {
+                        if (download_list.indexOf(e.response.items[i].intellectual_property_id) !== -1) {
+                            e.response.items[i].in_download_list = true;
+                        }
+                    }
+                } else {
+                    download_list = [];
+                    $download.addClass("k-state-disabled");
+                    $add_directory.addClass("k-state-disabled");
+                }
                 n.close();
             },
             pageSize: 15,
@@ -240,21 +253,21 @@ var API_BASE_URL = "api/";
             template: kendo.template($("#result_item_template").html())
         }).data("kendoListView");
 
-        function search_result_render(data) {
-            if (data.length > 0) {
-                download_list = [];
-                $download.addClass("k-state-disabled");
-                $add_directory.addClass("k-state-disabled");
-                var dataSource = new kendo.data.DataSource({
-                    data: data,
-                    pageSize: 20
-                });
-                pager.setDataSource(dataSource);
-                result.setDataSource(dataSource);
-            } else {
-                noty_error("Ваш запрос не дал результатов")
-            }
-        }
+//        function search_result_render(data) {
+//            if (data.length > 0) {
+//                download_list = [];
+//                $download.addClass("k-state-disabled");
+//                $add_directory.addClass("k-state-disabled");
+//                var dataSource = new kendo.data.DataSource({
+//                    data: data,
+//                    pageSize: 20
+//                });
+//                pager.setDataSource(dataSource);
+//                result.setDataSource(dataSource);
+//            } else {
+//                noty_error("Ваш запрос не дал результатов")
+//            }
+//        }
 
         $body.on("click", ".k-button.select-item", function(e) {
             var $this = $(this);
