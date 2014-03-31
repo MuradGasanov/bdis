@@ -787,9 +787,9 @@ class Files():
         items = list(intellectual_properties.values("intellectual_property_id", "code", "name"))
         for item in items:
             files = models.Files.objects.filter(
-                intellectual_property=item["intellectual_property_id"]).values_list("file")
+                intellectual_property=item["intellectual_property_id"]).values_list("file", flat=True)
             files = map(
-                lambda f: uni_path(os.path.join(settings.MEDIA_ROOT, f[0])),  # FIXME: how about flat=true ?
+                lambda f: uni_path(os.path.join(settings.MEDIA_ROOT, f)),
                 files
             )
             item["files"] = files
