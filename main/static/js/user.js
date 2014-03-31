@@ -7,11 +7,12 @@ var API_BASE_URL = "api/";
 (function ($) {
     $(document).ready(function (e) {
         var M_LOAD = "Загрузка...",
-            VIEWER_URL = "/static/pdf.js/web/viewer.html",
+            VIEWER_URL = "/static/pdf.js/web/viewer.html?file=/media/",
             search_options = {
                 query: "",
                 field: "",
                 type: "",
+                is_prev_request_completed: false,
                 clear: function() {
                     this.query = "";
                     this.field = "";
@@ -142,6 +143,10 @@ var API_BASE_URL = "api/";
                 loading: "Загрузка..."
             },
             select: function(e) {
+                if (!search_options.is_prev_request_completed) {
+                    e.preventDefault();
+                    return false;
+                }
                 var data_item = $(e.node).find("span.tree-item")[0];
                 data_item = $(data_item);
                 search_options.clear();
@@ -198,6 +203,7 @@ var API_BASE_URL = "api/";
             },
             requestEnd: function (e) {
                 console.log("requestEnd");
+                search_options.is_prev_request_completed = true;
                 n.close();
             },
             pageSize: 15,
@@ -510,7 +516,7 @@ var API_BASE_URL = "api/";
         $body.on("click", ".file-wrapper", function() {
             var $this = $(this);
             if ($this.data("type").toUpperCase() == ".pdf".toUpperCase()) {
-                window.open(["/static/pdf.js/web/viewer.html","?file=/media/",$this.data("file-url")].join(""),"_blank")
+                window.open([VIEWER_URL,$this.data("file-url")].join(""),"_blank")
             }
         });
 ////////////////////////////////////// СПИСОК ФАЙЛОВ\\
