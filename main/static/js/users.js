@@ -184,7 +184,7 @@ $(document).ready(function () {
         rules: {
             required: function (input) {
                 if (input.is("[required]")) {
-                    input.val($.trim(input.val())); //удалить обертывающиепробелы
+                    input.val($.trim(input.val())); //удалить обертывающие пробелы
                     if (input.is("[name='password']") && user_model.get("is_user_edit") ) { //не чекать пасс при редактировании
                         return true;
                     }

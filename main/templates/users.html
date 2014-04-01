@@ -25,7 +25,7 @@
                        data-bind="value: username, disabled: is_user_edit"/>
             </div>
             <div class="k-edit-label">
-                <label>Пароль<span class="required">*</span>:</label>
+                <label>Пароль<span class="required" data-bind="invisible: is_user_edit">*</span>:</label>
             </div>
             <div class="k-edit-field">
                 <input type="text" class="k-textbox" name="password" required placeholder="Пароль" style="width: 100%"
