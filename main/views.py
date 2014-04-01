@@ -523,13 +523,25 @@ class IntellectualProperty():
         options = None
         if "options" in request.POST:
             options = json.loads(request.POST.get("options"))
+        intellectual_properties = models.IntellectualProperty.objects.filter(user=request.user.id)
+        total = intellectual_properties.count()
         if options:
-            skip = options.get("skip", 0)
-            take = options.get("take", 0)
-            intellectual_properties = models.IntellectualProperty.objects.filter(user=request.user.id)[skip:skip + take]
-        else:
-            intellectual_properties = models.IntellectualProperty.objects.filter(user=request.user.id)
-        total = models.IntellectualProperty.objects.filter(user=request.user.id).count()
+            skip = options.get("skip", None)
+            take = options.get("take", None)
+            filters = options.get("filters", None)
+            if filters:
+
+                intellectual_properties = intellectual_properties.filter(
+                    reduce(lambda x, y: x | y, [Q(**{
+                        f.get("field", "")+"__icontains": f.get("value", "")
+                    }) for f in filters])
+                ).distinct()
+
+                total = intellectual_properties.count()
+
+                intellectual_properties = intellectual_properties[skip:skip + take]
+
+            intellectual_properties = intellectual_properties[skip:skip + take]
 
         items = IntellectualProperty.prepare_response(intellectual_properties)
         if items:

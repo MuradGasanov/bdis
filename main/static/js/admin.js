@@ -1015,15 +1015,23 @@ var API_BASE_URL = "api/",
 //                        console.log(options, operation);
                         if (operation !== "read" && options) {
                             return {item: kendo.stringify(
-                                {intellectual_property_id: options.intellectual_property_id}
+                                { intellectual_property_id: options.intellectual_property_id }
                             )};
                         } else if (operation == "read" && options) {
-                            return {options: kendo.stringify(options)};
+                            var send = {
+                                take: options.take,
+                                skip: options.skip
+                            };
+                            if (options.filter) {
+                                send.filters = options.filter.filters;
+                            }
+                            return { options: kendo.stringify(send) };
                         }
                     }
                 },
                 pageSize: 20,
                 serverPaging: true,
+                serverFiltering: true,
                 schema: {
                     data: "items",
                     total: "total",
