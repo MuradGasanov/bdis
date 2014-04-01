@@ -1031,7 +1031,7 @@ class Search():
         if result:
             return HttpResponse(json.dumps({"items": result, "total": total}), content_type="application/json")
         else:
-            return HttpResponse(json.dumps(""), content_type="application/json")
+            return HttpResponse(json.dumps({"items": [], "total": 0}), content_type="application/json")
 
     # @staticmethod
     # def search_by_author(request):

@@ -58,8 +58,8 @@ var API_BASE_URL = "api/";
             },
             dataTextField: "name",
             separator: ", ",
-            filter: "contains"
-//            placeholder: "Поиск",
+            filter: "contains",
+            placeholder: "Код, название или ключевые слова..."
         }).data("kendoAutoComplete");
         search_query.wrapper.width(310);
 
@@ -231,7 +231,7 @@ var API_BASE_URL = "api/";
             dataSource: search_data_source,
             messages: {
                 display: "Записей в списке: {2}",
-                empty: "Нет данных для отображения",
+                empty: "Нет данных для представления",
                 first: "Первая страница",
                 itemsPerPage: "записей на странице",
                 last: "Последняя страница",
@@ -250,7 +250,17 @@ var API_BASE_URL = "api/";
 
         var result = $("#result").kendoListView({
             dataSource: search_data_source,
-            template: kendo.template($("#result_item_template").html())
+            template: kendo.template($("#result_item_template").html()),
+            dataBound: function(e) {
+                if(this.dataSource.data().length == 0) {
+                    noty_error("Ваш запрос не дал результатов");
+                    $("<div/>")
+                        .attr("class", "intellectual_property_item section")
+                        .css("text-align", "center")
+                        .append("<h1>Нет данных для представления</h1>")
+                        .appendTo("#result");
+                }
+            }
         }).data("kendoListView");
 
 //        function search_result_render(data) {
