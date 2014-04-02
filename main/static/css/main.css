@@ -40,7 +40,9 @@
     cursor: pointer;
 }
 #search_tree { color: #747474; }
-
+#result {
+    margin-bottom: 10px;
+}
 .intellectual_property_item { margin: 3px; }
 .intellectual_property_item p { margin: 5px 0 5px 0; }
 .intellectual_property_item .item_code { font-weight: bold; }
