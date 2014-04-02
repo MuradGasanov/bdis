@@ -444,30 +444,29 @@ class IntellectualProperty():
         items = []
 
         for i_p in intellectual_properties:
-            i = dict()
-            i["intellectual_property_id"] = i_p.intellectual_property_id
-            i["code"] = i_p.code
-            i["name"] = i_p.name
-            i["doc_type"] = {"doc_type_id": i_p.doc_type.doc_type_id if i_p.doc_type else None,
-                             "name": i_p.doc_type.name if i_p.doc_type else None}
-            i["direction"] = {"direction_id": i_p.direction.direction_id if i_p.direction else None,
-                              "name": i_p.direction.name if i_p.direction else None}
-            i["start_date"] = date_converter(i_p.start_date)
-            i["public_date"] = date_converter(i_p.public_date)
-            i["end_date"] = date_converter(i_p.end_date)
-            i["authors"] = ", ".join([str(a) for a in i_p.authors.all()])
-            i["authors_id"] = list(i_p.authors.all().values_list("author_id", flat=True))
-            i["tags"] = ", ".join(i_p.tags.all().values_list("name", flat=True))
-            i["tags_id"] = list(i_p.tags.all().values_list("tag_id", flat=True))
-
-            items.append(i)
+            items.append({
+                "intellectual_property_id": i_p.intellectual_property_id,
+                "code": i_p.code,
+                "name": i_p.name,
+                "doc_type": {"doc_type_id": i_p.doc_type.doc_type_id if i_p.doc_type else None,
+                             "name": i_p.doc_type.name if i_p.doc_type else None},
+                "direction": {"direction_id": i_p.direction.direction_id if i_p.direction else None,
+                              "name": i_p.direction.name if i_p.direction else None},
+                "start_date": date_converter(i_p.start_date),
+                "public_date": date_converter(i_p.public_date),
+                "end_date": date_converter(i_p.end_date),
+                "authors": ", ".join([str(a) for a in i_p.authors.all()]),
+                "authors_id": list(i_p.authors.all().values_list("author_id", flat=True)),
+                "tags": ", ".join(i_p.tags.all().values_list("name", flat=True)),
+                "tags_id": list(i_p.tags.all().values_list("tag_id", flat=True))
+            })
 
         return items
 
     @staticmethod
     def read(request):
         """
-        вывод спсика интеллектуальной собственнсоть
+        вывод списка интеллектуальной собственности
         """
         # intellectual_properties = list(
         #     models.IntellectualProperty.objects.all().
