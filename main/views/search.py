@@ -109,49 +109,19 @@ class Search():
         """
         Подсказки для поиска
         """
-        # f = json.loads(request.POST.get("filter"))
-        # f = f.upper()
-        # items = list(
-        #     models.IntellectualProperty.objects.all().filter(name__icontains=f).
-        #     values("intellectual_property_id", "name")
-        # )
-        # authors = list(
-        #     models.Authors.objects.all().filter(
-        #         Q(surname__icontains=f) | Q(name__icontains=f) | Q(patronymic__icontains=f)).
-        #     values("author_id", "name", "surname", "patronymic")
-        # )
-        # items += [{"author_id": a["author_id"],
-        #            "name": "%s %s %s" % (estr(a["surname"]), estr(a["name"]), estr(a["patronymic"]))}
-        #
-        #           for a in authors]
-        # items += list(
-        #     models.Tags.objects.all().filter(name__icontains=f).
-        #     values("tag_id", "name")
-        # )
-        # items += list(
-        #     models.Directions.objects.all().filter(name__icontains=f).
-        #     values("direction_id", "name")
-        # )
         items = list(
-            models.IntellectualProperty.objects.all().
-            values("intellectual_property_id", "name"))
+            models.IntellectualProperty.objects.
+            values("name").order_by().distinct())
         items.extend(list(
             models.IntellectualProperty.objects.
             extra(select={'name': 'code'}).
-            values("intellectual_property_id", "name")))
-        # authors = list(
-        #     models.Authors.objects.all().
-        #     values("author_id", "name", "surname", "patronymic")
-        # )
-        # items += [{"author_id": a["author_id"],
-        #            "name": "%s %s %s" % (estr(a["surname"]), estr(a["name"]), estr(a["patronymic"]))}
-        #           for a in authors]
+            values("name").order_by().distinct()))
         items.extend(list(
-            models.Tags.objects.all().
-            values("tag_id", "name")))
+            models.Tags.objects.
+            values("name").order_by().distinct()))
         items.extend(list(
-            models.Directions.objects.all().
-            values("direction_id", "name")))
+            models.Directions.objects.
+            values("name").order_by().distinct()))
         return HttpResponse(json.dumps(items), content_type="application/json")
 
     @staticmethod
