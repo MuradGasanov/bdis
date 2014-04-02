@@ -532,7 +532,7 @@ class IntellectualProperty():
             if filters:
 
                 intellectual_properties = intellectual_properties.filter(
-                    reduce(lambda x, y: x | y, [Q(**{
+                    reduce(lambda x, y: x & y, [Q(**{
                         f.get("field", "")+"__icontains": f.get("value", "")
                     }) for f in filters])
                 ).distinct()
@@ -547,7 +547,7 @@ class IntellectualProperty():
         if items:
             return HttpResponse(json.dumps({"items": items, "total": total}), content_type="application/json")
         else:
-            return HttpResponse(json.dumps(""), content_type="application/json")
+            return HttpResponse(json.dumps({"items": [], "total": 0}), content_type="application/json")
 
     @staticmethod
     def destroy(request):
