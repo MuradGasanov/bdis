@@ -67,6 +67,11 @@
             placeholder: "Код, название или ключевые слова..."
         }).data("kendoAutoComplete");
         search_query.wrapper.width(310);
+        search_query.element.keypress(function (e) {
+            if (e.keyCode == 13) {
+                $search.click();
+            }
+        });
 
         var doc_type = $("#doc_type").kendoDropDownList({
             dataTextField: "name",
@@ -114,11 +119,11 @@
             search_options.query = query;
             search_options.field = SEARCH_FIELDS["word"];
             search_options.type = dt;
-            pager.page(1);
             console.log(search_options);
             $.noty.closeAll();
             n = noty_seach_log();
-            result.dataSource.read();
+            pager.page(1);
+            //result.dataSource.read();
             return false;
         });
 //        $search.click();
@@ -161,11 +166,11 @@
                 search_options.query = data_item.data("id");
                 search_options.type = data_item.data("type");
                 search_options.field = SEARCH_FIELDS["author"];
-                pager.page(1);
                 console.log(search_options);
                 $.noty.closeAll();
                 n = noty_seach_log();
-                result.dataSource.read();
+                pager.page(1);
+//                result.dataSource.read();
             }
         }).data("kendoTreeView");
 ////////////////////////////////////// ПОИСК ПО АВТОРАМ\\
@@ -177,10 +182,10 @@
             search_options.clear();
             search_options.query = tag;
             search_options.field = SEARCH_FIELDS["tag"];
-            pager.page(1);
             console.log(search_options);
             n = noty_seach_log();
-            result.dataSource.read();
+            pager.page(1);
+//            result.dataSource.read();
             doc_type.value("");
             search_query.value("");
             if (!$search_by_word.is(":visible")) $search_switcher.click();
@@ -255,7 +260,6 @@
 
         ///прокрутка вверх
         pager.bind("change", function(e) {
-            console.log(e);
             $("html, body").animate({ scrollTop: "0px" }, "slow");
         });
 

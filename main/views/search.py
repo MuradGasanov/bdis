@@ -164,7 +164,7 @@ class Search():
                     authors = []
 
                 items = items.filter(authors__in=authors)
-            elif field == SEARCH_FIELDS.get("author"):
+            elif field == SEARCH_FIELDS.get("word"):
                 items_name_contains = items.filter(
                     reduce(lambda x, y: x | y, [Q(name__icontains=word) for word in query]))
 
