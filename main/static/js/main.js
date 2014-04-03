@@ -2,12 +2,11 @@
  * Created by Murad Gasanov on 04.02.14.
  */
 
-var API_BASE_URL = "api/";
-
 (function ($) {
     $(document).ready(function (e) {
         var M_LOAD = "Загрузка...",
             SAVE_CHOICE_ON_ITEMS = false,
+            API_BASE_URL = "api/",
             VIEWER_URL = "/static/pdf.js/web/viewer.html?file=/media/",
             search_options = {
                 query: "",
@@ -20,7 +19,13 @@ var API_BASE_URL = "api/";
                     this.type = "";
                 }
             },
-            n = noty_message(M_LOAD, false);
+            n = noty_message(M_LOAD, false),
+
+            SEARCH_FIELDS = {
+                author: "AUTHOR",
+                tag: "TAG",
+                word: ""
+            };
 
         var $body = $("body");
         var download_list = [], //список с id ИС для загрузки ли добавления в каталог
@@ -107,7 +112,9 @@ var API_BASE_URL = "api/";
             if (dt) { dt = parseInt(dt) } else { dt = 0 }
             search_options.clear();
             search_options.query = query;
+            search_options.field = SEARCH_FIELDS["word"];
             search_options.type = dt;
+            pager.page(1);
             console.log(search_options);
             $.noty.closeAll();
             n = noty_seach_log();
@@ -153,7 +160,8 @@ var API_BASE_URL = "api/";
                 search_options.clear();
                 search_options.query = data_item.data("id");
                 search_options.type = data_item.data("type");
-                search_options.field = "AUTHOR";
+                search_options.field = SEARCH_FIELDS["author"];
+                pager.page(1);
                 console.log(search_options);
                 $.noty.closeAll();
                 n = noty_seach_log();
@@ -168,7 +176,8 @@ var API_BASE_URL = "api/";
 //            search_query.value([tag,","].join("")); //["[",tag,"]"].join("") TODO: поиск по тегам с пробелами
             search_options.clear();
             search_options.query = tag;
-            search_options.field = "TAG";
+            search_options.field = SEARCH_FIELDS["tag"];
+            pager.page(1);
             console.log(search_options);
             n = noty_seach_log();
             result.dataSource.read();
@@ -227,6 +236,7 @@ var API_BASE_URL = "api/";
             }
         });
 
+        ///пагинатор
         var pager = $("#pager").kendoPager({
             dataSource: search_data_source,
             messages: {
@@ -243,11 +253,13 @@ var API_BASE_URL = "api/";
             }
         }).data("kendoPager");
 
+        ///прокрутка вверх
         pager.bind("change", function(e) {
             console.log(e);
             $("html, body").animate({ scrollTop: "0px" }, "slow");
         });
 
+        ///вывод результат
         var result = $("#result").kendoListView({
             dataSource: search_data_source,
             template: kendo.template($("#result_item_template").html()),
@@ -279,6 +291,7 @@ var API_BASE_URL = "api/";
 //            }
 //        }
 
+        ///клик по "Выбрать"
         $body.on("click", ".k-button.select-item", function(e) {
             var $this = $(this);
             var id = $this.data("id");
@@ -552,4 +565,4 @@ var API_BASE_URL = "api/";
         });
 
     });
-})(jQuery)
+})(jQuery);

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.shortcuts import HttpResponse
+from django.http import HttpResponseForbidden
 import main.models as models
 import json
 from main.additionally.common import *
@@ -129,6 +130,12 @@ class Search():
         """
         Поиск по ИС
         """
+        SEARCH_FIELDS = {
+            "author": "AUTHOR",
+            "tag": "TAG",
+            "word": ""
+        }
+
         options = json.loads(request.POST.get("options"))
         type = options.get("type", "")
         take = options.get("take", 0)
@@ -143,10 +150,10 @@ class Search():
             items = models.IntellectualProperty.objects.all()
 
         if query:
-            if field == "TAG":
+            if field == SEARCH_FIELDS.get("tag"):
                 tags = models.Tags.objects.filter(name__icontains=query)
                 items = items.filter(tags__in=tags).distinct()
-            elif field == "AUTHOR":
+            elif field == SEARCH_FIELDS.get("author"):
                 if type == "subdivision":
                     authors = models.Authors.objects.filter(department__subdivision=query)
                 elif type == "department":
@@ -157,7 +164,7 @@ class Search():
                     authors = []
 
                 items = items.filter(authors__in=authors)
-            else:
+            elif field == SEARCH_FIELDS.get("author"):
                 items_name_contains = items.filter(
                     reduce(lambda x, y: x | y, [Q(name__icontains=word) for word in query]))
 
@@ -173,6 +180,8 @@ class Search():
 
                 items = list(set(
                     chain(items_name_contains, items_code_contains, direction_contains, tags_contains)))
+            else:
+                return HttpResponseForbidden()
 
         result = []
         total = len(items)
