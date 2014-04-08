@@ -96,7 +96,7 @@ class IntellectualProperty():
         options = None
         if "options" in request.POST:
             options = json.loads(request.POST.get("options"))
-        intellectual_properties = models.IntellectualProperty.objects.filter(user=request.user.id)
+        intellectual_properties = models.IntellectualProperty.objects.filter(user=request.user.id, is_active=True)
         total = intellectual_properties.count()
         if options:
             skip = options.get("skip", None)
@@ -128,8 +128,12 @@ class IntellectualProperty():
         удаление интеллектуальной собственнсоти
         """
         item = json.loads(request.POST.get("item"))
-        models.IntellectualProperty.objects.get(
-            intellectual_property_id=int(item["intellectual_property_id"])).delete()
+        # models.IntellectualProperty.objects.get(
+        #     intellectual_property_id=int(item["intellectual_property_id"])).delete()
+        ip = models.IntellectualProperty.objects.get(
+            intellectual_property_id=int(item["intellectual_property_id"]))
+        ip.is_active = False
+        ip.save()
         return HttpResponse(json.dumps({}), content_type="application/json")
 
     @staticmethod
@@ -166,6 +170,7 @@ class IntellectualProperty():
         new_intellectual_property = models.IntellectualProperty.objects.create(
             name=item["name"],
             code=item["code"],
+            is_active=True,
             start_date=date_parser(item["start_date"]),
             public_date=date_parser(item["public_date"]),
             end_date=date_parser(item["end_date"]),

@@ -13,6 +13,7 @@ class Subdivision(models.Model):
     name = models.CharField(max_length=300, null=True)
     tel = models.CharField(max_length=100, null=False)
     user = models.ForeignKey(User, null=True)
+    is_active = models.BooleanField(default=True)
 
 
 class Department(models.Model):
@@ -33,6 +34,7 @@ class Authors(models.Model):
     post = models.CharField(max_length=200, null=True)
     department = models.ForeignKey(Department, null=True, on_delete=models.SET_NULL)
     user = models.ForeignKey(User, null=True)
+    is_active = models.BooleanField(default=True)
 
     class Meta:
         ordering = ["surname"]
@@ -71,6 +73,7 @@ class IntellectualProperty(models.Model):
     authors = models.ManyToManyField(Authors, null=True)
     tags = models.ManyToManyField(Tags, null=True)
     user = models.ForeignKey(User, null=True)
+    is_active = models.BooleanField(default=True)
 
     class Meta:
         ordering = ["-intellectual_property_id"]

@@ -17,7 +17,7 @@ class Subdivision():
         вывод списка подразделений
         """
         subdivisions = list(models.Subdivision.objects
-                            .filter(user=request.user.id)
+                            .filter(user=request.user.id, is_active=True)
                             .values("subdivision_id", "name", "tel"))
         return HttpResponse(json.dumps(subdivisions), content_type="application/json")
 
@@ -27,7 +27,9 @@ class Subdivision():
         удаление подразделений
         """
         item = json.loads(request.POST.get("item"))
-        models.Subdivision.objects.get(subdivision_id=int(item["subdivision_id"])).delete()
+        subdivision = models.Subdivision.objects.get(subdivision_id=int(item["subdivision_id"]))
+        subdivision.is_active = False
+        subdivision.save()
         return HttpResponse(json.dumps({}), content_type="application/json")
 
     @staticmethod
@@ -39,6 +41,7 @@ class Subdivision():
         new_subdivision = models.Subdivision.objects.create(
             name=item["name"],
             tel=item["tel"],
+            is_active=True,
             user=request.user)
         return HttpResponse(json.dumps({"subdivision_id": new_subdivision.subdivision_id,
                                         "name": new_subdivision.name,

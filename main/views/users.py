@@ -3,6 +3,7 @@
 from django.shortcuts import HttpResponse
 from django.http import HttpResponseForbidden
 from django.contrib.auth import models as auth_models
+import main.models as models
 import json
 
 __author__ = 'murad'
@@ -55,6 +56,7 @@ class Users():
         """
         item = json.loads(r.POST.get("item"))
         user = auth_models.User.objects.get(id=int(item.get("id")))
+        models.IntellectualProperty.objects.filter(user=user.id).update(is_active=False)
         if user:
             user.is_active = False
             user.username += "_deleted"

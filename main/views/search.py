@@ -21,12 +21,12 @@ class Search():
         Данные для отображения в дереве
         """
         author_subdivisions = list(
-            models.Authors.objects.exclude(department__isnull=True)
+            models.Authors.objects.exclude(department__isnull=True).filter(is_active=True)
             .values("author_id", "name", "surname", "patronymic",
                     "department", "department__name",
                     "department__subdivision", "department__subdivision__name"))
         authors = list(
-            models.Authors.objects.filter(department__isnull=True)
+            models.Authors.objects.filter(department__isnull=True, is_active=True)
             .values("author_id", "name", "surname", "patronymic", ))
         for author in authors:
             author.update({
@@ -111,10 +111,10 @@ class Search():
         Подсказки для поиска
         """
         items = list(
-            models.IntellectualProperty.objects.
+            models.IntellectualProperty.objects.filter(is_active=True).
             values("name").order_by().distinct())
         items.extend(list(
-            models.IntellectualProperty.objects.
+            models.IntellectualProperty.objects.filter(is_active=True).
             extra(select={'name': 'code'}).
             values("name").order_by().distinct()))
         items.extend(list(
@@ -145,9 +145,9 @@ class Search():
         field = options.get("field", "")
 
         if type and field == "":
-            items = models.IntellectualProperty.objects.filter(doc_type=type)
+            items = models.IntellectualProperty.objects.filter(doc_type=type, is_active=True)
         else:
-            items = models.IntellectualProperty.objects.all()
+            items = models.IntellectualProperty.objects.filter(is_active=True)
 
         if query:
             if field == SEARCH_FIELDS.get("tag"):

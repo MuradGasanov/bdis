@@ -38,10 +38,10 @@ class Authors():
         """
         authors = list(
             models.Authors.objects
-            .filter(user=request.user.id)
+            .filter(user=request.user.id, is_active=True)
         )
         items = list()
-        for author in authors:
+        for author in authors:  # FIXME: do refactor here
             item = {
                 "author_id": author.author_id,
                 "name": author.name,
@@ -68,7 +68,9 @@ class Authors():
         удаление автора
         """
         item = json.loads(request.POST.get("item"))
-        models.Authors.objects.get(author_id=int(item["author_id"])).delete()
+        author = models.Authors.objects.get(author_id=int(item["author_id"]))
+        author.is_active = False
+        author.save()
         return HttpResponse(json.dumps({}), content_type="application/json")
 
     @staticmethod
@@ -84,6 +86,7 @@ class Authors():
         new_author = models.Authors.objects.create(
             name=item["name"],
             surname=item["surname"],
+            is_active=True,
             patronymic=item["patronymic"],
             tel=item["tel"],
             mail=item["mail"],

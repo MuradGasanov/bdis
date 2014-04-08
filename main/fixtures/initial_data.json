@@ -3242,7 +3242,8 @@
 {
     "pk": 3, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0413\u0430\u043d\u0430\u043f\u0438", 
         "department": null, 
@@ -3256,7 +3257,8 @@
 {
     "pk": 5, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0422\u0430\u0433\u0438\u0440", 
         "department": null, 
@@ -3270,7 +3272,8 @@
 {
     "pk": 6, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u041e\u043b\u0435\u0433", 
         "department": null, 
@@ -3284,7 +3287,8 @@
 {
     "pk": 7, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0428\u0438\u0440\u0430\u043b\u0438", 
         "department": null, 
@@ -3298,7 +3302,8 @@
 {
     "pk": 8, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0413\u0430\u0440\u0443\u043d", 
         "department": null, 
@@ -3312,7 +3317,8 @@
 {
     "pk": 9, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0425\u0430\u0434\u0436\u0438\u043c\u0443\u0440\u0430\u0442", 
         "department": null, 
@@ -3326,7 +3332,8 @@
 {
     "pk": 10, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0428", 
         "department": null, 
@@ -3340,7 +3347,8 @@
 {
     "pk": 11, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0422", 
         "department": null, 
@@ -3354,7 +3362,8 @@
 {
     "pk": 12, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0410.-\u0413.", 
         "department": null, 
@@ -3368,7 +3377,8 @@
 {
     "pk": 13, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u041c.", 
         "department": null, 
@@ -3382,7 +3392,8 @@
 {
     "pk": 14, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u041c.", 
         "department": null, 
@@ -3396,7 +3407,8 @@
 {
     "pk": 15, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u041a.", 
         "department": null, 
@@ -3410,7 +3422,8 @@
 {
     "pk": 16, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0410\u0431\u0434\u0435\u043b\u044c\u043a\u0430\u0434\u0435\u0440", 
         "department": null, 
@@ -3424,7 +3437,8 @@
 {
     "pk": 17, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0414.", 
         "department": null, 
@@ -3438,7 +3452,8 @@
 {
     "pk": 18, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u041e.", 
         "department": null, 
@@ -3452,7 +3467,8 @@
 {
     "pk": 19, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0410.", 
         "department": null, 
@@ -3466,7 +3482,8 @@
 {
     "pk": 20, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u041c\u0430\u0434\u0438\u043d\u0430", 
         "department": null, 
@@ -3480,7 +3497,8 @@
 {
     "pk": 23, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0421\u043e\u043b\u0442\u0430\u043d\u0430\u0442", 
         "department": null, 
@@ -3494,7 +3512,8 @@
 {
     "pk": 24, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0422\u0438\u043c\u0443\u0440", 
         "department": null, 
@@ -3508,7 +3527,8 @@
 {
     "pk": 25, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0422\u0438\u043c\u0443\u0440", 
         "department": null, 
@@ -3522,7 +3542,8 @@
 {
     "pk": 26, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u041c\u0438\u043a\u0430\u0438\u043b", 
         "department": null, 
@@ -3536,7 +3557,8 @@
 {
     "pk": 27, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u041d\u0438\u043a\u043e\u043b\u0430\u0439", 
         "department": null, 
@@ -3550,7 +3572,8 @@
 {
     "pk": 28, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0418\u0440\u0438\u043d\u0430", 
         "department": null, 
@@ -3564,7 +3587,8 @@
 {
     "pk": 29, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0422\u0430\u0434\u0436\u0438\u0434\u0438\u043d", 
         "department": null, 
@@ -3578,7 +3602,8 @@
 {
     "pk": 30, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u041a\u0435\u0440\u0438\u043c", 
         "department": null, 
@@ -3592,7 +3617,8 @@
 {
     "pk": 31, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0422\u0430\u043c\u0438\u043b\u0430", 
         "department": null, 
@@ -3606,7 +3632,8 @@
 {
     "pk": 32, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0423\u0441\u043c\u0430\u043d", 
         "department": null, 
@@ -3620,7 +3647,8 @@
 {
     "pk": 33, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0420\u0430\u0434\u0438\u043c", 
         "department": null, 
@@ -3634,7 +3662,8 @@
 {
     "pk": 34, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0410\u0440\u0438\u0444", 
         "department": null, 
@@ -3648,7 +3677,8 @@
 {
     "pk": 35, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0410\u043b\u0435\u043a\u0441\u0430\u043d\u0434\u0440", 
         "department": null, 
@@ -3662,7 +3692,8 @@
 {
     "pk": 36, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0418\u043b\u044c\u0434\u0430\u0440", 
         "department": null, 
@@ -3676,7 +3707,8 @@
 {
     "pk": 37, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0422\u0430\u043c\u0438\u043b\u0430", 
         "department": null, 
@@ -3690,7 +3722,8 @@
 {
     "pk": 38, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u041c\u0430\u0440\u044c\u044f\u043c", 
         "department": null, 
@@ -3704,7 +3737,8 @@
 {
     "pk": 39, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0414\u0435\u043d\u0438\u0441", 
         "department": null, 
@@ -3718,7 +3752,8 @@
 {
     "pk": 40, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0412\u043b\u0430\u0434\u0438\u043c\u0438\u0440", 
         "department": null, 
@@ -3732,7 +3767,8 @@
 {
     "pk": 41, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0422\u0430\u0442\u044c\u044f\u043d\u0430", 
         "department": null, 
@@ -3746,7 +3782,8 @@
 {
     "pk": 42, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0418\u0433\u0440\u0430\u043c\u0438\u0434\u0438\u043d", 
         "department": null, 
@@ -3760,7 +3797,8 @@
 {
     "pk": 43, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0410\u043b\u0438", 
         "department": null, 
@@ -3774,7 +3812,8 @@
 {
     "pk": 44, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0411\u0438\u0439\u043a\u0435", 
         "department": null, 
@@ -3788,7 +3827,8 @@
 {
     "pk": 45, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0410\u0439\u0448\u0430\u0442", 
         "department": null, 
@@ -3802,7 +3842,8 @@
 {
     "pk": 46, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0410\u0445\u043c\u0435\u0434", 
         "department": null, 
@@ -3816,7 +3857,8 @@
 {
     "pk": 47, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0422\u0443\u0440\u0430\u043d", 
         "department": null, 
@@ -3830,7 +3872,8 @@
 {
     "pk": 48, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u041c\u0443\u0440\u0430\u0434", 
         "department": null, 
@@ -3844,7 +3887,8 @@
 {
     "pk": 49, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0420\u0438\u0437\u0432\u0430\u043d", 
         "department": null, 
@@ -3858,7 +3902,8 @@
 {
     "pk": 50, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u041f\u0430\u0448\u0430\u0439", 
         "department": null, 
@@ -3872,7 +3917,8 @@
 {
     "pk": 51, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0418\u0441\u043b\u0430\u043c\u0443\u0434\u0438\u043d", 
         "department": null, 
@@ -3886,7 +3932,8 @@
 {
     "pk": 52, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0417\u0430\u0431\u0443\u0434\u0438\u043d", 
         "department": null, 
@@ -3900,7 +3947,8 @@
 {
     "pk": 53, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0414\u0436\u0430\u043c\u0438\u043b\u044f", 
         "department": null, 
@@ -3914,7 +3962,8 @@
 {
     "pk": 54, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u041c\u0443\u0440\u0430\u0434", 
         "department": null, 
@@ -3928,7 +3977,8 @@
 {
     "pk": 55, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u041c\u0443\u0440\u0442\u0443\u0437", 
         "department": null, 
@@ -3942,7 +3992,8 @@
 {
     "pk": 56, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0417.", 
         "department": null, 
@@ -3956,7 +4007,8 @@
 {
     "pk": 57, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0413\u0430\u0434\u0436\u0438\u043c\u0443\u0440\u0430\u0434", 
         "department": null, 
@@ -3970,7 +4022,8 @@
 {
     "pk": 58, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0414\u0430\u0432\u0443\u0434", 
         "department": null, 
@@ -3984,7 +4037,8 @@
 {
     "pk": 59, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u041c\u0443\u0440\u0430\u0434", 
         "department": null, 
@@ -3998,7 +4052,8 @@
 {
     "pk": 60, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0420\u0443\u0441\u0442\u0430\u043c", 
         "department": null, 
@@ -4012,7 +4067,8 @@
 {
     "pk": 61, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u041c\u0443\u0441\u043b\u0438\u043c", 
         "department": null, 
@@ -4026,7 +4082,8 @@
 {
     "pk": 62, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u041c\u0435\u0434\u0436\u0438\u0434", 
         "department": null, 
@@ -4040,7 +4097,8 @@
 {
     "pk": 63, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0420\u0435\u0432\u0448\u0430\u043d", 
         "department": null, 
@@ -4054,7 +4112,8 @@
 {
     "pk": 64, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u041c\u0430\u0433\u043e\u043c\u0435\u0434", 
         "department": null, 
@@ -4068,7 +4127,8 @@
 {
     "pk": 65, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0418\u0440\u0438\u043d\u0430", 
         "department": null, 
@@ -4082,7 +4142,8 @@
 {
     "pk": 66, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u041c\u0430\u0440\u0430\u0442", 
         "department": null, 
@@ -4096,7 +4157,8 @@
 {
     "pk": 67, 
     "model": "main.authors", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "tel": "", 
         "name": "\u0410\u0440\u0438\u043f", 
         "department": null, 
@@ -4110,7 +4172,8 @@
 {
     "pk": 6, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 85619 U1", 
@@ -4128,7 +4191,8 @@
 {
     "pk": 7, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 86505 U1", 
@@ -4146,7 +4210,8 @@
 {
     "pk": 8, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 91384 U1", 
@@ -4164,7 +4229,8 @@
 {
     "pk": 9, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 94561 U1", 
@@ -4182,7 +4248,8 @@
 {
     "pk": 10, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 95278 U1", 
@@ -4200,7 +4267,8 @@
 {
     "pk": 11, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2198419 C1", 
@@ -4220,7 +4288,8 @@
 {
     "pk": 12, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2199696 C2", 
@@ -4241,7 +4310,8 @@
 {
     "pk": 13, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2199777 C2", 
@@ -4262,7 +4332,8 @@
 {
     "pk": 14, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2203523 C2", 
@@ -4283,7 +4354,8 @@
 {
     "pk": 15, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2214151 C2", 
@@ -4306,7 +4378,8 @@
 {
     "pk": 16, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2215270 C1", 
@@ -4327,7 +4400,8 @@
 {
     "pk": 17, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2215272 C1", 
@@ -4348,7 +4422,8 @@
 {
     "pk": 18, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2220649 C2", 
@@ -4369,7 +4444,8 @@
 {
     "pk": 19, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2225843 C1", 
@@ -4391,7 +4467,8 @@
 {
     "pk": 20, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2233569 \u04212", 
@@ -4412,7 +4489,8 @@
 {
     "pk": 21, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2234639 \u04212", 
@@ -4433,7 +4511,8 @@
 {
     "pk": 22, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2234907 C2", 
@@ -4452,7 +4531,8 @@
 {
     "pk": 23, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2236034 \u04212", 
@@ -4473,7 +4553,8 @@
 {
     "pk": 24, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2236096 \u04212", 
@@ -4494,7 +4575,8 @@
 {
     "pk": 25, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2236097 \u04212", 
@@ -4515,7 +4597,8 @@
 {
     "pk": 26, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2236098 \u04212", 
@@ -4536,7 +4619,8 @@
 {
     "pk": 27, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2236100 \u04212", 
@@ -4557,7 +4641,8 @@
 {
     "pk": 28, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2245693 \u04212", 
@@ -4578,7 +4663,8 @@
 {
     "pk": 29, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2245694 \u04212", 
@@ -4600,7 +4686,8 @@
 {
     "pk": 30, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2245967 \u04212", 
@@ -4622,7 +4709,8 @@
 {
     "pk": 31, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2246919 \u04212", 
@@ -4643,7 +4731,8 @@
 {
     "pk": 34, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2247896 C2", 
@@ -4664,7 +4753,8 @@
 {
     "pk": 35, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2256946 C2", 
@@ -4686,7 +4776,8 @@
 {
     "pk": 36, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2257606 C2", 
@@ -4706,7 +4797,8 @@
 {
     "pk": 37, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2257691 C2", 
@@ -4727,7 +4819,8 @@
 {
     "pk": 38, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2269183 C2", 
@@ -4748,7 +4841,8 @@
 {
     "pk": 39, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2269184 C2", 
@@ -4769,7 +4863,8 @@
 {
     "pk": 40, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2270495 C2", 
@@ -4789,7 +4884,8 @@
 {
     "pk": 41, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2280919 C2", 
@@ -4809,7 +4905,8 @@
 {
     "pk": 42, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2280920 C2", 
@@ -4829,7 +4926,8 @@
 {
     "pk": 43, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2280921 C2", 
@@ -4849,7 +4947,8 @@
 {
     "pk": 44, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2280922 C2", 
@@ -4869,7 +4968,8 @@
 {
     "pk": 45, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2282273 C2", 
@@ -4889,7 +4989,8 @@
 {
     "pk": 46, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2282274 C2", 
@@ -4909,7 +5010,8 @@
 {
     "pk": 47, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2282275 C2", 
@@ -4929,7 +5031,8 @@
 {
     "pk": 48, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2282276 C2", 
@@ -4951,7 +5054,8 @@
 {
     "pk": 49, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2282277 C2 ", 
@@ -4971,7 +5075,8 @@
 {
     "pk": 50, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2282278 C2", 
@@ -4991,7 +5096,8 @@
 {
     "pk": 51, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2282279 C2", 
@@ -5011,7 +5117,8 @@
 {
     "pk": 52, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2282280 C2", 
@@ -5031,7 +5138,8 @@
 {
     "pk": 53, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2288069 C2", 
@@ -5053,7 +5161,8 @@
 {
     "pk": 54, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2288555 C2", 
@@ -5075,7 +5184,8 @@
 {
     "pk": 55, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2289869 C2", 
@@ -5095,7 +5205,8 @@
 {
     "pk": 56, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2290161 C2", 
@@ -5117,7 +5228,8 @@
 {
     "pk": 57, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2290166 C2", 
@@ -5138,7 +5250,8 @@
 {
     "pk": 58, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2299711 C2", 
@@ -5159,7 +5272,8 @@
 {
     "pk": 59, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2299722 C2", 
@@ -5180,7 +5294,8 @@
 {
     "pk": 60, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2310901 C2", 
@@ -5200,7 +5315,8 @@
 {
     "pk": 61, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2311556 C2", 
@@ -5219,7 +5335,8 @@
 {
     "pk": 65, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2312427 C2", 
@@ -5240,7 +5357,8 @@
 {
     "pk": 66, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2312428", 
@@ -5260,7 +5378,8 @@
 {
     "pk": 67, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2312647 C2", 
@@ -5281,7 +5400,8 @@
 {
     "pk": 68, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2312655 C2", 
@@ -5302,7 +5422,8 @@
 {
     "pk": 69, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2313741 C2", 
@@ -5323,7 +5444,8 @@
 {
     "pk": 70, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2313771 C1", 
@@ -5344,7 +5466,8 @@
 {
     "pk": 71, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2314242 C2", 
@@ -5366,7 +5489,8 @@
 {
     "pk": 72, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2314663 C2", 
@@ -5387,7 +5511,8 @@
 {
     "pk": 73, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2315002 C2", 
@@ -5408,7 +5533,8 @@
 {
     "pk": 74, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2315249 C2", 
@@ -5429,7 +5555,8 @@
 {
     "pk": 75, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2315267 C1", 
@@ -5450,7 +5577,8 @@
 {
     "pk": 76, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2317928 C2", 
@@ -5470,7 +5598,8 @@
 {
     "pk": 77, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2319326 C2", 
@@ -5491,7 +5620,8 @@
 {
     "pk": 78, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2320474 C2", 
@@ -5511,7 +5641,8 @@
 {
     "pk": 79, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2320475 C2", 
@@ -5531,7 +5662,8 @@
 {
     "pk": 80, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2324309 C1", 
@@ -5551,7 +5683,8 @@
 {
     "pk": 81, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2326625 C2", 
@@ -5572,7 +5705,8 @@
 {
     "pk": 82, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2326627 C2", 
@@ -5593,7 +5727,8 @@
 {
     "pk": 83, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2326628 C2", 
@@ -5615,7 +5750,8 @@
 {
     "pk": 84, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2326643 C2", 
@@ -5636,7 +5772,8 @@
 {
     "pk": 85, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2326645 C2", 
@@ -5658,7 +5795,8 @@
 {
     "pk": 86, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2326796 C1", 
@@ -5677,7 +5815,8 @@
 {
     "pk": 87, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2327086 C1", 
@@ -5697,7 +5836,8 @@
 {
     "pk": 88, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2328198 C2", 
@@ -5719,7 +5859,8 @@
 {
     "pk": 89, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2331561 C2", 
@@ -5741,7 +5882,8 @@
 {
     "pk": 90, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2331854 C2", 
@@ -5762,7 +5904,8 @@
 {
     "pk": 91, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2405230 C1", 
@@ -5784,7 +5927,8 @@
 {
     "pk": 92, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2406944 C1", 
@@ -5802,7 +5946,8 @@
 {
     "pk": 93, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2407111 C1", 
@@ -5821,7 +5966,8 @@
 {
     "pk": 94, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2415660 C2", 
@@ -5842,7 +5988,8 @@
 {
     "pk": 95, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2416769 C2", 
@@ -5863,7 +6010,8 @@
 {
     "pk": 96, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2416895 C2", 
@@ -5883,7 +6031,8 @@
 {
     "pk": 97, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2417356 C2", 
@@ -5905,7 +6054,8 @@
 {
     "pk": 98, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2417484 C2", 
@@ -5925,7 +6075,8 @@
 {
     "pk": 99, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2419175 C2", 
@@ -5946,7 +6097,8 @@
 {
     "pk": 100, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2419181 C2", 
@@ -5965,7 +6117,8 @@
 {
     "pk": 101, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2448757 C2", 
@@ -5984,7 +6137,8 @@
 {
     "pk": 102, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2448909 C2", 
@@ -6004,7 +6158,8 @@
 {
     "pk": 103, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2448911 C2", 
@@ -6022,7 +6177,8 @@
 {
     "pk": 104, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2449161 C2", 
@@ -6044,7 +6200,8 @@
 {
     "pk": 105, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2449207 C2", 
@@ -6062,7 +6219,8 @@
 {
     "pk": 106, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2449208 C2", 
@@ -6080,7 +6238,8 @@
 {
     "pk": 107, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2449347 C2", 
@@ -6099,7 +6258,8 @@
 {
     "pk": 108, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2449413 C2", 
@@ -6120,7 +6280,8 @@
 {
     "pk": 109, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2449414 C2", 
@@ -6141,7 +6302,8 @@
 {
     "pk": 110, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2449417 C2", 
@@ -6163,7 +6325,8 @@
 {
     "pk": 111, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2450216 C2", 
@@ -6183,7 +6346,8 @@
 {
     "pk": 112, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2459610 C2", 
@@ -6203,7 +6367,8 @@
 {
     "pk": 113, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2006119699", 
@@ -6224,7 +6389,8 @@
 {
     "pk": 114, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2009124733", 
@@ -6244,7 +6410,8 @@
 {
     "pk": 115, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2009124765", 
@@ -6265,7 +6432,8 @@
 {
     "pk": 116, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2009149621", 
@@ -6285,7 +6453,8 @@
 {
     "pk": 117, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2009149623", 
@@ -6305,7 +6474,8 @@
 {
     "pk": 118, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2009616143", 
@@ -6324,7 +6494,8 @@
 {
     "pk": 119, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2010100032", 
@@ -6344,7 +6515,8 @@
 {
     "pk": 120, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2010100033", 
@@ -6364,7 +6536,8 @@
 {
     "pk": 121, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2010100034", 
@@ -6384,7 +6557,8 @@
 {
     "pk": 122, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2010100035", 
@@ -6405,7 +6579,8 @@
 {
     "pk": 123, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2010102444", 
@@ -6425,7 +6600,8 @@
 {
     "pk": 124, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2012102167", 
@@ -6446,7 +6622,8 @@
 {
     "pk": 128, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2315195 C2", 
@@ -6462,7 +6639,8 @@
 {
     "pk": 135, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2331855 C2", 
@@ -6484,7 +6662,8 @@
 {
     "pk": 138, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2331915 C2", 
@@ -6503,7 +6682,8 @@
 {
     "pk": 139, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2332164 C2", 
@@ -6525,7 +6705,8 @@
 {
     "pk": 140, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2332197 C2", 
@@ -6545,7 +6726,8 @@
 {
     "pk": 141, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2332614 C2", 
@@ -6566,7 +6748,8 @@
 {
     "pk": 142, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2333876 C1", 
@@ -6586,7 +6769,8 @@
 {
     "pk": 143, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2334380 C1", 
@@ -6606,7 +6790,8 @@
 {
     "pk": 144, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2334381 C1", 
@@ -6627,7 +6812,8 @@
 {
     "pk": 145, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2334501 C1", 
@@ -6647,7 +6833,8 @@
 {
     "pk": 146, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2335036 C2", 
@@ -6668,7 +6855,8 @@
 {
     "pk": 147, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2335103 C1", 
@@ -6690,7 +6878,8 @@
 {
     "pk": 148, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2335726 C1", 
@@ -6708,7 +6897,8 @@
 {
     "pk": 149, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2335825 C1", 
@@ -6728,7 +6918,8 @@
 {
     "pk": 150, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2337886 C1", 
@@ -6746,7 +6937,8 @@
 {
     "pk": 151, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2338298 C1", 
@@ -6766,7 +6958,8 @@
 {
     "pk": 152, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2338299 C1", 
@@ -6786,7 +6979,8 @@
 {
     "pk": 153, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2338300 C1", 
@@ -6806,7 +7000,8 @@
 {
     "pk": 154, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2338345 C1", 
@@ -6827,7 +7022,8 @@
 {
     "pk": 155, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2338482 C1", 
@@ -6848,7 +7044,8 @@
 {
     "pk": 156, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2341586 C2", 
@@ -6870,7 +7067,8 @@
 {
     "pk": 157, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "2341737", 
@@ -6886,7 +7084,8 @@
 {
     "pk": 158, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "2341833", 
@@ -6902,7 +7101,8 @@
 {
     "pk": 159, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "2341849", 
@@ -6918,7 +7118,8 @@
 {
     "pk": 160, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2343368 C1", 
@@ -6936,7 +7137,8 @@
 {
     "pk": 161, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2343882 C2", 
@@ -6957,7 +7159,8 @@
 {
     "pk": 162, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2343899 C2", 
@@ -6977,7 +7180,8 @@
 {
     "pk": 163, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2344338 C1", 
@@ -6995,7 +7199,8 @@
 {
     "pk": 164, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2345958 C1", 
@@ -7013,7 +7218,8 @@
 {
     "pk": 165, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2349855 C1", 
@@ -7031,7 +7237,8 @@
 {
     "pk": 166, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2350879 C1", 
@@ -7049,7 +7256,8 @@
 {
     "pk": 167, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2351104 C1", 
@@ -7069,7 +7277,8 @@
 {
     "pk": 168, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2351105 C1", 
@@ -7089,7 +7298,8 @@
 {
     "pk": 169, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2352978 C1", 
@@ -7110,7 +7320,8 @@
 {
     "pk": 170, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2355356 C2", 
@@ -7132,7 +7343,8 @@
 {
     "pk": 171, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2357277 C2", 
@@ -7152,7 +7364,8 @@
 {
     "pk": 172, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2357320 C2", 
@@ -7173,7 +7386,8 @@
 {
     "pk": 173, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2357327 C1", 
@@ -7193,7 +7407,8 @@
 {
     "pk": 174, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2357328 C1", 
@@ -7213,7 +7428,8 @@
 {
     "pk": 175, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2357330 C1", 
@@ -7233,7 +7449,8 @@
 {
     "pk": 176, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2357930 C1", 
@@ -7251,7 +7468,8 @@
 {
     "pk": 177, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2359192 C1", 
@@ -7269,7 +7487,8 @@
 {
     "pk": 178, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2360380 C1", 
@@ -7290,7 +7509,8 @@
 {
     "pk": 179, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2360803 C2", 
@@ -7311,7 +7531,8 @@
 {
     "pk": 180, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2361548 C2", 
@@ -7332,7 +7553,8 @@
 {
     "pk": 181, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2361570 C2", 
@@ -7353,7 +7575,8 @@
 {
     "pk": 182, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2365071 C1", 
@@ -7374,7 +7597,8 @@
 {
     "pk": 183, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2365072 C1", 
@@ -7395,7 +7619,8 @@
 {
     "pk": 184, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2366127 C1", 
@@ -7415,7 +7640,8 @@
 {
     "pk": 185, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2366128 C1", 
@@ -7436,7 +7662,8 @@
 {
     "pk": 186, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2366129 C1", 
@@ -7456,7 +7683,8 @@
 {
     "pk": 187, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2366130 C1", 
@@ -7477,7 +7705,8 @@
 {
     "pk": 188, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2366401 C2", 
@@ -7498,7 +7727,8 @@
 {
     "pk": 189, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2366830 C2", 
@@ -7518,7 +7748,8 @@
 {
     "pk": 190, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2367801 C2", 
@@ -7538,7 +7769,8 @@
 {
     "pk": 191, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2368877 C2", 
@@ -7559,7 +7791,8 @@
 {
     "pk": 192, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2368878 C2", 
@@ -7580,7 +7813,8 @@
 {
     "pk": 193, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2369452 C1", 
@@ -7598,7 +7832,8 @@
 {
     "pk": 194, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2369894 C2", 
@@ -7619,7 +7854,8 @@
 {
     "pk": 195, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2372564 C1", 
@@ -7637,7 +7873,8 @@
 {
     "pk": 196, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "2372613", 
@@ -7653,7 +7890,8 @@
 {
     "pk": 197, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2372757 C2", 
@@ -7672,7 +7910,8 @@
 {
     "pk": 198, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2373903 C2", 
@@ -7693,7 +7932,8 @@
 {
     "pk": 199, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2373919 C2", 
@@ -7712,7 +7952,8 @@
 {
     "pk": 200, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2374985 C2", 
@@ -7732,7 +7973,8 @@
 {
     "pk": 201, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2376004 C1", 
@@ -7751,7 +7993,8 @@
 {
     "pk": 202, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "2376682", 
@@ -7767,7 +8010,8 @@
 {
     "pk": 203, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2376683 C1", 
@@ -7788,7 +8032,8 @@
 {
     "pk": 204, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2376684 C1", 
@@ -7809,7 +8054,8 @@
 {
     "pk": 205, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2376685 C1", 
@@ -7830,7 +8076,8 @@
 {
     "pk": 206, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2377700 C1", 
@@ -7851,7 +8098,8 @@
 {
     "pk": 207, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2379788 C1", 
@@ -7872,7 +8120,8 @@
 {
     "pk": 208, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2379789 C1", 
@@ -7893,7 +8142,8 @@
 {
     "pk": 209, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2379790 C1", 
@@ -7913,7 +8163,8 @@
 {
     "pk": 210, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2379791 C1", 
@@ -7934,7 +8185,8 @@
 {
     "pk": 211, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2379792 C1", 
@@ -7955,7 +8207,8 @@
 {
     "pk": 212, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2379793 C1", 
@@ -7976,7 +8229,8 @@
 {
     "pk": 213, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2380787 C1", 
@@ -7996,7 +8250,8 @@
 {
     "pk": 214, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2380788 C1", 
@@ -8017,7 +8272,8 @@
 {
     "pk": 215, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2380789 C1", 
@@ -8038,7 +8294,8 @@
 {
     "pk": 216, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2382621 C1", 
@@ -8059,7 +8316,8 @@
 {
     "pk": 217, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2383084 C1", 
@@ -8082,7 +8340,8 @@
 {
     "pk": 218, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2386124 C1", 
@@ -8102,7 +8361,8 @@
 {
     "pk": 219, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2387442 C2", 
@@ -8122,7 +8382,8 @@
 {
     "pk": 220, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2387950 C2", 
@@ -8140,7 +8401,8 @@
 {
     "pk": 221, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2396636 C2", 
@@ -8161,7 +8423,8 @@
 {
     "pk": 222, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2399152 C2", 
@@ -8180,7 +8443,8 @@
 {
     "pk": 223, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2399173 C1", 
@@ -8200,7 +8464,8 @@
 {
     "pk": 224, 
     "model": "main.intellectualproperty", 
-    "fields": {
+    "fields": { 
+        "is_active": true,
         "doc_type": 8, 
         "direction": null, 
         "code": "RU 2399174 C1", 
