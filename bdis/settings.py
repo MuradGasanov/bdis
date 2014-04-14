@@ -4,10 +4,10 @@
 import os
 import socket
 
-if socket.gethostname() in ("murad-pc",):
+if socket.gethostname() in ("murad-P85-D3",):
     DEBUG = True
 else:
-    DEBUG = True
+    DEBUG = False
 
 TEMPLATE_DEBUG = DEBUG
 PROJECT_PATH = os.path.abspath(os.path.dirname(__name__))
