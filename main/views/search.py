@@ -23,15 +23,16 @@ class Search():
         author_subdivisions = list(
             models.Authors.objects.exclude(department__isnull=True).filter(is_active=True)
             .values("author_id", "name", "surname", "patronymic",
-                    "department", "department__name",
+                    "department", "department__name", "post",
                     "department__subdivision", "department__subdivision__name"))
         authors = list(
             models.Authors.objects.filter(department__isnull=True, is_active=True)
-            .values("author_id", "name", "surname", "patronymic", ))
+            .values("author_id", "name", "surname", "patronymic", "post"))
         for author in authors:
             author.update({
                 "type": "author",
-                "id": author["author_id"]
+                "id": author["author_id"],
+                "post": author["post"],
             })
         items = []
         if author_subdivisions:
@@ -63,7 +64,8 @@ class Search():
                              "id": a["author_id"],
                              "name": a["name"],
                              "surname": a["surname"],
-                             "patronymic": a["patronymic"]
+                             "patronymic": a["patronymic"],
+                             "post": a["post"]
                             }
                         )
                     else:
@@ -76,7 +78,8 @@ class Search():
                                         "id": a["author_id"],
                                         "name": a["name"],
                                         "surname": a["surname"],
-                                        "patronymic": a["patronymic"]
+                                        "patronymic": a["patronymic"],
+                                        "post": a["post"]
                                        }
                              ]
                             }
@@ -94,7 +97,8 @@ class Search():
                                                         "id": a["author_id"],
                                                         "name": a["name"],
                                                         "surname": a["surname"],
-                                                        "patronymic": a["patronymic"]
+                                                        "patronymic": a["patronymic"],
+                                                        "post": a["post"]
                                                        }]
                                             }
                                   ]

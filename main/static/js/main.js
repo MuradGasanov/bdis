@@ -37,6 +37,7 @@
             $search_by_word = $("#search_by_word"),
             $search_by_author = $("#search_by_author").hide();
         $search_switcher.click(function() {
+            $("#author_info").text("");
             $search_by_word.slideToggle("fast");
             $search_by_author.slideToggle("fast");
             var t = $search_switcher.html();
@@ -162,6 +163,9 @@
                 }
                 var data_item = $(e.node).find("span.tree-item")[0];
                 data_item = $(data_item);
+                var name = data_item.attr("title"),
+                    post = data_item.data("post");
+                $("#author_info").text(name+ (post.length>0?" | Ученая степень: "+post:""));
                 search_options.clear();
                 search_options.query = data_item.data("id");
                 search_options.type = data_item.data("type");

@@ -150,3 +150,8 @@ div.file-wrapper:hover {
 #pager.k-pager-wrap {
     clear: inherit;
 }
+
+#author_info {
+    padding-bottom: 10px;
+    font-size: 20px;
+}

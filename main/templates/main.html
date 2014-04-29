@@ -32,6 +32,7 @@
         </div>
     </div>
     <div class="section result_section">
+        <div id="author_info"></div>
         <div class="result_header_buttons">
             <span id="show_directory_grid" class="k-button fright" title="Открыть"  href="#"><i class="fa fa-folder-o"></i> Каталоги</span>
             <span id="download" title="Скачать выбранные ИС" class="k-button"><i class="fa fa-download"></i> Скачать</span>
@@ -114,7 +115,7 @@
         #} else {#
             <span >
                 # fio = [item.surname,item.name,item.patronymic].join(' ') #
-                <span data-id="#=item.id#" data-type="#=item.type#" title="#=fio#" class="tree-item">
+                <span data-id="#=item.id#" data-type="#=item.type#" data-post="#=item.post#" title="#=fio#" class="tree-item">
                     <i class="fa fa-user"> </i> #=fio#
                 </span>
             </span>
