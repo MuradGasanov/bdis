@@ -273,7 +273,7 @@
             template: kendo.template($("#result_item_template").html()),
             dataBound: function(e) {
                 if(this.dataSource.data().length == 0) {
-                    noty_error("Ваш запрос не дал результатов");
+//                    noty_error("Ваш запрос не дал результатов");
                     $("<div/>")
                         .attr("class", "intellectual_property_item section")
                         .css("text-align", "center")
