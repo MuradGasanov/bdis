@@ -13,7 +13,8 @@ def home_page(request):
     """
     возвращает главную страницу
     """
-
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect("/login/")
     if request.user.is_superuser:
         if request.user.is_staff:
             return render_to_response("users.html")
@@ -24,6 +25,9 @@ def home_page(request):
 
 
 ########################################################################################################################
+def login_error(request):
+    return render_to_response("login.html", {"error": "Вы не можете быть авторизованны,"
+                                                      " доступ разрешен только для домена apertura.su"})
 
 
 def log_in(request):
@@ -34,7 +38,7 @@ def log_in(request):
     try:
         data = json.loads(request.body)
     except (TypeError, ValueError):
-        return HttpResponseForbidden()
+        return render_to_response("login.html")
 
     if not isinstance(data, dict):
         return HttpResponseForbidden()

@@ -121,9 +121,10 @@ MIDDLEWARE_CLASSES = (
     #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     #'django.contrib.messages.middleware.MessageMiddleware',
-    'main.middleware.middleware.MiddleWareProcess'
+    # 'main.middleware.middleware.MiddleWareProcess',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_auth.middleware.SocialAuthExceptionMiddleware',
 )
 
 ROOT_URLCONF = 'bdis.urls'
@@ -146,7 +147,23 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'gunicorn',
     'main',
+    'social_auth'
 )
+
+GOOGLE_OAUTH2_CLIENT_ID = '406525787186-7t6t3q690o3fqt9pmou5cok65m42qslo.apps.googleusercontent.com'
+GOOGLE_OAUTH2_CLIENT_SECRET = 'qUElNes_AqiVRiAisBZpi-y6'
+
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+
+LOGIN_REDIRECT_URL = '/'
+LOGIN_ERROR_URL = '/login_error/'
+
+AUTHENTICATION_BACKENDS = (
+    'social_auth.backends.google.GoogleOAuth2Backend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+GOOGLE_WHITE_LISTED_DOMAINS = ['apertura.su']
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
